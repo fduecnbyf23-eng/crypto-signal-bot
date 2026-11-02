@@ -159,7 +159,9 @@ def send_message(message):
 
 
 
-def main():
+def main():  
+    test_response = send_message("✅ Crypto Signal Bot: тест связи успешен!")
+    print("Telegram test:", test_response)
     global daily_count, current_day
 
     day = datetime.now(timezone.utc).date().isoformat()
