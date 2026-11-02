@@ -177,6 +177,7 @@ def main():
                 break
 
             result = analyze(symbol)
+            print(symbol, "Результат:", result)
 
             if not result:
                 continue
