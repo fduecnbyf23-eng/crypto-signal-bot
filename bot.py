@@ -158,50 +158,51 @@ def send_message(message):
         return json.loads(r.read().decode())
 
 
+
 def main():
     global daily_count, current_day
 
-    while True:
-        day = datetime.now(timezone.utc).date().isoformat()
+    day = datetime.now(timezone.utc).date().isoformat()
 
-        if day != current_day:
-            current_day = day
-            daily_count = 0
-            sent_signals.clear()
+    if day != current_day:
+        current_day = day
+        daily_count = 0
+        sent_signals.clear()
 
-        for symbol in SYMBOLS:
-            try:
-                result = analyze(symbol)
+    for symbol in SYMBOLS:
+        try:
+            if daily_count >= MAX_SIGNALS_PER_DAY:
+                break
 
-                if not result or daily_count >= MAX_SIGNALS_PER_DAY:
-                    continue
+            result = analyze(symbol)
 
-                key = (symbol, result["bar"], result["direction"])
+            if not result:
+                continue
 
-                if key in sent_signals:
-                    continue
+            key = (symbol, result["bar"], result["direction"])
 
-                message = (
-                    f"📊 CRYPTO SIGNAL: {symbol}\n"
-                    f"Direction: {result['direction']}\n"
-                    f"Price: {result['price']:.6f}\n"
-                    f"Stop Loss: {result['stop']:.6f}\n"
-                    f"Take Profit: {result['target']:.6f}\n"
-                    f"RSI: {result['rsi']:.2f}\n"
-                    f"Timeframe: 15m\n"
-                    f"⚠️ Educational signal. Verify before trading."
-                )
+            if key in sent_signals:
+                continue
 
-                response = send_message(message)
+            message = (
+                f"📊 CRYPTO SIGNAL: {symbol}\n"
+                f"Direction: {result['direction']}\n"
+                f"Price: {result['price']:.6f}\n"
+                f"Stop Loss: {result['stop']:.6f}\n"
+                f"Take Profit: {result['target']:.6f}\n"
+                f"RSI: {result['rsi']:.2f}\n"
+                f"Timeframe: 15m\n"
+                f"⚠️ Educational signal. Verify before trading."
+            )
 
-                if response.get("ok"):
-                    sent_signals.add(key)
-                    daily_count += 1
+            response = send_message(message)
 
-            except Exception as error:
-                print(f"{symbol}: {error}")
+            if response.get("ok"):
+                sent_signals.add(key)
+                daily_count += 1
 
-        time.sleep(900)
+        except Exception as error:
+            print(f"{symbol}: {error}")
 
 
 if __name__ == "__main__":
