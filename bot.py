@@ -114,7 +114,7 @@ def analyze(symbol):
             abs(highs[i] - closes[i - 1]),
             abs(lows[i] - closes[i - 1])
         )
-        true_ranges.append(tr)
+            true_ranges.append(tr)
 
     atr = sum(true_ranges[-14:]) / 14
     direction = None
