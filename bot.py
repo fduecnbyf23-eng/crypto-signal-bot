@@ -17,6 +17,28 @@ daily_count = 0
 current_day = ""
 
 
+STATE_FILE = "bot_state.json"
+
+
+def load_state():
+    global sent_signals, daily_count, current_day
+
+    if os.path.exists(STATE_FILE):
+        with open(STATE_FILE, "r") as file:
+            state = json.load(file)
+
+        sent_signals = set(tuple(x) for x in state.get("sent_signals", []))
+        daily_count = state.get("daily_count", 0)
+        current_day = state.get("current_day", "")
+
+
+def save_state():
+    with open(STATE_FILE, "w") as file:
+        json.dump({
+            "sent_signals": list(sent_signals),
+            "daily_count": daily_count,
+            "current_day": current_day
+        }, file)
 def api(url):
     req = urllib.request.Request(
         url, headers={"User-Agent": "CryptoSignalBot"}
@@ -171,15 +193,17 @@ def send_message(message):
 
 
 def main():  
-    
     global daily_count, current_day
-
+    
+    load_state()
+    
     day = datetime.now(timezone.utc).date().isoformat()
 
     if day != current_day:
         current_day = day
         daily_count = 0
         sent_signals.clear()
+        save_state()
 
     for symbol in SYMBOLS:
         try:
@@ -213,6 +237,7 @@ def main():
             if response.get("ok"):
                 sent_signals.add(key)
                 daily_count += 1
+                save_state()
 
         except Exception as error:
             print(f"{symbol}: {error}")
