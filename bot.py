@@ -106,7 +106,7 @@ def analyze(symbol):
     macd, signal_line = calculate_macd(closes)
     strength = rsi(closes)
 
-        true_ranges = []
+    true_ranges = []
 
     for i in range(1, len(closes)):
         tr = max(
