@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
-SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT"]
+SYMBOLS = ["BTC-USDT", "ETH-USDT", "SOL-USDT", "BNB-USDT", "XRP-USDT"]
 MAX_SIGNALS_PER_DAY = 15
 
 sent_signals = set()
@@ -76,21 +76,26 @@ def calculate_macd(values):
 
 
 def analyze(symbol):
-    url = (
-        "https://api.binance.com/api/v3/klines?"
-        + urllib.parse.urlencode({
-            "symbol": symbol,
-            "interval": "15m",
-            "limit": 100
-        })
-    )
+    url = "https://www.okx.com/api/v5/market/candles?" + urllib.parse.urlencode({
+        "instId": symbol,
+        "bar": "15m",
+        "limit": "100"
+    })
 
-    candles = api(url)
+    response = api(url)
+
+    if response.get("code") != "0":
+        print("Ошибка OKX:", response)
+        return None
+
+    candles = response.get("data", [])
+    candles = [c for c in candles if c[8] == "1"]
+    candles = list(reversed(candles))
 
     if len(candles) < 60:
         return None
 
-    closed = candles[:-1]
+    closed = candles
 
     closes = [float(c[4]) for c in closed]
     highs = [float(c[2]) for c in closed]
@@ -101,11 +106,17 @@ def analyze(symbol):
     macd, signal_line = calculate_macd(closes)
     strength = rsi(closes)
 
-    atr = sum(
-        highs[i] - lows[i]
-        for i in range(-14, 0)
-    ) / 14
+        true_ranges = []
 
+    for i in range(1, len(closes)):
+        tr = max(
+            highs[i] - lows[i],
+            abs(highs[i] - closes[i - 1]),
+            abs(lows[i] - closes[i - 1])
+        )
+        true_ranges.append(tr)
+
+    atr = sum(true_ranges[-14:]) / 14
     direction = None
 
     if (
@@ -160,8 +171,7 @@ def send_message(message):
 
 
 def main():  
-    test_response = send_message("✅ Crypto Signal Bot: тест связи успешен!")
-    print("Telegram test:", test_response)
+    
     global daily_count, current_day
 
     day = datetime.now(timezone.utc).date().isoformat()
