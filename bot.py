@@ -6,9 +6,8 @@ import urllib.request
 import urllib.parse
 from datetime import datetime, timezone
 
-TOKEN = os.environ["TELEGRAM_TOKEN"]
+TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
-
 SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT",
            "BNBUSDT", "XRPUSDT"]
 
