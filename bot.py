@@ -4,7 +4,7 @@ import json
 import time
 import urllib.request
 import urllib.parse
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
@@ -210,10 +210,7 @@ def send_daily_report(history):
 
     now = datetime.now(timezone.utc)
 
-    if now.hour != 23 or now.minute < 59:
-        return
-
-    report_day = now.date().isoformat()
+    report_day = (now.date() - timedelta(days=1)).isoformat()
 
     if last_reported_day == report_day:
         return
