@@ -39,6 +39,17 @@ def save_state():
             "daily_count": daily_count,
             "current_day": current_day
         }, file)
+def load_history():
+    if not os.path.exists(HISTORY_FILE):
+        return []
+
+    with open(HISTORY_FILE, "r") as file:
+        return json.load(file)
+
+
+def save_history(history):
+    with open(HISTORY_FILE, "w") as file:
+        json.dump(history, file, indent=2)
 def api(url):
     req = urllib.request.Request(
         url, headers={"User-Agent": "CryptoSignalBot"}
@@ -195,7 +206,7 @@ def main():
     global daily_count, current_day
     
     load_state()
-    
+    history = load_history()
     day = datetime.now(timezone.utc).date().isoformat()
 
     if day != current_day:
@@ -235,6 +246,17 @@ def main():
 
             if response.get("ok"):
                 sent_signals.add(key)
+                history.append({
+                    "symbol": symbol,
+                    "direction": result["direction"],
+                    "price": result["price"],
+                    "stop": result["stop"],
+                    "target": result["target"],
+                    "rsi": result["rsi"],
+                    "bar": result["bar"],
+                    "status": "PENDING"
+                })
+                save_history(history)
                 daily_count += 1
                 save_state()
 
