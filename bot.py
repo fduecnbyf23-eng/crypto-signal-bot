@@ -15,13 +15,14 @@ MAX_SIGNALS_PER_DAY = 15
 sent_signals = set()
 daily_count = 0
 current_day = ""
+last_reported_day = ""
 
 
 STATE_FILE = "bot_state.json"
 HISTORY_FILE = "signals_history.json"
 
 def load_state():
-    global sent_signals, daily_count, current_day
+    global sent_signals, daily_count, current_day, last_reported_day
 
     if os.path.exists(STATE_FILE):
         with open(STATE_FILE, "r") as file:
@@ -30,6 +31,7 @@ def load_state():
         sent_signals = set(tuple(x) for x in state.get("sent_signals", []))
         daily_count = state.get("daily_count", 0)
         current_day = state.get("current_day", "")
+        last_reported_day = state.get("last_reported_day", "")
 
 
 def save_state():
@@ -37,7 +39,8 @@ def save_state():
         json.dump({
             "sent_signals": list(sent_signals),
             "daily_count": daily_count,
-            "current_day": current_day
+            "current_day": current_day,
+            "last_reported_day": last_reported_day
         }, file)
 def load_history():
     if not os.path.exists(HISTORY_FILE):
@@ -202,11 +205,117 @@ def send_message(message):
 
 
 
+def send_daily_report(history):
+    global last_reported_day
+
+    now = datetime.now(timezone.utc)
+
+    if now.hour != 23 or now.minute < 59:
+        return
+
+    report_day = now.date().isoformat()
+
+    if last_reported_day == report_day:
+        return
+
+    daily = [
+        item for item in history
+        if datetime.fromtimestamp(
+            int(item["bar"]) / 1000, timezone.utc
+        ).date().isoformat() == report_day
+    ]
+
+    wins = sum(1 for x in daily if x["status"] == "WIN")
+    losses = sum(1 for x in daily if x["status"] == "LOSS")
+    opened = sum(1 for x in daily if x["status"] == "PENDING")
+    ambiguous = sum(1 for x in daily if x["status"] == "AMBIGUOUS")
+
+    total = wins + losses
+    accuracy = wins / total * 100 if total else 0
+
+    message = (
+        f"📊 ОТЧЁТ ЗА {report_day} UTC\n\n"
+        f"Всего сигналов: {len(daily)}\n"
+        f"✅ WIN: {wins}\n"
+        f"❌ LOSS: {losses}\n"
+        f"⏳ OPEN: {opened}\n"
+        f"⚠️ AMBIGUOUS: {ambiguous}\n\n"
+        f"Успешность: {accuracy:.1f}%"
+    )
+
+    response = send_message(message)
+
+    if response.get("ok"):
+        last_reported_day = report_day
+        save_state()
+
+
+def check_history(history):
+    for symbol in SYMBOLS:
+        pending = [
+            item for item in history
+            if item["symbol"] == symbol
+            and item["status"] == "PENDING"
+        ]
+
+        if not pending:
+            continue
+
+        url = "https://www.okx.com/api/v5/market/candles?" + urllib.parse.urlencode({
+            "instId": symbol,
+            "bar": "15m",
+            "limit": "100"
+        })
+
+        try:
+            response = api(url)
+
+            if response.get("code") != "0":
+                print("Ошибка проверки:", response)
+                continue
+
+            candles = response.get("data", [])
+            candles = [c for c in candles if c[8] == "1"]
+            candles = list(reversed(candles))
+
+            for item in pending:
+                signal_bar = int(item["bar"])
+
+                for candle in candles:
+                    if int(candle[0]) <= signal_bar:
+                        continue
+
+                    high = float(candle[2])
+                    low = float(candle[3])
+
+                    if item["direction"] == "BUY":
+                        tp_hit = high >= float(item["target"])
+                        sl_hit = low <= float(item["stop"])
+                    else:
+                        tp_hit = low <= float(item["target"])
+                        sl_hit = high >= float(item["stop"])
+
+                    if tp_hit and sl_hit:
+                        item["status"] = "AMBIGUOUS"
+                        break
+                    elif tp_hit:
+                        item["status"] = "WIN"
+                        break
+                    elif sl_hit:
+                        item["status"] = "LOSS"
+                        break
+
+        except Exception as error:
+            print(f"Ошибка проверки {symbol}: {error}")
+
 def main():  
     global daily_count, current_day
     
     load_state()
     history = load_history()
+    check_history(history)
+    save_history(history)
+    send_daily_report(history)
     day = datetime.now(timezone.utc).date().isoformat()
 
     if day != current_day:
