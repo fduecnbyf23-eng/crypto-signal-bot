@@ -18,7 +18,7 @@ current_day = ""
 
 
 STATE_FILE = "bot_state.json"
-
+HISTORY_FILE = "signals_history.json"
 
 def load_state():
     global sent_signals, daily_count, current_day
