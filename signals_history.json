@@ -97,7 +97,7 @@
     "target": 1.0317928571428572,
     "rsi": 41.421568627451144,
     "bar": "1794455100000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "ETH-USDT",
@@ -127,7 +127,7 @@
     "target": 1.0306642857142858,
     "rsi": 40.531561461793956,
     "bar": "1794458700000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BTC-USDT",
@@ -147,6 +147,6 @@
     "target": 666.715,
     "rsi": 37.83563873067527,
     "bar": "1794474900000",
-    "status": "PENDING"
+    "status": "LOSS"
   }
 ]
