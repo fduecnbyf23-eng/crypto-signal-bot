@@ -388,5 +388,25 @@
     "rsi": 34.193888303477365,
     "bar": "1794661200000",
     "status": "PENDING"
+  },
+  {
+    "symbol": "SOL-USDT",
+    "direction": "SELL",
+    "price": 75.52,
+    "stop": 75.97642857142857,
+    "target": 74.60714285714286,
+    "rsi": 41.24999999999993,
+    "bar": "1794663900000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "XRP-USDT",
+    "direction": "BUY",
+    "price": 0.9955,
+    "stop": 0.9896928571428572,
+    "target": 1.0071142857142859,
+    "rsi": 61.11111111111108,
+    "bar": "1794663900000",
+    "status": "PENDING"
   }
 ]
