@@ -327,7 +327,7 @@
     "target": 66631.62857142858,
     "rsi": 34.58550450023712,
     "bar": "1794625200000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "ETH-USDT",
@@ -347,7 +347,7 @@
     "target": 616.1785714285713,
     "rsi": 37.989366843885776,
     "bar": "1794625200000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "XRP-USDT",
