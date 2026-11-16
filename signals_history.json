@@ -727,7 +727,7 @@
     "target": 63824.578571428574,
     "rsi": 46.171816926834516,
     "bar": "1794805200000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BNB-USDT",
@@ -737,7 +737,7 @@
     "target": 581.9071428571428,
     "rsi": 46.26391096979345,
     "bar": "1794805200000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "XRP-USDT",
