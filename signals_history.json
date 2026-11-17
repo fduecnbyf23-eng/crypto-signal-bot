@@ -828,5 +828,15 @@
     "rsi": 43.67816091954026,
     "bar": "1794875400000",
     "status": "PENDING"
+  },
+  {
+    "symbol": "XRP-USDT",
+    "direction": "SELL",
+    "price": 0.9537,
+    "stop": 0.95985,
+    "target": 0.9414,
+    "rsi": 41.897233201581,
+    "bar": "1794876300000",
+    "status": "PENDING"
   }
 ]
