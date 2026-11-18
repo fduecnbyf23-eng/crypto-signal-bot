@@ -977,7 +977,7 @@
     "target": 65254.357142857145,
     "rsi": 54.33223964029672,
     "bar": "1794978000000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "XRP-USDT",
@@ -997,7 +997,7 @@
     "target": 65239.68571428572,
     "rsi": 66.43296853625199,
     "bar": "1794981600000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "ETH-USDT",
@@ -1007,7 +1007,7 @@
     "target": 1833.067857142857,
     "rsi": 61.18633139909726,
     "bar": "1794981600000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BNB-USDT",
@@ -1017,7 +1017,7 @@
     "target": 596.9342857142857,
     "rsi": 61.498028909329975,
     "bar": "1794981600000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BTC-USDT",
@@ -1027,7 +1027,7 @@
     "target": 65134.57142857143,
     "rsi": 57.01726844583999,
     "bar": "1794987000000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "ETH-USDT",
@@ -1037,7 +1037,7 @@
     "target": 1831.535,
     "rsi": 56.42166344294014,
     "bar": "1794987000000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BNB-USDT",
@@ -1047,6 +1047,6 @@
     "target": 596.5428571428572,
     "rsi": 54.72392638036883,
     "bar": "1794987000000",
-    "status": "PENDING"
+    "status": "LOSS"
   }
 ]
