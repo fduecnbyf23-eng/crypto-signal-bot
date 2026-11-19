@@ -1107,7 +1107,7 @@
     "target": 74.87714285714284,
     "rsi": 61.333333333333265,
     "bar": "1795053600000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "XRP-USDT",
@@ -1117,7 +1117,7 @@
     "target": 0.9458500000000001,
     "rsi": 48.97959183673465,
     "bar": "1795053600000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BTC-USDT",
@@ -1127,7 +1127,7 @@
     "target": 61646.53571428572,
     "rsi": 33.26884810966173,
     "bar": "1795057200000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "ETH-USDT",
@@ -1137,7 +1137,7 @@
     "target": 1742.550714285714,
     "rsi": 35.8866945940554,
     "bar": "1795057200000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BNB-USDT",
@@ -1147,6 +1147,56 @@
     "target": 572.0999999999999,
     "rsi": 32.37704918032772,
     "bar": "1795057200000",
+    "status": "LOSS"
+  },
+  {
+    "symbol": "BTC-USDT",
+    "direction": "BUY",
+    "price": 63347.7,
+    "stop": 62922.48214285714,
+    "target": 64198.135714285716,
+    "rsi": 54.36571706841967,
+    "bar": "1795060800000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "ETH-USDT",
+    "direction": "BUY",
+    "price": 1798.0,
+    "stop": 1784.6467857142857,
+    "target": 1824.7064285714287,
+    "rsi": 61.9016176956091,
+    "bar": "1795060800000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "SOL-USDT",
+    "direction": "BUY",
+    "price": 74.33,
+    "stop": 73.75357142857143,
+    "target": 75.48285714285714,
+    "rsi": 60.82089552238818,
+    "bar": "1795060800000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "BNB-USDT",
+    "direction": "BUY",
+    "price": 585.71,
+    "stop": 582.3446428571428,
+    "target": 592.4407142857143,
+    "rsi": 53.58649789029549,
+    "bar": "1795060800000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "XRP-USDT",
+    "direction": "BUY",
+    "price": 0.9723,
+    "stop": 0.9649714285714286,
+    "target": 0.9869571428571429,
+    "rsi": 56.0714285714286,
+    "bar": "1795060800000",
     "status": "PENDING"
   }
 ]
