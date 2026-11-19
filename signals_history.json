@@ -1058,5 +1058,25 @@
     "rsi": 66.51982378854618,
     "bar": "1795045500000",
     "status": "PENDING"
+  },
+  {
+    "symbol": "BTC-USDT",
+    "direction": "BUY",
+    "price": 63168.4,
+    "stop": 62746.80357142857,
+    "target": 64011.59285714286,
+    "rsi": 66.90545808966857,
+    "bar": "1795048200000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "SOL-USDT",
+    "direction": "BUY",
+    "price": 73.75,
+    "stop": 73.19392857142857,
+    "target": 74.86214285714286,
+    "rsi": 63.13725490196084,
+    "bar": "1795048200000",
+    "status": "PENDING"
   }
 ]
