@@ -1237,7 +1237,7 @@
     "target": 562.4292857142857,
     "rsi": 32.23062381852546,
     "bar": "1795143600000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "XRP-USDT",
@@ -1277,7 +1277,7 @@
     "target": 70.32000000000001,
     "rsi": 41.687979539642015,
     "bar": "1795150800000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "XRP-USDT",
