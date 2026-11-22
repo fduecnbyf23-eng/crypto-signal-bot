@@ -1477,7 +1477,7 @@
     "target": 60598.58571428571,
     "rsi": 61.882538017829205,
     "bar": "1795335300000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "SOL-USDT",
@@ -1487,7 +1487,7 @@
     "target": 70.87642857142858,
     "rsi": 61.93181818181789,
     "bar": "1795335300000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "BNB-USDT",
@@ -1497,7 +1497,7 @@
     "target": 551.6371428571429,
     "rsi": 64.35024322446142,
     "bar": "1795335300000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "XRP-USDT",
@@ -1507,6 +1507,6 @@
     "target": 0.9370714285714286,
     "rsi": 58.57740585774056,
     "bar": "1795335300000",
-    "status": "PENDING"
+    "status": "WIN"
   }
 ]
