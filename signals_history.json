@@ -1417,7 +1417,7 @@
     "target": 0.9109642857142858,
     "rsi": 35.50488599348533,
     "bar": "1795320000000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BTC-USDT",
@@ -1427,7 +1427,7 @@
     "target": 58282.18571428571,
     "rsi": 35.44262473475166,
     "bar": "1795327200000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "ETH-USDT",
@@ -1437,7 +1437,7 @@
     "target": 1636.35,
     "rsi": 38.429003021148,
     "bar": "1795327200000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "SOL-USDT",
@@ -1447,7 +1447,7 @@
     "target": 68.05142857142856,
     "rsi": 34.920634920634726,
     "bar": "1795327200000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BNB-USDT",
@@ -1457,7 +1457,7 @@
     "target": 533.4678571428572,
     "rsi": 34.45255474452563,
     "bar": "1795327200000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "XRP-USDT",
@@ -1467,6 +1467,46 @@
     "target": 0.9045857142857142,
     "rsi": 38.0782918149466,
     "bar": "1795327200000",
+    "status": "LOSS"
+  },
+  {
+    "symbol": "BTC-USDT",
+    "direction": "BUY",
+    "price": 59769.9,
+    "stop": 59355.55714285714,
+    "target": 60598.58571428571,
+    "rsi": 61.882538017829205,
+    "bar": "1795335300000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "SOL-USDT",
+    "direction": "BUY",
+    "price": 69.85,
+    "stop": 69.3367857142857,
+    "target": 70.87642857142858,
+    "rsi": 61.93181818181789,
+    "bar": "1795335300000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "BNB-USDT",
+    "direction": "BUY",
+    "price": 545.32,
+    "stop": 542.1614285714286,
+    "target": 551.6371428571429,
+    "rsi": 64.35024322446142,
+    "bar": "1795335300000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "XRP-USDT",
+    "direction": "BUY",
+    "price": 0.9255,
+    "stop": 0.9197142857142857,
+    "target": 0.9370714285714286,
+    "rsi": 58.57740585774056,
+    "bar": "1795335300000",
     "status": "PENDING"
   }
 ]
