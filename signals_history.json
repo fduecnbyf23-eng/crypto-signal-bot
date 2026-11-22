@@ -1388,5 +1388,25 @@
     "rsi": 62.37288135593241,
     "bar": "1795259700000",
     "status": "WIN"
+  },
+  {
+    "symbol": "SOL-USDT",
+    "direction": "SELL",
+    "price": 70.09,
+    "stop": 70.36535714285715,
+    "target": 69.53928571428573,
+    "rsi": 41.935483870968135,
+    "bar": "1795313700000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "BNB-USDT",
+    "direction": "SELL",
+    "price": 546.22,
+    "stop": 548.2342857142858,
+    "target": 542.1914285714286,
+    "rsi": 40.95940959409633,
+    "bar": "1795313700000",
+    "status": "PENDING"
   }
 ]
