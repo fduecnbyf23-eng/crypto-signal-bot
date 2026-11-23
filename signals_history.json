@@ -1667,7 +1667,7 @@
     "target": 1764.6364285714285,
     "rsi": 60.446325509811324,
     "bar": "1795407300000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "SOL-USDT",
@@ -1677,7 +1677,7 @@
     "target": 72.73357142857144,
     "rsi": 65.17857142857153,
     "bar": "1795407300000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "XRP-USDT",
