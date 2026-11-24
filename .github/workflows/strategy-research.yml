@@ -34,7 +34,7 @@ jobs:
           python-version: "3.11"
 
       - name: Check research scripts
-        run: python -m py_compile research/download_okx_candles.py research/download_okx_funding.py research/backtest_strategy.py research/short_strategy_experiments.py
+        run: python -m py_compile research/download_okx_candles.py research/download_okx_funding_archive.py research/backtest_strategy.py research/short_strategy_experiments.py
 
       - name: Download closed OKX candles
         run: python research/download_okx_candles.py --days "${{ inputs.days }}" --out research-data
