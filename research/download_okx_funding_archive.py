@@ -51,7 +51,7 @@ def add_archive_rates(inst, start_ms, archive_end_ms, rates):
                 files[filename] = url
         next_start = hk_month_start_ms(window_end)
         if next_start <= window_start:
-            raise RuntimeError(f\"Archive date window did not advance for {inst}\")
+            raise RuntimeError(f"Archive date window did not advance for {inst}")
         window_start = next_start
 
     for filename, url in sorted(files.items()):
