@@ -40,6 +40,15 @@ def add_archive_rates(inst, start_ms, archive_end_ms, rates):
             "dateAggrType": "monthly", "begin": str(window_start), "end": str(window_end)
         })
         data = get_json(API + "?" + params)
+        detail_count = sum(len(group.get("groupDetails", [])) for group in data if isinstance(group, dict))
+        print(
+            f"  archive query {datetime.fromtimestamp(window_start/1000, timezone.utc).date()} "
+            f"to {datetime.fromtimestamp(window_end/1000, timezone.utc).date()}: "
+            f"{len(data)} groups, {detail_count} files",
+            flush=True,
+        )
+        if data and detail_count == 0:
+            print(f"  archive response keys: {[sorted(group.keys()) for group in data if isinstance(group, dict)]}", flush=True)
         for group in data:
             for item in group.get("groupDetails", []):
                 filename, url = item.get("filename"), item.get("url")
