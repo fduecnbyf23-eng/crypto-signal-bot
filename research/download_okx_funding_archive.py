@@ -74,12 +74,12 @@ def add_archive_rates(inst, start_ms, archive_end_ms, rates):
             if not isinstance(item, dict):
                 raise RuntimeError(f"Malformed archive file entry for {inst}: expected object")
             filename, url = item.get("filename"), item.get("url")
-                if not filename or not url:
-                    raise RuntimeError(f"Archive listing missing filename/url for {inst}")
-                actual = url.split("?", 1)[0].rsplit("/", 1)[-1]
-                if actual != filename:
-                    raise RuntimeError(f"Archive filename/url mismatch for {inst}: {filename} != {actual}")
-                files[filename] = url
+            if not filename or not url:
+                raise RuntimeError(f"Archive listing missing filename/url for {inst}")
+            actual = url.split("?", 1)[0].rsplit("/", 1)[-1]
+            if actual != filename:
+                raise RuntimeError(f"Archive filename/url mismatch for {inst}: {filename} != {actual}")
+            files[filename] = url
         next_start = hk_month_start_ms(window_end)
         if next_start <= window_start:
             raise RuntimeError(f"Archive date window did not advance for {inst}")
