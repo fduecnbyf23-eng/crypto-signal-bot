@@ -39,8 +39,8 @@ jobs:
       - name: Download closed OKX candles
         run: python research/download_okx_candles.py --days "${{ inputs.days }}" --out research-data
 
-      - name: Download historical OKX funding rates
-        run: python research/download_okx_funding.py --days "${{ inputs.days }}" --out research-data
+      - name: Download archived historical OKX funding rates
+        run: python research/download_okx_funding_archive.py --days "${{ inputs.days }}" --out research-data
 
       - name: Run historical strategy replay
         run: python research/backtest_strategy.py --data research-data --out research-results
