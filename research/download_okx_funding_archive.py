@@ -48,7 +48,15 @@ def add_archive_rates(inst, start_ms, archive_end_ms, rates):
             flush=True,
         )
         if data and detail_count == 0:
-            print(f"  archive response keys: {[sorted(group.keys()) for group in data if isinstance(group, dict)]}", flush=True)
+            for group_index, group in enumerate(data, 1):
+                if isinstance(group, dict):
+                    details = group.get("details")
+                    preview = json.dumps(details, ensure_ascii=False, default=str)
+                    print(
+                        f"  archive group {group_index} details type={type(details).__name__} "
+                        f"preview={preview[:3000]}",
+                        flush=True,
+                    )
         for group in data:
             for item in group.get("groupDetails", []):
                 filename, url = item.get("filename"), item.get("url")
