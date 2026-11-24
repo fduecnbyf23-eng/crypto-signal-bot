@@ -40,26 +40,40 @@ def add_archive_rates(inst, start_ms, archive_end_ms, rates):
             "dateAggrType": "monthly", "begin": str(window_start), "end": str(window_end)
         })
         data = get_json(API + "?" + params)
-        detail_count = sum(len(group.get("groupDetails", [])) for group in data if isinstance(group, dict))
+        archive_items = []
+        for group in data:
+            if not isinstance(group, dict):
+                raise RuntimeError(f"Malformed archive group for {inst}: expected object")
+            # OKX nests monthly files inside details[].groupDetails.
+            # Keep support for the older/top-level groupDetails shape as well.
+            top_items = group.get("groupDetails", [])
+            if top_items:
+                if not isinstance(top_items, list):
+                    raise RuntimeError(f"Malformed top-level groupDetails for {inst}")
+                archive_items.extend(top_items)
+            details = group.get("details", [])
+            if details:
+                if not isinstance(details, list):
+                    raise RuntimeError(f"Malformed archive details for {inst}: expected list")
+                for detail in details:
+                    if not isinstance(detail, dict):
+                        raise RuntimeError(f"Malformed archive detail for {inst}: expected object")
+                    nested_items = detail.get("groupDetails", [])
+                    if nested_items:
+                        if not isinstance(nested_items, list):
+                            raise RuntimeError(f"Malformed nested groupDetails for {inst}")
+                        archive_items.extend(nested_items)
+        detail_count = len(archive_items)
         print(
             f"  archive query {datetime.fromtimestamp(window_start/1000, timezone.utc).date()} "
             f"to {datetime.fromtimestamp(window_end/1000, timezone.utc).date()}: "
             f"{len(data)} groups, {detail_count} files",
             flush=True,
         )
-        if data and detail_count == 0:
-            for group_index, group in enumerate(data, 1):
-                if isinstance(group, dict):
-                    details = group.get("details")
-                    preview = json.dumps(details, ensure_ascii=False, default=str)
-                    print(
-                        f"  archive group {group_index} details type={type(details).__name__} "
-                        f"preview={preview[:3000]}",
-                        flush=True,
-                    )
-        for group in data:
-            for item in group.get("groupDetails", []):
-                filename, url = item.get("filename"), item.get("url")
+        for item in archive_items:
+            if not isinstance(item, dict):
+                raise RuntimeError(f"Malformed archive file entry for {inst}: expected object")
+            filename, url = item.get("filename"), item.get("url")
                 if not filename or not url:
                     raise RuntimeError(f"Archive listing missing filename/url for {inst}")
                 actual = url.split("?", 1)[0].rsplit("/", 1)[-1]
