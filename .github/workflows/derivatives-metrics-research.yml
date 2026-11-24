@@ -34,12 +34,12 @@ jobs:
           python-version: "3.11"
 
       - name: Download public OKX derivatives statistics
-        run: python research/download_okx_derivatives_metrics.py --days "\${{ inputs.days }}" --out research-derivatives
+        run: python research/download_okx_derivatives_metrics.py --days "${{ inputs.days }}" --out research-derivatives
 
       - name: Upload derivatives research data
         uses: actions/upload-artifact@v4
         with:
-          name: okx-derivatives-metrics-\${{ inputs.days }}-days
+          name: okx-derivatives-metrics-${{ inputs.days }}-days
           path: research-derivatives/
           if-no-files-found: error
           retention-days: 14
