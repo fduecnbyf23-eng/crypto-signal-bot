@@ -1747,7 +1747,7 @@
     "target": 70.0,
     "rsi": 40.764331210190846,
     "bar": "1795486500000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BNB-USDT",
@@ -1797,6 +1797,16 @@
     "target": 0.9691571428571428,
     "rsi": 57.110609480812606,
     "bar": "1795492800000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "XRP-USDT",
+    "direction": "BUY",
+    "price": 0.9542,
+    "stop": 0.9446,
+    "target": 0.9734,
+    "rsi": 50.89285714285717,
+    "bar": "1795496400000",
     "status": "PENDING"
   }
 ]
