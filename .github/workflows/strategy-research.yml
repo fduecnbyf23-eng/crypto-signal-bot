@@ -1,0 +1,45 @@
+name: Strategy Research Data
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Historical period (30–365 days)"
+        required: true
+        default: "90"
+        type: choice
+        options:
+          - "30"
+          - "60"
+          - "90"
+          - "180"
+          - "365"
+
+permissions:
+  contents: read
+
+jobs:
+  download-market-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+        with:
+          ref: live-trading
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download closed OKX candles
+        run: python research/download_okx_candles.py --days "${{ inputs.days }}" --out research-data
+
+      - name: Upload research dataset
+        uses: actions/upload-artifact@v4
+        with:
+          name: okx-research-data-${{ inputs.days }}-days
+          path: research-data/
+          if-no-files-found: error
+          retention-days: 14
