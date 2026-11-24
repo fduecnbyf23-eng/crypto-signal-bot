@@ -56,7 +56,7 @@ def higher_lookup(bars, duration):
     return [b["ts"]+duration for b in bars], ema([b["c"] for b in bars],50)
 
 def load_funding(folder,symbol):
-    path=os.path.join(folder,symbol.replace("-","_")+"_funding.csv"); out=[]
+    path=os.path.join(folder,symbol.replace("-","_")+"_SWAP_funding.csv"); out=[]
     if os.path.exists(path):
         with open(path,newline="",encoding="utf-8") as f:
             for r in csv.DictReader(f): out.append((int(r["funding_time_ms"]),float(r["rate"])))
