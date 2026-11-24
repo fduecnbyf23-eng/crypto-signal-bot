@@ -49,7 +49,10 @@ def add_archive_rates(inst, start_ms, archive_end_ms, rates):
                 if actual != filename:
                     raise RuntimeError(f"Archive filename/url mismatch for {inst}: {filename} != {actual}")
                 files[filename] = url
-        window_start = window_end
+        next_start = hk_month_start_ms(window_end)
+        if next_start <= window_start:
+            raise RuntimeError(f\"Archive date window did not advance for {inst}\")
+        window_start = next_start
 
     for filename, url in sorted(files.items()):
         req = urllib.request.Request(url, headers={"User-Agent": "CryptoSignalAI-Research/1.0"})
