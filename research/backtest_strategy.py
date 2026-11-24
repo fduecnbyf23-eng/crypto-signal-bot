@@ -140,7 +140,21 @@ def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--data",default="research-data"); ap.add_argument("--out",default="research-results"); a=ap.parse_args()
     variants=["baseline","mtf","adx","volume","sr","volatility","all_filters"]; data={}; meta={}
     for symbol in SYMBOLS:
-        base=symbol.replace("-","_"); bars=read_csv(os.path.join(a.data,base+"_15m.csv")); h1=read_csv(os.path.join(a.data,base+"_1H.csv")); h4=read_csv(os.path.join(a.data,base+"_4H.csv"))
+        base=symbol.replace("-","_")
+        paths = {
+            "15m": os.path.join(a.data, base+"_SWAP_15m.csv"),
+            "1H": os.path.join(a.data, base+"_SWAP_1H.csv"),
+            "4H": os.path.join(a.data, base+"_SWAP_4H.csv"),
+        }
+        missing = [p for p in paths.values() if not os.path.isfile(p)]
+        if missing:
+            raise FileNotFoundError(
+                "Missing required OKX USDT-SWAP candle file(s): " + ", ".join(missing)
+                + ". Refusing to fall back to spot candles."
+            )
+        bars=read_csv(paths["15m"]); h1=read_csv(paths["1H"]); h4=read_csv(paths["4H"])
+        if not bars or not h1 or not h4:
+            raise RuntimeError(f"Incomplete SWAP candle data for {symbol}: 15m={len(bars)}, 1H={len(h1)}, 4H={len(h4)}")
         c1,e1=higher_lookup(h1,3600000); c4,e4=higher_lookup(h4,14400000); adx=adx_series(bars); hist=[]; signals={}
         for i in range(99,len(bars)-1):
             ind=indicators(bars,i)
@@ -156,7 +170,7 @@ def main():
         tr=simulate(data,v); alltr.extend(tr); summary[v]=summarize(tr)
         per_symbol[v]={s:summarize([t for t in tr if t["symbol"]==s]) for s in SYMBOLS}
         per_direction[v]={d:summarize([t for t in tr if t["direction"]==d]) for d in ("LONG","SHORT")}
-    report={"market":"OKX USDT perpetual swap candles","method":"closed 15m signal, next 15m open entry; max one open position per symbol; 15 new entries per UTC day across portfolio; stop assumed first if SL and TP hit in same candle","fee_per_side_pct":FEE_SIDE*100,"slippage_per_side_pct":SLIPPAGE_SIDE*100,"cost_assumption":"placeholder 0.05% fee and 0.02% slippage per side; actual account rates and fills may differ","funding_note":"Uses OKX historical realizedRate when present, otherwise fundingRate; funding is applied at settlement timestamps while position is open. Verify record coverage.","data":meta,"summary":summary,"per_symbol_summary":per_symbol,"per_direction_summary":per_direction}
+    report={"market":"OKX USDT perpetual swap candles","method":"closed 15m signal, next 15m open entry; max one open position per symbol; 15 new entries per UTC day across portfolio; stop assumed first if SL and TP hit in same candle","fee_per_side_pct":FEE_SIDE*100,"slippage_per_side_pct":SLIPPAGE_SIDE*100,"cost_assumption":"placeholder 0.05% fee and 0.02% slippage per side; actual account rates and fills may differ","funding_note":"Uses OKX historical realizedRate when present, otherwise fundingRate; funding is applied at settlement timestamps while position is open. Verify record coverage.", "price_data_files":"OKX USDT-SWAP candle files only; script refuses spot-file fallback.","data":meta,"summary":summary,"per_symbol_summary":per_symbol,"per_direction_summary":per_direction}
     with open(os.path.join(a.out,"backtest_summary.json"),"w",encoding="utf-8") as f: json.dump(report,f,ensure_ascii=False,indent=2)
     fields=["symbol","variant","direction","signal_time_utc","entry_time_utc","exit_time_utc","entry","exit","exit_reason","gross_return_pct","fees_and_slippage_pct","funding_cost_pct","net_return_pct","net_R","bars_held"]
     with open(os.path.join(a.out,"trades.csv"),"w",newline="",encoding="utf-8") as f:
