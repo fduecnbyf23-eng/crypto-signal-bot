@@ -1,0 +1,45 @@
+name: Download OKX Derivatives Metrics
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Recent 4H derivatives metrics (API maximum is about 240 days)"
+        required: true
+        default: "240"
+        type: choice
+        options:
+          - "30"
+          - "60"
+          - "90"
+          - "180"
+          - "240"
+
+permissions:
+  contents: read
+
+jobs:
+  download-derivatives-metrics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+        with:
+          ref: live-trading
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download public OKX derivatives statistics
+        run: python research/download_okx_derivatives_metrics.py --days "${{ inputs.days }}" --out research-derivatives
+
+      - name: Upload derivatives research data
+        uses: actions/upload-artifact@v4
+        with:
+          name: okx-derivatives-metrics-${{ inputs.days }}-days
+          path: research-derivatives/
+          if-no-files-found: error
+          retention-days: 14
