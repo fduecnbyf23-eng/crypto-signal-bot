@@ -21,7 +21,7 @@ permissions:
 jobs:
   download-and-backtest:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - name: Checkout research branch
         uses: actions/checkout@v4
@@ -34,7 +34,7 @@ jobs:
           python-version: "3.11"
 
       - name: Check research scripts
-        run: python -m py_compile research/download_okx_candles.py research/download_okx_funding_archive.py research/backtest_strategy.py research/short_strategy_experiments.py
+        run: python -m py_compile research/download_okx_candles.py research/download_okx_funding_archive.py research/download_okx_derivatives_metrics.py research/backtest_strategy.py research/backtest_derivatives_filters.py research/short_strategy_experiments.py
 
       - name: Download closed OKX candles
         run: python research/download_okx_candles.py --days "${{ inputs.days }}" --out research-data
@@ -42,11 +42,17 @@ jobs:
       - name: Download archived historical OKX funding rates
         run: python research/download_okx_funding_archive.py --days "${{ inputs.days }}" --out research-data
 
+      - name: Download public OKX derivatives statistics (up to 240 days)
+        run: python research/download_okx_derivatives_metrics.py --days 240 --out research-derivatives
+
       - name: Run historical strategy replay
         run: python research/backtest_strategy.py --data research-data --out research-results
 
       - name: Run chronological SHORT-only experiments
         run: python research/short_strategy_experiments.py --data research-data --out research-results
+
+      - name: Compare derivatives metrics filters on common period
+        run: python research/backtest_derivatives_filters.py --data research-data --metrics research-derivatives --out research-results
 
       - name: Upload research data and backtest results
         uses: actions/upload-artifact@v4
@@ -54,6 +60,7 @@ jobs:
           name: okx-strategy-research-${{ inputs.days }}-days
           path: |
             research-data/
+            research-derivatives/
             research-results/
           if-no-files-found: error
           retention-days: 14
