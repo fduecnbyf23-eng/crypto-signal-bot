@@ -106,7 +106,7 @@ def download_metric(inst_id, metric, spec, days):
         cursor = oldest_in_page
         if len(batch) < PAGE_SIZE:
             break
-        time.sleep(0.35)
+        time.sleep(0.45)
 
     now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
     cutoff_ms = now_ms - days * 24 * 60 * 60 * 1000
@@ -160,7 +160,7 @@ def main():
                 "last_timestamp_ms": records[-1]["timestamp_ms"],
             }
             print(f"  saved {len(records)} rows in {filename}", flush=True)
-            time.sleep(0.35)
+            time.sleep(0.45)
 
     with open(os.path.join(args.out, "derivatives_manifest.json"), "w", encoding="utf-8") as handle:
         json.dump(manifest, handle, ensure_ascii=False, indent=2)
