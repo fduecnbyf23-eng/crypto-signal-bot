@@ -19,9 +19,9 @@ permissions:
   contents: read
 
 jobs:
-  download-market-data:
+  download-and-backtest:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Checkout research branch
         uses: actions/checkout@v4
@@ -33,13 +33,24 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Check research scripts
+        run: python -m py_compile research/download_okx_candles.py research/download_okx_funding.py research/backtest_strategy.py
+
       - name: Download closed OKX candles
         run: python research/download_okx_candles.py --days "${{ inputs.days }}" --out research-data
 
-      - name: Upload research dataset
+      - name: Download historical OKX funding rates
+        run: python research/download_okx_funding.py --days "${{ inputs.days }}" --out research-data
+
+      - name: Run historical strategy replay
+        run: python research/backtest_strategy.py --data research-data --out research-results
+
+      - name: Upload research data and backtest results
         uses: actions/upload-artifact@v4
         with:
-          name: okx-research-data-${{ inputs.days }}-days
-          path: research-data/
+          name: okx-strategy-research-${{ inputs.days }}-days
+          path: |
+            research-data/
+            research-results/
           if-no-files-found: error
           retention-days: 14
