@@ -1847,7 +1847,7 @@
     "target": 59152.12142857143,
     "rsi": 45.50922874093608,
     "bar": "1795566600000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "ETH-USDT",
@@ -1857,7 +1857,7 @@
     "target": 1657.792857142857,
     "rsi": 48.565299007776666,
     "bar": "1795566600000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "BNB-USDT",
@@ -1867,7 +1867,7 @@
     "target": 542.7071428571428,
     "rsi": 38.342541436464394,
     "bar": "1795566600000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "BTC-USDT",
@@ -1877,7 +1877,7 @@
     "target": 59240.93571428572,
     "rsi": 43.56483262793371,
     "bar": "1795568400000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "ETH-USDT",
@@ -1887,6 +1887,6 @@
     "target": 1657.6664285714285,
     "rsi": 41.17036011080306,
     "bar": "1795568400000",
-    "status": "PENDING"
+    "status": "WIN"
   }
 ]
