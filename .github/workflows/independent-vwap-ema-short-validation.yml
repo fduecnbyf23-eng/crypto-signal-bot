@@ -1,0 +1,80 @@
+name: Independent VWAP EMA SHORT 1H Validation 2024-2025
+
+on:
+  push:
+    branches:
+      - indicator-research-preparation
+    paths:
+      - ".github/workflows/independent-vwap-ema-short-validation.yml"
+      - "research/backtest_independent_vwap_ema_short.py"
+      - "research/indicator_features.py"
+      - "research/backtest_frozen_indicators.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independent-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: indicator-research-preparation
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download independently audited 2024-2025 candles and funding
+        uses: actions/download-artifact@v4
+        with:
+          name: okx-independent-1h-and-funding-2024-2025
+          run-id: 45860787155
+          github-token: ${{ github.token }}
+          path: independent-1h-data
+
+      - name: Compile frozen replay tools
+        run: |
+          python -m py_compile research/indicator_features.py research/backtest_frozen_indicators.py research/backtest_independent_vwap_ema_short.py
+
+      - name: Run independent VWAP EMA SHORT replay
+        run: |
+          python research/backtest_independent_vwap_ema_short.py --input-dir independent-1h-data --output-dir independent-vwap-ema-short
+
+      - name: Validate report and funding integrity
+        run: |
+          python - <<'PY'
+          import csv, json, os
+          base = "independent-vwap-ema-short"
+          for name in ("summary.csv", "trades.csv", "monthly_summary.csv", "metadata.json"):
+              if not os.path.exists(os.path.join(base, name)):
+                  raise SystemExit(f"Missing output: {name}")
+          with open(os.path.join(base, "summary.csv"), newline="", encoding="utf-8") as f:
+              rows = list(csv.DictReader(f))
+          symbols = {r["symbol"]: r for r in rows if r["aggregation_level"] == "SYMBOL"}
+          aggregate = [r for r in rows if r["aggregation_level"] == "ALL_SYMBOLS"]
+          with open(os.path.join(base, "metadata.json"), encoding="utf-8") as f:
+              meta = json.load(f)
+          if set(symbols) != {"BTC", "ETH", "SOL", "BNB", "XRP"} or len(aggregate) != 1:
+              raise SystemExit("Unexpected independent summary groups")
+          if not meta.get("data_valid") or not meta.get("funding_valid"):
+              raise SystemExit("Independent archive or funding audit failed")
+          if int(aggregate[0]["invalid_funding_trades"]) != 0:
+              raise SystemExit("Aggregate has invalid funding trades")
+          print("INDEPENDENT_VWAP_EMA_SHORT_REPORT_OK")
+          for symbol in sorted(symbols):
+              print(symbol, symbols[symbol])
+          print("AGGREGATE", aggregate[0])
+          PY
+
+      - name: Upload independent VWAP EMA SHORT results
+        uses: actions/upload-artifact@v4
+        with:
+          name: independent-vwap-ema-short-2024-2025
+          path: independent-vwap-ema-short/
+          retention-days: 30
