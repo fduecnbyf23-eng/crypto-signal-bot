@@ -74,6 +74,8 @@ def add_archive_rates(inst, start_ms, archive_end_ms, rates):
             if actual != filename:
                 raise RuntimeError(f"Archive filename/url mismatch: {filename} != {actual}")
             files[filename] = url
+        if window_end >= archive_end_ms:
+            break
         next_start = hk_month_start_ms(window_end)
         if next_start <= window_start:
             raise RuntimeError(f"Archive date window did not advance for {inst}")
