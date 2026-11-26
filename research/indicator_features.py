@@ -218,6 +218,7 @@ def build_features(rows):
             'ema_bull_stack':bull_stack, 'ema_bear_stack':bear_stack,
             'ema20_bounce_long':ema_long, 'ema20_bounce_short':ema_short,
             'rsi_oversold':bool(rsi[i] is not None and rsi[i]<30),
+            'rsi_overbought':bool(rsi[i] is not None and rsi[i]>70),
             'rsi_bullish_divergence':bull_div[i], 'rsi_bearish_divergence':bear_div[i],
             'volume_confirm':bool(vol_ratio is not None and vol_ratio>=1.5),
             'bb_squeeze':squeezes[i], 'bb_breakout_up':bb_up, 'bb_breakout_down':bb_down,
@@ -227,10 +228,50 @@ def build_features(rows):
     return out
 
 
+def apply_timeframe_scope(features, timeframe):
+    """Blank indicator families on timeframes not declared in the frozen spec."""
+    scopes = {
+        'ema': {'1H', '4H', '1Dutc'},
+        'rsi': {'15m', '1H', '4H'},
+        'volume': {'15m', '1H', '4H'},
+        'vpvr': {'1H', '4H'},
+        'bb': {'1H', '4H'},
+        'macd': {'4H', '1Dutc'},
+        'vwap': {'15m', '1H'},
+    }
+    fields = {
+        'ema': ['ema20','ema50','ema200','ema_bull_stack','ema_bear_stack',
+                'ema20_bounce_long','ema20_bounce_short'],
+        'rsi': ['rsi14','rsi_oversold','rsi_overbought',
+                'rsi_bullish_divergence','rsi_bearish_divergence'],
+        'volume': ['volume_quote_sma20','volume_ratio','volume_confirm'],
+        'vpvr': ['vpvr_poc_100','vpvr_val_100','vpvr_vah_100'],
+        'bb': ['bb_upper','bb_mid','bb_lower','bb_width','bb_width_percentile',
+               'bb_squeeze','bb_breakout_up','bb_breakout_down'],
+        'macd': ['macd','macd_signal','macd_hist','macd_cross_up','macd_cross_down'],
+        'vwap': ['vwap_utc_day','vwap_bounce_long','vwap_bounce_short'],
+    }
+    for family, allowed in scopes.items():
+        if timeframe not in allowed:
+            for row in features:
+                for field in fields[family]:
+                    row[field] = False if field in {
+                        'ema_bull_stack','ema_bear_stack','ema20_bounce_long',
+                        'ema20_bounce_short','rsi_oversold','rsi_overbought',
+                        'rsi_bullish_divergence','rsi_bearish_divergence',
+                        'volume_confirm','bb_squeeze','bb_breakout_up',
+                        'bb_breakout_down','macd_cross_up','macd_cross_down',
+                        'vwap_bounce_long','vwap_bounce_short'
+                    } else None
+    return features
+
+
 def process_file(source, destination):
     with open(source,newline='',encoding='utf-8') as f:
         rows = list(csv.DictReader(f))
     features = build_features(rows)
+    timeframe = os.path.basename(source).rsplit('_', 1)[-1].removesuffix('.csv')
+    features = apply_timeframe_scope(features, timeframe)
     if not features:
         raise ValueError('No candles in '+source)
     os.makedirs(os.path.dirname(destination) or '.',exist_ok=True)
