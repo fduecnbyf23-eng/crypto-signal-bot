@@ -33,8 +33,8 @@ jobs:
       - name: Download exact-range closed OKX candles
         run: |
           python research/download_okx_candles.py \
-            --start-utc "2025-08-12T00:00:00Z" \
-            --end-utc "2025-11-24T00:00:00Z" \
+            --start-utc "2025-08-11T00:00:00Z" \
+            --end-utc "2025-11-23T00:00:00Z" \
             --out research-data
 
       - name: Download exact-range historical OKX funding
@@ -53,7 +53,7 @@ jobs:
       - name: Upload complete reproducibility package
         uses: actions/upload-artifact@v4
         with:
-          name: frozen-all-filters-independent-holdout-2025-08-26-to-2025-11-24
+          name: frozen-all-filters-independent-holdout-2025-08-25-to-2025-11-23
           path: |
             research-results/
             research-data/
