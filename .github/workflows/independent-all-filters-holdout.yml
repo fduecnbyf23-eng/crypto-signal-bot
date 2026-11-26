@@ -1,0 +1,61 @@
+name: Independent Frozen All Filters Holdout
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-holdout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: independent-all-filters-holdout
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate research code
+        run: |
+          python -m py_compile \
+            research/backtest_strategy.py \
+            research/research_ema_filters.py \
+            research/download_okx_candles.py \
+            research/download_okx_funding_archive.py \
+            research/test_frozen_all_filters.py
+
+      - name: Download exact-range closed OKX candles
+        run: |
+          python research/download_okx_candles.py \
+            --start-utc "2025-08-12T00:00:00Z" \
+            --end-utc "2025-11-24T00:00:00Z" \
+            --out research-data
+
+      - name: Download exact-range historical OKX funding
+        run: |
+          python research/download_okx_funding_archive.py \
+            --start-utc "2025-08-12T00:00:00Z" \
+            --end-utc "2025-11-24T00:00:00Z" \
+            --out research-data
+
+      - name: Run the frozen all_filters candidate once
+        run: |
+          python research/test_frozen_all_filters.py \
+            --data research-data \
+            --out research-results
+
+      - name: Upload complete reproducibility package
+        uses: actions/upload-artifact@v4
+        with:
+          name: frozen-all-filters-independent-holdout-2025-08-26-to-2025-11-24
+          path: |
+            research-results/
+            research-data/
+          if-no-files-found: error
+          retention-days: 90
