@@ -109,13 +109,13 @@ def divergence_flags(high, low, rsi, left=3, right=3, max_gap=60):
         p = i - right
         if rsi[p] is None:
             continue
-        if low[p] == min(low[p-left:p+right+1]):
+        if all(low[p] < low[j] for j in range(p-left,p+right+1) if j != p):
             if lows:
                 q = lows[-1]
                 if 0 < p-q <= max_gap and low[p] < low[q] and rsi[p] > rsi[q]:
                     bull[i] = True
             lows.append(p)
-        if high[p] == max(high[p-left:p+right+1]):
+        if all(high[p] > high[j] for j in range(p-left,p+right+1) if j != p):
             if highs:
                 q = highs[-1]
                 if 0 < p-q <= max_gap and high[p] > high[q] and rsi[p] < rsi[q]:
@@ -210,6 +210,10 @@ def build_features(rows):
                             == datetime.fromtimestamp(ts[i-1]/1000,timezone.utc).date())
         vw_long = bool(same_utc_day and low[i]<=vwap[i] and close[i]>vwap[i] and close[i-1]<=vwap[i-1])
         vw_short = bool(same_utc_day and high[i]>=vwap[i] and close[i]<vwap[i] and close[i-1]>=vwap[i-1])
+        rsi_up_30 = bool(i>0 and rsi[i-1] is not None and rsi[i] is not None and rsi[i-1]<=30 and rsi[i]>30)
+        rsi_down_70 = bool(i>0 and rsi[i-1] is not None and rsi[i] is not None and rsi[i-1]>=70 and rsi[i]<70)
+        vp_long = bool(i>0 and val[i-1] is not None and low[i]<=val[i-1] and close[i]>val[i-1])
+        vp_short = bool(i>0 and vah[i-1] is not None and high[i]>=vah[i-1] and close[i]<vah[i-1])
         out.append({
             'timestamp_ms':ts[i], 'close':close[i], 'ema20':e20[i], 'ema50':e50[i], 'ema200':e200[i],
             'rsi14':rsi[i], 'atr14':atr[i], 'macd':ml[i], 'macd_signal':ms[i], 'macd_hist':mh[i],
@@ -217,15 +221,23 @@ def build_features(rows):
             'bb_width_percentile':ranks[i], 'volume_quote':quote[i], 'volume_quote_sma20':qmean[i],
             'volume_ratio':vol_ratio, 'vwap_utc_day':vwap[i], 'vpvr_poc_100':poc[i],
             'vpvr_val_100':val[i], 'vpvr_vah_100':vah[i],
+            'vpvr_bounce_long':vp_long, 'vpvr_bounce_short':vp_short,
             'ema_bull_stack':bull_stack, 'ema_bear_stack':bear_stack,
             'ema20_bounce_long':ema_long, 'ema20_bounce_short':ema_short,
             'rsi_oversold':bool(rsi[i] is not None and rsi[i]<30),
             'rsi_overbought':bool(rsi[i] is not None and rsi[i]>70),
+            'rsi_cross_up_30':rsi_up_30, 'rsi_cross_down_70':rsi_down_70,
             'rsi_bullish_divergence':bull_div[i], 'rsi_bearish_divergence':bear_div[i],
             'volume_confirm':bool(vol_ratio is not None and vol_ratio>=1.5),
             'bb_squeeze':squeezes[i], 'bb_breakout_up':bb_up, 'bb_breakout_down':bb_down,
             'macd_cross_up':macd_up, 'macd_cross_down':macd_down,
-            'vwap_bounce_long':vw_long, 'vwap_bounce_short':vw_short
+            'vwap_bounce_long':vw_long, 'vwap_bounce_short':vw_short,
+            'ema_macd_long':bool(bull_stack and macd_up),
+            'ema_macd_short':bool(bear_stack and macd_down),
+            'rsi_volume_long':bool((rsi_up_30 or bull_div[i]) and vol_ratio is not None and vol_ratio>=1.5),
+            'rsi_volume_short':bool((rsi_down_70 or bear_div[i]) and vol_ratio is not None and vol_ratio>=1.5),
+            'vwap_ema_long':bool(bull_stack and vw_long),
+            'vwap_ema_short':bool(bear_stack and vw_short)
         })
     return out
 
@@ -244,14 +256,14 @@ def apply_timeframe_scope(features, timeframe):
     fields = {
         'ema': ['ema20','ema50','ema200','ema_bull_stack','ema_bear_stack',
                 'ema20_bounce_long','ema20_bounce_short'],
-        'rsi': ['rsi14','rsi_oversold','rsi_overbought',
+        'rsi': ['rsi14','rsi_oversold','rsi_overbought','rsi_cross_up_30','rsi_cross_down_70',
                 'rsi_bullish_divergence','rsi_bearish_divergence'],
         'volume': ['volume_quote_sma20','volume_ratio','volume_confirm'],
-        'vpvr': ['vpvr_poc_100','vpvr_val_100','vpvr_vah_100'],
+        'vpvr': ['vpvr_poc_100','vpvr_val_100','vpvr_vah_100','vpvr_bounce_long','vpvr_bounce_short'],
         'bb': ['bb_upper','bb_mid','bb_lower','bb_width','bb_width_percentile',
                'bb_squeeze','bb_breakout_up','bb_breakout_down'],
         'macd': ['macd','macd_signal','macd_hist','macd_cross_up','macd_cross_down'],
-        'vwap': ['vwap_utc_day','vwap_bounce_long','vwap_bounce_short'],
+        'vwap': ['vwap_utc_day','vwap_bounce_long','vwap_bounce_short','vwap_ema_long','vwap_ema_short'],
     }
     for family, allowed in scopes.items():
         if timeframe not in allowed:
@@ -263,7 +275,9 @@ def apply_timeframe_scope(features, timeframe):
                         'rsi_bullish_divergence','rsi_bearish_divergence',
                         'volume_confirm','bb_squeeze','bb_breakout_up',
                         'bb_breakout_down','macd_cross_up','macd_cross_down',
-                        'vwap_bounce_long','vwap_bounce_short'
+                        'vwap_bounce_long','vwap_bounce_short','vpvr_bounce_long',
+                        'vpvr_bounce_short','ema_macd_long','ema_macd_short',
+                        'rsi_volume_long','rsi_volume_short','vwap_ema_long','vwap_ema_short'
                     } else None
     return features
 
