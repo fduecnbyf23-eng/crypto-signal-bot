@@ -1,6 +1,11 @@
 name: Independent RSI SHORT 1H Validation
 
 on:
+  push:
+    branches:
+      - indicator-research-preparation
+    paths:
+      - ".github/workflows/independent-rsi-short-validation.yml"
   workflow_dispatch:
 
 permissions:
