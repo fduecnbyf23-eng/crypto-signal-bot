@@ -80,6 +80,11 @@ def add_archive_rates(inst, start_ms, archive_end_ms, rates):
             if actual != filename:
                 raise RuntimeError(f"Archive filename/url mismatch for {inst}: {filename} != {actual}")
             files[filename] = url
+        # The final window may end part-way through the same HK month.
+        # In that case the month-start cursor is unchanged, so stop after
+        # processing the requested end rather than treating it as pagination failure.
+        if window_end >= archive_end_ms:
+            break
         next_start = hk_month_start_ms(window_end)
         if next_start <= window_start:
             raise RuntimeError(f"Archive date window did not advance for {inst}")
