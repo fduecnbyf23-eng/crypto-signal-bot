@@ -2007,7 +2007,7 @@
     "target": 1721.2814285714287,
     "rsi": 61.536777583187394,
     "bar": "1795653000000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BNB-USDT",
@@ -2027,7 +2027,7 @@
     "target": 61662.30714285714,
     "rsi": 62.2814858959078,
     "bar": "1795654800000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "ETH-USDT",
@@ -2037,7 +2037,7 @@
     "target": 1728.4642857142858,
     "rsi": 65.54814506044193,
     "bar": "1795654800000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BNB-USDT",
@@ -2047,6 +2047,16 @@
     "target": 563.6021428571429,
     "rsi": 58.77862595419844,
     "bar": "1795654800000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "ETH-USDT",
+    "direction": "SELL",
+    "price": 1689.04,
+    "stop": 1696.932142857143,
+    "target": 1673.2557142857142,
+    "rsi": 35.78255675029892,
+    "bar": "1795673700000",
     "status": "PENDING"
   }
 ]
