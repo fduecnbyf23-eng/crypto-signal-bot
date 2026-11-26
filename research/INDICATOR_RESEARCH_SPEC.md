@@ -85,3 +85,40 @@ The first frozen comparison is complete. It produced one candidate worth a furth
 - Independent, non-overlapping replay window: 2024-11-26 00:00 UTC inclusive to 2025-11-26 00:00 UTC exclusive. This period was not used in the first one-year comparison.
 - No parameter, direction, timeframe, stop, target, or signal changes are permitted after this freeze. Do not promote any other strategy from the first comparison into this independent replay.
 - Passing this independent replay would only justify discussing a separately approved paper-trading phase; it does not authorize paper or live orders.
+
+
+## 9. Next research phase: per-symbol and per-timeframe strategy library
+This phase is a new, separate research phase and does not alter or retroactively change the frozen comparison and independent RSI SHORT replay above. Complete the already-running independent RSI SHORT archive/replay first. After that, begin this phase on the isolated research branch only.
+
+### 9.1 Research scope
+- Markets: OKX spot and OKX USDT-SWAP futures are always evaluated separately; never pool their results.
+- Instruments: BTC-USDT, ETH-USDT, SOL-USDT, BNB-USDT, XRP-USDT.
+- Timeframes: 15m, 1H, 4H, 1Dutc, subject to valid data coverage and indicator warm-up.
+- Evaluate each instrument × market × timeframe × direction as a separate result group. Spot is long-only; SWAP LONG and SHORT remain separate.
+- The objective is to identify strategy candidates that may work on one or a small subset of instruments/timeframes. A strategy does not need to perform well on all five instruments to be retained as a candidate.
+- Do not assume that a result on one instrument transfers to another instrument, market, timeframe, or direction.
+
+### 9.2 Research order
+- Stage A: test each indicator/event family independently using its already documented frozen feature definitions and standalone signal rules. Do not start by combining all indicators.
+- Stage B: retain promising standalone results in a candidate registry, with exact instrument, market, timeframe, direction, feature definition, entry/exit rules, costs, data window, and code/spec version.
+- Stage C: only after Stage A, test combinations that have a clear rationale and are specified before the relevant evaluation period is inspected. Keep combinations separate from standalone results.
+- Do not run broad brute-force parameter grids, random combinations, or symbol-specific parameter tuning based on the same holdout results. Any new parameter variant must be specified and frozen before a fresh evaluation period.
+- Do not stop after finding the first promising candidate; evaluate the planned indicator families consistently across the defined universe.
+
+### 9.3 Candidate registry and evidence labels
+- Keep a durable CSV/JSON registry with one record per candidate and exact reproducibility metadata.
+- Required fields: candidate ID; status; instrument; market; timeframe; direction; indicator family/combination; exact signal conditions; feature/spec/code version; entry and exit rules; stop/target; fee/slippage assumptions; funding model where relevant; UTC development and holdout windows; candle and trade counts; win rate; gross/net R; profit factor; maximum drawdown; per-symbol and monthly breakdown; funding/data validity; artifact/run references; limitations; rejection reason if rejected.
+- Use explicit statuses: DISCOVERED, INCONCLUSIVE_LOW_SAMPLE, NEEDS_INDEPENDENT_TEST, REJECTED, INDEPENDENT_PASS, PAPER_APPROVED, PAPER_VALIDATED. Only a separate explicit user approval may change a candidate to PAPER_APPROVED.
+- Preserve negative and inconclusive results to prevent repeating failed work. Never label a candidate profitable or validated solely from development data.
+
+### 9.4 Validation gates
+- Development results are for discovery only. Any candidate selected from development must be frozen before an untouched chronological holdout is examined.
+- A candidate needs adequate trade count, positive net expectancy after realistic costs (and actual historical funding for SWAP), PF above 1.10 as a preliminary minimum, disclosed drawdown, and evidence that performance is not dependent on one brief subperiod. A small sample is inconclusive, not a pass.
+- Report each instrument separately; do not hide losing symbols inside a pooled aggregate. A candidate may be retained for a specific instrument only if that instrument's own evidence supports it.
+- After holdout, require a further non-overlapping independent period before paper-trading discussion. If independent data, funding, or sample quality is inadequate, mark the candidate inconclusive.
+- No paper or live orders are authorized by this research plan. Paper trading requires separate explicit user approval. Live trading requires a further separate explicit decision and is outside this phase.
+
+### 9.5 Production separation
+- All new research code, registries, reports, and workflows remain on the isolated research branch.
+- Do not modify production bot.py, production .github/workflows/bot.yml, Telegram secrets, or order execution logic during discovery and historical validation.
+- Only candidates that pass the full validation sequence may be proposed for a future, separately reviewed integration. Integration must preserve per-instrument/per-timeframe rules and provide a safe no-signal fallback when no validated candidate exists.
