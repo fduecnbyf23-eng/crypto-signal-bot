@@ -1,0 +1,68 @@
+name: Independent RSI SHORT 1H Validation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independent-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: indicator-research-preparation
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download independently audited candles and funding
+        uses: actions/download-artifact@v4
+        with:
+          name: okx-independent-1h-and-funding-2024-2025
+          run-id: 45860787155
+          github-token: ${{ github.token }}
+          path: independent-1h-data
+
+      - name: Compile frozen backtest tools
+        run: |
+          python -m py_compile research/indicator_features.py research/backtest_frozen_indicators.py research/backtest_independent_rsi_short.py
+
+      - name: Run independent RSI SHORT replay
+        run: |
+          python research/backtest_independent_rsi_short.py --input-dir independent-1h-data --output-dir independent-rsi-short-validation
+
+      - name: Validate report and funding integrity
+        run: |
+          python - <<'PY'
+          import csv, os, sys
+          base = "independent-rsi-short-validation"
+          for name in ("summary.csv", "trades.csv"):
+              if not os.path.exists(os.path.join(base, name)):
+                  raise SystemExit(f"Missing output: {name}")
+          with open(os.path.join(base, "summary.csv"), newline="", encoding="utf-8") as f:
+              rows = list(csv.DictReader(f))
+          symbols = {r["symbol"]: r for r in rows if r["aggregation_level"] == "SYMBOL"}
+          aggregate = [r for r in rows if r["aggregation_level"] == "ALL_SYMBOLS"]
+          if len(symbols) != 5 or len(aggregate) != 1:
+              raise SystemExit(f"Unexpected summary groups: symbols={len(symbols)} aggregate={len(aggregate)}")
+          bad = [r["symbol"] for r in rows if r["funding_valid"] != "True" or int(r["invalid_funding_trades"]) != 0]
+          if bad:
+              raise SystemExit(f"Invalid funding in groups: {bad}")
+          print("INDEPENDENT_REPORT_OK")
+          print("Per-symbol summaries:", ", ".join(sorted(symbols)))
+          print("Aggregate:", aggregate[0])
+          PY
+
+      - name: Upload independent RSI SHORT results
+        uses: actions/upload-artifact@v4
+        with:
+          name: independent-rsi-short-validation-2024-2025
+          path: independent-rsi-short-validation/
+          retention-days: 30
