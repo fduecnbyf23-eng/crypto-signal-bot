@@ -1,0 +1,28 @@
+name: Diagnose ETH Funding Timestamps 2023-2024
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+        with:
+          ref: indicator-research-preparation
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run funding timestamp diagnostic
+        run: python research/diagnose_eth_funding_window.py
+      - name: Upload diagnostic artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: eth-funding-timestamp-diagnostic-2023-2024
+          path: funding-diagnostic/
+          if-no-files-found: error
