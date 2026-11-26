@@ -58,7 +58,7 @@ def funding_map(path):
 
 
 def funding_r_for_interval(fmap, first_ts, direction, entry_price, risk_dist, entry_ts, exit_ts):
-    if first_ts is None:
+    if first_ts is None or entry_ts < first_ts:
         return 0.0, False
     total = 0.0
     expected = range(first_ts, exit_ts + 1, FUNDING_INTERVAL_MS)
@@ -85,7 +85,12 @@ def simulate(rows, features, tf, long_flag, short_flag, market, symbol, strategy
     position = None
     invalid_funding = 0
     last_index = len(rows) - 1
-    end_ts = int(rows[-1]["timestamp_ms"]) + interval
+    if entry_end is not None:
+        eligible = [i for i, r in enumerate(rows) if int(r["timestamp_ms"]) < entry_end]
+        if not eligible:
+            return trades, invalid_funding
+        last_index = eligible[-1]
+    end_ts = int(rows[last_index]["timestamp_ms"]) + interval
 
     def finish(pos, exit_idx, exit_ts, raw_exit, reason, closed=True):
         nonlocal invalid_funding
@@ -195,7 +200,7 @@ def simulate(rows, features, tf, long_flag, short_flag, market, symbol, strategy
     if position is not None:
         # Mark-to-market open position at final closed candle; not counted as a closed trade.
         pos = position
-        last_close = float(rows[-1]["close"])
+        last_close = float(rows[last_index]["close"])
         d = pos["direction"]
         gross = d * (last_close - pos["entry_price"]) / pos["risk_dist"]
         entry_factor = pos["entry_price"] / pos["risk_dist"]
@@ -244,17 +249,19 @@ def summarize(trades, invalid_funding):
         max_dd = max(max_dd, peak-equity)
     symbols = sorted({t["symbol"] for t in closed})
     per_symbol = {s: sum(1 for t in closed if t["symbol"] == s) for s in symbols}
+    valid_funding = invalid_funding == 0
     return {
         "trades_closed": len(closed), "open_at_end": len(opens),
         "wins": len(wins), "losses": len(losses),
         "win_rate_pct": round(100*len(wins)/len(closed), 3) if closed else "",
-        "net_R": round(total, 6), "expectancy_R": round(total/len(closed), 6) if closed else "",
-        "profit_factor": round(gross_profit/gross_loss, 6) if gross_loss else ("INF" if gross_profit else ""),
-        "max_drawdown_R": round(max_dd, 6),
-        "net_R_cost_0_10pct_roundtrip": round(sum(float(t["net_R_at_0_10pct_roundtrip"]) for t in closed), 6),
-        "net_R_cost_0_20pct_roundtrip": round(sum(float(t["net_R_at_0_20pct_roundtrip"]) for t in closed), 6),
+        "net_R": round(total, 6) if valid_funding else "",
+        "expectancy_R": round(total/len(closed), 6) if closed and valid_funding else "",
+        "profit_factor": (round(gross_profit/gross_loss, 6) if gross_loss else ("INF" if gross_profit else "")) if valid_funding else "",
+        "max_drawdown_R": round(max_dd, 6) if valid_funding else "",
+        "net_R_cost_0_10pct_roundtrip": round(sum(float(t["net_R_at_0_10pct_roundtrip"]) for t in closed), 6) if valid_funding else "",
+        "net_R_cost_0_20pct_roundtrip": round(sum(float(t["net_R_at_0_20pct_roundtrip"]) for t in closed), 6) if valid_funding else "",
         "invalid_funding_trades": invalid_funding,
-        "funding_valid": invalid_funding == 0,
+        "funding_valid": valid_funding,
         "symbol_closed_counts": ";".join(f"{k}:{v}" for k,v in per_symbol.items())
     }
 
@@ -278,7 +285,7 @@ def main():
                 rows = read_csv(src)
                 features = apply_timeframe_scope(build_features(rows), tf)
                 for strategy, spec in STRATEGIES.items():
-                    allowed = spec[:-2] if strategy not in ("vwap_ema",) else (spec[0],)
+                    allowed = spec[:-2] if strategy != "vwap_ema" else (spec[0],)
                     if tf not in allowed:
                         continue
                     long_flag, short_flag = spec[-2], spec[-1]
@@ -305,11 +312,12 @@ def main():
             rows = read_csv(src)
             features = apply_timeframe_scope(build_features(rows), tf)
             for strategy, spec in STRATEGIES.items():
-                allowed = spec[:-2] if strategy not in ("vwap_ema",) else (spec[0],)
+                allowed = spec[:-2] if strategy != "vwap_ema" else (spec[0],)
                 if tf not in allowed:
                     continue
                 long_flag, short_flag = spec[-2], spec[-1]
-                for period, start, end in (("development", None, HOLDOUT_2Y_DAILY), ("holdout", HOLDOUT_2Y_DAILY, None)):
+                dev_start = funding_first if market == "SWAP" else None
+                for period, start, end in (("development", dev_start, HOLDOUT_2Y_DAILY), ("holdout", HOLDOUT_2Y_DAILY, None)):
                     trades, invalid = simulate(
                         rows, features, tf, long_flag, short_flag, market, symbol,
                         strategy, "base", period, start, end, fmap, funding_first, funding_contiguous
