@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-26T20:13:00.476485+00:00",
+  "updated_utc": "2026-11-26T21:03:37.797043+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "stop_anchor": "SIGNAL_CANDLE_CLOSE_PROVISIONAL",
   "stop_anchor_note": "The recovered notes specify 1.5 ATR but do not identify the anchor. For safe, consistent paper-only operation this simulator provisionally anchors the stop 1.5*ATR from the signal candle close; this is an explicit assumption, not a claim that the original historical test used this exact convention.",
