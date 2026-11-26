@@ -206,8 +206,10 @@ def build_features(rows):
         prior_squeeze = any(squeezes[max(0,i-10):i])
         bb_up = bool(upper[i] is not None and close[i]>upper[i] and prior_squeeze)
         bb_down = bool(lower[i] is not None and close[i]<lower[i] and prior_squeeze)
-        vw_long = bool(i>0 and low[i]<=vwap[i] and close[i]>vwap[i] and close[i-1]<=vwap[i-1])
-        vw_short = bool(i>0 and high[i]>=vwap[i] and close[i]<vwap[i] and close[i-1]>=vwap[i-1])
+        same_utc_day = bool(i>0 and datetime.fromtimestamp(ts[i]/1000,timezone.utc).date()
+                            == datetime.fromtimestamp(ts[i-1]/1000,timezone.utc).date())
+        vw_long = bool(same_utc_day and low[i]<=vwap[i] and close[i]>vwap[i] and close[i-1]<=vwap[i-1])
+        vw_short = bool(same_utc_day and high[i]>=vwap[i] and close[i]<vwap[i] and close[i-1]>=vwap[i-1])
         out.append({
             'timestamp_ms':ts[i], 'close':close[i], 'ema20':e20[i], 'ema50':e50[i], 'ema200':e200[i],
             'rsi14':rsi[i], 'atr14':atr[i], 'macd':ml[i], 'macd_signal':ms[i], 'macd_hist':mh[i],
