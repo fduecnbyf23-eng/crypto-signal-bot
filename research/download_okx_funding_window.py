@@ -34,7 +34,7 @@ def main():
         "instruments": {}
     }
     for i, inst in enumerate(SYMBOLS, 1):
-        swap = inst + "-SWAP"
+        swap = inst  # SYMBOLS already contains the -SWAP suffix
         print(f"[{i}/{len(SYMBOLS)}] {swap}", flush=True)
         rates = {}
         add_archive_rates(swap, start_ms, end_ms, rates)
