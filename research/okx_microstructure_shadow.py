@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Read-only OKX microstructure observer. No keys, private endpoints, or orders."""
-import asyncio, json, os, time
+import asyncio, json, time
 from datetime import datetime, timezone
 from pathlib import Path
 import websockets
@@ -19,8 +19,8 @@ def book_imbalance(item):
 
 async def main():
     start = datetime.now(timezone.utc)
-    agg = {s: {"ticker": None, "spread": [], "book_imbalance": [], "buy_notional": 0.0,
-               "sell_notional": 0.0, "trades": 0, "book_updates": 0, "ticker_updates": 0}
+    agg = {s: {"ticker": None, "spread": [], "book_imbalance": [], "buy_px_size_sum": 0.0,
+               "sell_px_size_sum": 0.0, "trades": 0, "book_updates": 0, "ticker_updates": 0}
            for s in SYMBOLS}
     errors = []
     async with websockets.connect(URL, open_timeout=20, close_timeout=5,
@@ -55,15 +55,15 @@ async def main():
                 a["book_updates"] += 1
             elif ch == "trades":
                 px, sz = float(item["px"]), float(item["sz"])
-                notional=px*sz
-                if item.get("side") == "buy": a["buy_notional"] += notional
-                elif item.get("side") == "sell": a["sell_notional"] += notional
+                px_size=px*sz
+                if item.get("side") == "buy": a["buy_px_size_sum"] += px_size
+                elif item.get("side") == "sell": a["sell_px_size_sum"] += px_size
                 a["trades"] += 1
     end = datetime.now(timezone.utc)
     rows=[]
     for s,a in agg.items():
-        total=a["buy_notional"]+a["sell_notional"]
-        flow=(a["buy_notional"]-a["sell_notional"])/total if total else None
+        total=a["buy_px_size_sum"]+a["sell_px_size_sum"]
+        flow=(a["buy_px_size_sum"]-a["sell_px_size_sum"])/total if total else None
         rows.append({
             "observed_at_utc":end.isoformat(),"window_seconds":SECONDS,"symbol":s,
             "last_price":a["ticker"]["last"] if a["ticker"] else None,
@@ -72,7 +72,7 @@ async def main():
             "mean_spread_bps":round(sum(a["spread"])/len(a["spread"]),5) if a["spread"] else None,
             "mean_top5_book_imbalance":round(sum(a["book_imbalance"])/len(a["book_imbalance"]),5) if a["book_imbalance"] else None,
             "trade_flow_imbalance":round(flow,5) if flow is not None else None,
-            "buy_notional_usd":round(a["buy_notional"],2),"sell_notional_usd":round(a["sell_notional"],2),
+            "buy_px_size_sum":round(a["buy_px_size_sum"],6),"sell_px_size_sum":round(a["sell_px_size_sum"],6),
             "trade_messages":a["trades"],"book_updates":a["book_updates"],"ticker_updates":a["ticker_updates"]
         })
     OUT.parent.mkdir(parents=True,exist_ok=True)
