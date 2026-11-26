@@ -1,0 +1,57 @@
+name: EMA RSI Volume Filter Research
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Historical candle period"
+        required: true
+        default: "240"
+        type: choice
+        options:
+          - "90"
+          - "180"
+          - "240"
+          - "365"
+
+permissions:
+  contents: read
+
+jobs:
+  filter-research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: live-trading
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate research scripts
+        run: |
+          python -m py_compile research/backtest_strategy.py research/download_okx_candles.py research/download_okx_funding_archive.py research/research_ema_filters.py
+
+      - name: Download closed OKX candles
+        run: python research/download_okx_candles.py --days "${{ inputs.days }}" --out research-data
+
+      - name: Download historical OKX Futures funding
+        run: python research/download_okx_funding_archive.py --days "${{ inputs.days }}" --out research-data
+
+      - name: Backtest predeclared EMA filters
+        run: python research/research_ema_filters.py --data research-data --out research-results
+
+      - name: Upload filter research report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ema-rsi-volume-filter-study-${{ inputs.days }}-days
+          path: |
+            research-results/
+            research-data/manifest.json
+            research-data/funding_manifest.json
+          if-no-files-found: error
+          retention-days: 30
