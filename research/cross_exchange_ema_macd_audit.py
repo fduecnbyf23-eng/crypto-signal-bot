@@ -197,9 +197,13 @@ def summarize(trades):
 def main():
     out="cross-exchange-results"; os.makedirs(out,exist_ok=True)
     all_summary=[]
-    for venue, candle_fn, funding_fn in [
+    venues=[
       ("BINANCE",get_binance_klines,get_binance_funding),
-      ("BYBIT",get_bybit_klines,get_bybit_funding)]:
+      ("BYBIT",get_bybit_klines,get_bybit_funding)]
+    if os.getenv("SKIP_BINANCE","").lower() in ("1","true","yes"):
+        venues=[v for v in venues if v[0] != "BINANCE"]
+        print("Skipping Binance because the runner received HTTP 451; continuing with Bybit.",flush=True)
+    for venue, candle_fn, funding_fn in venues:
       for sym in SYMBOLS:
         market_symbol=sym+"USDT"
         print(f"Downloading {venue} {market_symbol}",flush=True)
