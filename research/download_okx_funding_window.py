@@ -39,7 +39,7 @@ def main():
         rates = {}
         add_archive_rates(swap, start_ms, end_ms, rates)
         stamps = sorted(rates)
-        expected = list(range(stamps[0], end_ms, 8 * 60 * 60 * 1000)) if stamps else []
+        expected = list(range(start_ms, end_ms, 8 * 60 * 60 * 1000))
         missing = [ts for ts in expected if ts not in rates]
         if not stamps or missing:
             raise RuntimeError(f"Funding coverage gap for {swap}: records={len(stamps)}, missing={len(missing)}")
