@@ -1,0 +1,61 @@
+name: Frozen SHORT Candidate Validation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-short-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: frozen-short-candidate-validation
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate frozen research code
+        run: |
+          python -m py_compile \
+            research/backtest_strategy.py \
+            research/short_strategy_experiments.py \
+            research/download_okx_candles.py \
+            research/download_okx_funding_archive.py \
+            research/test_frozen_short_candidate.py
+
+      - name: Download exact-range closed OKX SWAP candles
+        run: |
+          python research/download_okx_candles.py \
+            --start-utc "2025-08-11T00:00:00Z" \
+            --end-utc "2025-11-23T00:00:00Z" \
+            --out research-data
+
+      - name: Download historical OKX SWAP funding
+        run: |
+          python research/download_okx_funding_archive.py \
+            --start-utc "2025-08-11T00:00:00Z" \
+            --end-utc "2025-11-23T00:00:00Z" \
+            --out research-data
+
+      - name: Run frozen SHORT candidate exactly once
+        run: |
+          python research/test_frozen_short_candidate.py \
+            --data research-data \
+            --out research-results
+
+      - name: Upload full reproducibility package
+        uses: actions/upload-artifact@v4
+        with:
+          name: frozen-short-candidate-validation-2025-08-25-to-2025-11-23
+          path: |
+            research-results/
+            research-data/
+          if-no-files-found: error
+          retention-days: 90
