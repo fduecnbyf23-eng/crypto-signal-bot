@@ -1,0 +1,74 @@
+name: Indicator Feature Validation
+
+on:
+  push:
+    branches:
+      - indicator-research-preparation
+    paths:
+      - ".github/workflows/indicator-feature-validation.yml"
+      - "research/indicator_features.py"
+      - "research/test_indicator_features.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  validate-features:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download verified two-year daily archive
+        uses: actions/download-artifact@v4
+        with:
+          name: okx-daily-candles-2-years
+          run-id: 45851151740
+          github-token: ${{ github.token }}
+          path: research-daily-2y
+
+      - name: Compile indicator code
+        run: python -m py_compile research/indicator_features.py research/test_indicator_features.py
+
+      - name: Run synthetic unit tests
+        working-directory: research
+        run: python -m unittest -v test_indicator_features.py
+
+      - name: Build features from two-year daily candles
+        run: python research/indicator_features.py --input-dir research-daily-2y --output-dir research-features --markets both
+
+      - name: Verify generated feature files
+        run: |
+          python - <<'PY'
+          import csv, glob, os, sys
+          files = sorted(glob.glob("research-features/*_1Dutc_features.csv"))
+          if len(files) != 10:
+              raise SystemExit(f"Expected 10 feature files, got {len(files)}")
+          total = 0
+          for path in files:
+              with open(path, newline="", encoding="utf-8") as f:
+                  rows = list(csv.DictReader(f))
+              if len(rows) != 729:
+                  raise SystemExit(f"{path}: expected 729 rows, got {len(rows)}")
+              if not rows[-1]["ema200"]:
+                  raise SystemExit(f"{path}: EMA200 missing on final row")
+              total += len(rows)
+              print(f"{os.path.basename(path)}: {len(rows)} rows; EMA200 final value present")
+          print(f"VALIDATION_OK files={len(files)} rows={total}")
+          PY
+
+      - name: Upload feature outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: indicator-daily-features-validation
+          path: research-features/
+          retention-days: 30
