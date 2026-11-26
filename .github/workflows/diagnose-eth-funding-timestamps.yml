@@ -7,6 +7,7 @@ on:
       - indicator-research-preparation
     paths:
       - .github/workflows/diagnose-eth-funding-timestamps.yml
+      - research/diagnose_eth_funding_window.py
 
 permissions:
   contents: read
