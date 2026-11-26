@@ -40,8 +40,8 @@ jobs:
       - name: Download exact-range historical OKX funding
         run: |
           python research/download_okx_funding_archive.py \
-            --start-utc "2025-08-12T00:00:00Z" \
-            --end-utc "2025-11-24T00:00:00Z" \
+            --start-utc "2025-08-11T00:00:00Z" \
+            --end-utc "2025-11-23T00:00:00Z" \
             --out research-data
 
       - name: Run the frozen all_filters candidate once
