@@ -79,7 +79,7 @@ def main():
         "instruments": {},
         "note": "Research only. Public market-data endpoints; no credentials and no order endpoints."
     }
-    jobs = [(x, tf) for x in SPOT + SWAPS for tf in TIMEFRAMES]
+    jobs = [(x, tf) for x in SWAPS for tf in TIMEFRAMES]
     for index, (inst_id, bar) in enumerate(jobs, 1):
         print(f"[{index}/{len(jobs)}] {inst_id} {bar}", flush=True)
         candles, pages = download(inst_id, bar, start_ms, end_ms)
@@ -88,6 +88,11 @@ def main():
             raise RuntimeError(
                 f"Incomplete candle coverage for {inst_id} {bar}: "
                 f"expected {expected}, received {len(candles)}. Refusing to backtest partial data."
+            )
+        if int(candles[0][0]) != start_ms or int(candles[-1][0]) != end_ms - TIMEFRAMES[bar]:
+            raise RuntimeError(
+                f"Unexpected candle boundaries for {inst_id} {bar}: "
+                f"{candles[0][0]}..{candles[-1][0]}, expected {start_ms}..{end_ms-TIMEFRAMES[bar]}"
             )
         path = os.path.join(args.out, f"{inst_id.replace('-', '_')}_{bar}.csv")
         with open(path, "w", newline="", encoding="utf-8") as file:
