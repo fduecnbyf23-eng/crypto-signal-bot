@@ -1,6 +1,6 @@
 {
   "registry_version": 1,
-  "updated_utc": "2026-11-26T17:03:00Z",
+  "updated_utc": "2026-11-27",
   "candidates": [
     {
       "candidate_id": "OKX_SWAP_RSI14_CROSSDOWN70_SHORT_1H",
@@ -215,6 +215,124 @@
       "limitations": [
         "Historical OHLCV replay does not model order-book depth, liquidation, outages, or all execution mechanics.",
         "The independent period is one year; results remain historical and do not imply live execution performance."
+      ]
+    },
+    {
+      "candidate_id": "OKX_SWAP_RSI_VOLUME_SHORT_1H_BASE_2R_ALL5",
+      "status": "REJECTED",
+      "market": "SWAP",
+      "exchange": "OKX",
+      "instrument_scope": [
+        "BTC-USDT-SWAP",
+        "ETH-USDT-SWAP",
+        "SOL-USDT-SWAP",
+        "BNB-USDT-SWAP",
+        "XRP-USDT-SWAP"
+      ],
+      "timeframe": "1H",
+      "direction": "SHORT",
+      "indicator_family": "RSI + quote-volume confirmation",
+      "signal": "(RSI14 cross down through 70 OR confirmed bearish RSI divergence) AND quote_volume >= 1.5 * SMA20 quote_volume; enter next 1H candle open.",
+      "execution": {
+        "stop": "1.5 * ATR(14) protective stop",
+        "target": "Fixed 2R",
+        "same_candle_stop_target_priority": "STOP_FIRST",
+        "one_open_position_per_symbol": true,
+        "fee_per_side_pct": 0.05,
+        "slippage_per_side_pct": 0.02,
+        "funding": "Historical OKX funding; positive funding received by SHORT. Source timestamps aligned to nominal 8h schedule only within 30 seconds; original timestamps retained in archive.",
+        "no_orders_generated": true
+      },
+      "independent_window_utc": {
+        "start_inclusive": "2023-11-26T00:00:00Z",
+        "end_exclusive": "2024-11-25T00:00:00Z"
+      },
+      "data_quality": {
+        "hourly_candles_per_instrument": 8760,
+        "hourly_candle_gaps": 0,
+        "funding_records_per_swap_instrument": 1095,
+        "missing_funding_records": 0,
+        "max_funding_source_timestamp_drift_ms": {
+          "BTC": 0,
+          "ETH": 2000,
+          "SOL": 21000,
+          "BNB": 24000,
+          "XRP": 5000
+        },
+        "invalid_funding_trades": 0,
+        "archive_all_valid": true
+      },
+      "aggregate_closed_trades": 289,
+      "aggregate_open_at_end": 0,
+      "aggregate_metrics": {
+        "win_rate_pct": 29.412,
+        "net_R": -60.897011,
+        "expectancy_R": -0.210716,
+        "profit_factor": 0.728057,
+        "max_drawdown_R": 80.628557,
+        "net_R_at_0_10pct_roundtrip": -52.199616,
+        "net_R_at_0_20pct_roundtrip": -73.943097
+      },
+      "per_symbol": {
+        "BTC": {
+          "closed_trades": 61,
+          "wins": 16,
+          "losses": 45,
+          "win_rate_pct": 26.23,
+          "net_R": -20.607206,
+          "expectancy_R": -0.337823,
+          "profit_factor": 0.593809,
+          "max_drawdown_R": 20.607206
+        },
+        "ETH": {
+          "closed_trades": 51,
+          "wins": 17,
+          "losses": 34,
+          "win_rate_pct": 33.333,
+          "net_R": -4.918946,
+          "expectancy_R": -0.09645,
+          "profit_factor": 0.868878,
+          "max_drawdown_R": 11.351647
+        },
+        "SOL": {
+          "closed_trades": 55,
+          "wins": 16,
+          "losses": 39,
+          "win_rate_pct": 29.091,
+          "net_R": -10.149477,
+          "expectancy_R": -0.184536,
+          "profit_factor": 0.754821,
+          "max_drawdown_R": 20.537822
+        },
+        "BNB": {
+          "closed_trades": 64,
+          "wins": 18,
+          "losses": 46,
+          "win_rate_pct": 28.125,
+          "net_R": -16.963724,
+          "expectancy_R": -0.265058,
+          "profit_factor": 0.669981,
+          "max_drawdown_R": 27.31769
+        },
+        "XRP": {
+          "closed_trades": 58,
+          "wins": 18,
+          "losses": 40,
+          "win_rate_pct": 31.034,
+          "net_R": -8.257658,
+          "expectancy_R": -0.142373,
+          "profit_factor": 0.807457,
+          "max_drawdown_R": 16.918753
+        }
+      },
+      "workflow_run_id": 45868134780,
+      "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45868134780",
+      "result_artifact_id": 15143180562,
+      "result_artifact_name": "independent-rsi-volume-short-2r-2023-2024",
+      "rejection_reason": "Independent frozen holdout produced negative aggregate net R (-60.897R), PF 0.728, and negative net R/PF below 1.0 on all five instruments. Candidate rejected; no retuning or promotion to paper trading.",
+      "limitations": [
+        "Historical OHLCV replay does not model order-book depth, liquidation, outages, or all execution mechanics.",
+        "This is a historical one-year holdout; it does not establish future or live performance."
       ]
     }
   ]
