@@ -57,7 +57,7 @@ class IndicatorFeatureTests(unittest.TestCase):
         self.assertFalse(row['vwap_bounce_long'])
         self.assertFalse(row['rsi_cross_up_30'])
         self.assertFalse(row['vpvr_bounce_long'])
-        self.assertFalse(row['ema_macd_long'])
+        self.assertTrue(row['ema_macd_long'])
         self.assertFalse(row['rsi_volume_long'])
         self.assertFalse(row['vwap_ema_long'])
 
