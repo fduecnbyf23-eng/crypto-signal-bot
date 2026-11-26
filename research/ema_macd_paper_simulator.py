@@ -218,10 +218,23 @@ def main():
     for symbol, book in state["symbols"].items():
         trades = book["trades"]
         wins = sum(1 for t in trades if t["net_pnl_usdt"] > 0)
+        gross_wins = sum(t["net_pnl_usdt"] for t in trades if t["net_pnl_usdt"] > 0)
+        gross_losses = abs(sum(t["net_pnl_usdt"] for t in trades if t["net_pnl_usdt"] < 0))
+        equity = peak = max_dd = 0.0
+        monthly = {}
+        for trade in trades:
+            equity += trade["net_pnl_usdt"]
+            peak = max(peak, equity)
+            max_dd = max(max_dd, peak - equity)
+            month = trade["exit_time_utc"][:7]
+            monthly[month] = monthly.get(month, 0.0) + trade["net_pnl_usdt"]
         summary["symbols"][symbol] = {
             "closed_trades": len(trades), "wins": wins, "losses": len(trades) - wins,
             "win_rate_pct": round(100 * wins / len(trades), 2) if trades else None,
+            "profit_factor": round(gross_wins / gross_losses, 4) if gross_losses else (None if not gross_wins else "INF"),
             "net_pnl_usdt": round(sum(t["net_pnl_usdt"] for t in trades), 8),
+            "max_drawdown_usdt": round(max_dd, 8),
+            "monthly_net_pnl_usdt": {k: round(v, 8) for k, v in sorted(monthly.items())},
             "open_position": book["position"], "pending_signal": book["pending_signal"],
             "latest_closed_candle_utc": book.get("latest_closed_candle_utc")
         }
