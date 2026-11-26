@@ -40,15 +40,33 @@ def main():
         add_archive_rates(swap, start_ms, end_ms, rates)
         stamps = sorted(rates)
         expected = list(range(start_ms, end_ms, 8 * 60 * 60 * 1000))
-        missing = [ts for ts in expected if ts not in rates]
-        if not stamps or missing:
-            raise RuntimeError(f"Funding coverage gap for {swap}: records={len(stamps)}, missing={len(missing)}")
-        if stamps[0] < start_ms or stamps[-1] >= end_ms:
-            raise RuntimeError(f"Funding timestamps outside requested window for {swap}")
+        if len(stamps) != len(expected) or len(set(stamps)) != len(expected):
+            raise RuntimeError(f"Funding record count/uniqueness failure for {swap}: records={len(stamps)}, expected={len(expected)}")
+        # OKX archive timestamps can differ from the nominal 8h settlement grid by a few seconds.
+        # Match one-to-one within a strict 30s tolerance; preserve source timestamps for audit.
+        normalized = []
+        used = set()
+        max_abs_drift_ms = 0
+        for actual_ts in stamps:
+            nearest = min(expected, key=lambda x: abs(x - actual_ts))
+            drift = actual_ts - nearest
+            if abs(drift) > 30_000 or nearest in used:
+                raise RuntimeError(f"Funding timestamp cannot be safely aligned for {swap}: {actual_ts}, drift_ms={drift}")
+            used.add(nearest)
+            max_abs_drift_ms = max(max_abs_drift_ms, abs(drift))
+            item = dict(rates[actual_ts])
+            item["source_funding_time_ms"] = actual_ts
+            item["source_utc_time"] = item["utc_time"]
+            item["funding_time_ms"] = nearest
+            item["utc_time"] = datetime.fromtimestamp(nearest/1000, timezone.utc).isoformat()
+            normalized.append(item)
+        missing = sorted(set(expected) - used)
+        if missing:
+            raise RuntimeError(f"Funding coverage gap for {swap}: missing={len(missing)}")
         name = swap.replace("-", "_") + "_funding.csv"
-        rows = [rates[ts] for ts in stamps]
+        rows = sorted(normalized, key=lambda x: x["funding_time_ms"])
         with open(os.path.join(args.out, name), "w", newline="", encoding="utf-8") as f:
-            w = csv.DictWriter(f, fieldnames=["funding_time_ms", "utc_time", "rate", "rate_field"])
+            w = csv.DictWriter(f, fieldnames=["funding_time_ms", "utc_time", "rate", "rate_field", "source_funding_time_ms", "source_utc_time"])
             w.writeheader()
             w.writerows(rows)
         manifest["instruments"][swap] = {
