@@ -7,11 +7,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "DONCHIAN_ENSEMBLE_BTC_4H": {
       "starting_balance_usdt": 1000.0,
@@ -27,11 +27,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "DONCHIAN_ENSEMBLE_ETH_4H": {
       "starting_balance_usdt": 1000.0,
@@ -47,11 +47,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "DONCHIAN_ENSEMBLE_SOL_4H": {
       "starting_balance_usdt": 1000.0,
@@ -67,11 +67,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "DONCHIAN_ENSEMBLE_BNB_4H": {
       "starting_balance_usdt": 1000.0,
@@ -87,11 +87,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "DONCHIAN_ENSEMBLE_XRP_4H": {
       "starting_balance_usdt": 1000.0,
@@ -107,11 +107,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "TURTLE_STYLE_BTC_4H": {
       "starting_balance_usdt": 1000.0,
@@ -127,11 +127,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "TURTLE_STYLE_ETH_4H": {
       "starting_balance_usdt": 1000.0,
@@ -147,11 +147,19 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
-      "pending_signal": null,
+      "pending_signal": {
+        "signal_ts": 1795726800000,
+        "direction": "LONG",
+        "entry_period": 20,
+        "exit_period": 10,
+        "atr": 0.6664804627917822,
+        "signal_close": 71.6,
+        "stop_atr": 2.0
+      },
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "TURTLE_STYLE_SOL_4H": {
       "starting_balance_usdt": 1000.0,
@@ -167,11 +175,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "TURTLE_STYLE_BNB_4H": {
       "starting_balance_usdt": 1000.0,
@@ -187,11 +195,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "TURTLE_STYLE_XRP_4H": {
       "starting_balance_usdt": 1000.0,
@@ -207,11 +215,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "HOLY_GRAIL_BTC_4H": {
       "starting_balance_usdt": 1000.0,
@@ -227,11 +235,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "HOLY_GRAIL_ETH_4H": {
       "starting_balance_usdt": 1000.0,
@@ -247,11 +255,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "HOLY_GRAIL_SOL_4H": {
       "starting_balance_usdt": 1000.0,
@@ -267,11 +275,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "HOLY_GRAIL_BNB_4H": {
       "starting_balance_usdt": 1000.0,
@@ -287,11 +295,11 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "position": null,
       "pending_signal": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "HOLY_GRAIL_XRP_4H": {
       "starting_balance_usdt": 1000.0,
