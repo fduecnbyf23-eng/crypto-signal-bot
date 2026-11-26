@@ -25,7 +25,7 @@ jobs:
       - name: Checkout isolated research branch
         uses: actions/checkout@v4
         with:
-          ref: \${{ github.ref_name }}
+          ref: ${{ github.ref_name }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -37,7 +37,7 @@ jobs:
         with:
           name: okx-spot-futures-data-audit-365-days
           run-id: 45843255587
-          github-token: \${{ github.token }}
+          github-token: ${{ github.token }}
           path: research-data
 
       - name: Download two-year daily candle archive
@@ -45,7 +45,7 @@ jobs:
         with:
           name: okx-daily-candles-2-years
           run-id: 45851151740
-          github-token: \${{ github.token }}
+          github-token: ${{ github.token }}
           path: research-daily-2y
 
       - name: Compile research code
