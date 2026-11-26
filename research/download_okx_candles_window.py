@@ -61,7 +61,7 @@ def main():
         "closed_candles_only": True,
         "instruments": {}
     }
-    jobs = [(x, "") for x in SPOT] + [(x, "_SWAP") for x in SPOT]
+    jobs = [(x, "") for x in SPOT] + [(x + "-SWAP", "_SWAP") for x in SPOT]
     for index, (inst_id, suffix) in enumerate(jobs, 1):
         print(f"[{index}/{len(jobs)}] {inst_id} 1H", flush=True)
         candles, pages = download_window(inst_id, start_ms, end_ms)
