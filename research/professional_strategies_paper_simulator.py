@@ -68,7 +68,17 @@ def features(candles):
             pdi[i]=100*smp[i]/smtr[i]; mdi[i]=100*smm[i]/smtr[i]
             den=pdi[i]+mdi[i]
             dx[i]=100*abs(pdi[i]-mdi[i])/den if den else 0.0
-    adx=wilder([0.0 if x is None else x for x in dx],14)
+    adx=[None]*len(c)
+    valid_dx=[x for x in dx if x is not None]
+    first_dx=next((i for i,x in enumerate(dx) if x is not None),None)
+    if first_dx is not None and len(valid_dx)>=14:
+        seed_idx=first_dx+13
+        value=sum(valid_dx[:14])/14
+        adx[seed_idx]=value
+        for j in range(seed_idx+1,len(c)):
+            if dx[j] is not None:
+                value=(value*13+dx[j])/14
+                adx[j]=value
     return {"o":o,"h":h,"l":l,"c":c,"atr20":atr,"adx14":adx,
             "ema20":ema(c,20),"ema50":ema(c,50),"ema200":ema(c,200)}
 
@@ -162,8 +172,12 @@ def process_account(state,sid,kind,symbol,tf,candles,fundings):
             for rec in fundings:
                 ft=int(rec["fundingTime"])
                 if int(pos["entry_ts"])<ft<=ts and ft>int(pos.get("last_funding_time",pos["entry_ts"])):
-                    pos["funding_usdt"]+=ORDER_USDT*float(rec["fundingRate"])
+                    rate=float(rec["fundingRate"])
+                    pos["funding_usdt"]+=(ORDER_USDT*rate if pos["direction"]=="SHORT" else -ORDER_USDT*rate)
                     pos["last_funding_time"]=ft
+        if pos and pos.get("pending_exit"):
+            close_trade(acc,sid,symbol,pos["direction"],pos,op,"CHANNEL_EXIT",ts)
+            pos=None
         pending=acc["pending_signal"]
         if pending and pos is None and int(pending["signal_ts"])+interval==ts:
             d=pending["direction"]; entry=op*(1-SLIP if d=="SHORT" else 1+SLIP)
@@ -192,18 +206,6 @@ def process_account(state,sid,kind,symbol,tf,candles,fundings):
                     # Channel exits are confirmed on candle close and executed next open.
                     if (d=="LONG" and lower is not None and cl<lower) or (d=="SHORT" and upper is not None and cl>upper):
                         pos["pending_exit"]=True
-                if pos.get("pending_exit") and i+1<len(candles):
-                    # exit next candle open is handled when that candle is processed
-                    pass
-        # Execute a channel-based pending exit at this candle's open, before evaluating this bar.
-        # Stored for next cycle below via an explicit marker.
-        if acc["position"] and acc["position"].get("pending_exit") and i+1<len(candles):
-            acc["position"]["exit_at_next_open"]=True
-        if acc["position"] and acc["position"].get("exit_at_next_open") and i>0:
-            # Marker was set on the previous candle; current candle open is the exit fill.
-            pos=acc["position"]
-            if int(pos["entry_ts"])<ts:
-                close_trade(acc,sid,symbol,pos["direction"],pos,op,"CHANNEL_EXIT",ts)
         if acc["position"] is None and acc["pending_signal"] is None:
             sig=direction_signal(kind,f,i)
             if sig: acc["pending_signal"]={"signal_ts":ts,**sig}
