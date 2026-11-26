@@ -36,7 +36,7 @@ def get_binance_klines(symbol, start, end):
             if start <= ts < end and ts+HOUR <= end:
                 rows[ts]={"timestamp_ms":str(ts),"utc_time":datetime.fromtimestamp(ts/1000,timezone.utc).isoformat(),
                   "open":x[1],"high":x[2],"low":x[3],"close":x[4],"volume":x[5],
-                  "volume_currency":x[7],"volume_quote":x[7],"confirm":"1"}
+                  "volume_currency":x[5],"volume_quote":x[7],"confirm":"1"}
         nxt=int(batch[-1][0])+HOUR
         if nxt <= cursor: raise RuntimeError("Binance kline pagination stalled")
         cursor=nxt
@@ -44,9 +44,9 @@ def get_binance_klines(symbol, start, end):
     return [rows[k] for k in sorted(rows)]
 
 def get_bybit_klines(symbol, start, end):
-    rows, cursor = {}, start
-    while cursor < end:
-        q=urllib.parse.urlencode({"category":"linear","symbol":symbol,"interval":"60","start":cursor,"end":end-1,"limit":1000})
+    rows, page_end = {}, end-1
+    while page_end >= start:
+        q=urllib.parse.urlencode({"category":"linear","symbol":symbol,"interval":"60","start":start,"end":page_end,"limit":1000})
         payload=request_json("https://api.bybit.com/v5/market/kline?"+q)
         if payload.get("retCode") != 0: raise RuntimeError("Bybit kline API: "+str(payload.get("retMsg")))
         batch=payload.get("result",{}).get("list",[])
@@ -57,12 +57,12 @@ def get_bybit_klines(symbol, start, end):
             if start <= ts < end and ts+HOUR <= end:
                 rows[ts]={"timestamp_ms":str(ts),"utc_time":datetime.fromtimestamp(ts/1000,timezone.utc).isoformat(),
                   "open":x[1],"high":x[2],"low":x[3],"close":x[4],"volume":x[5],
-                  "volume_currency":x[6],"volume_quote":str(float(x[5])*float(x[4])),"confirm":"1"}
+                  "volume_currency":x[5],"volume_quote":x[6],"confirm":"1"}
         oldest=min(stamps)
         if oldest <= start: break
         nxt=oldest-1
-        if nxt >= cursor: raise RuntimeError("Bybit kline pagination stalled")
-        cursor=nxt
+        if nxt >= page_end: raise RuntimeError("Bybit kline pagination stalled")
+        page_end=nxt
         time.sleep(0.08)
     return [rows[k] for k in sorted(rows)]
 
@@ -83,9 +83,9 @@ def get_binance_funding(symbol):
     return rows
 
 def get_bybit_funding(symbol):
-    rows, cursor = {}, START
-    while cursor < END:
-        q=urllib.parse.urlencode({"category":"linear","symbol":symbol,"startTime":cursor,"endTime":END-1,"limit":200})
+    rows, page_end = {}, END-1
+    while page_end >= START:
+        q=urllib.parse.urlencode({"category":"linear","symbol":symbol,"startTime":START,"endTime":page_end,"limit":200})
         payload=request_json("https://api.bybit.com/v5/market/funding/history?"+q)
         if payload.get("retCode") != 0: raise RuntimeError("Bybit funding API: "+str(payload.get("retMsg")))
         batch=payload.get("result",{}).get("list",[])
@@ -96,9 +96,9 @@ def get_bybit_funding(symbol):
             if START <= ts < END: rows[ts]=float(x["fundingRate"])
         oldest=min(stamps)
         if oldest <= START: break
-        nxt=oldest+1
-        if nxt <= cursor: raise RuntimeError("Bybit funding pagination stalled")
-        cursor=nxt
+        nxt=oldest-1
+        if nxt >= page_end: raise RuntimeError("Bybit funding pagination stalled")
+        page_end=nxt
         time.sleep(0.08)
     return rows
 
