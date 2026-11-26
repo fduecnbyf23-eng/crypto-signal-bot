@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "description": "Strategy registry for isolated paper trading. Historical metrics below are conversation-recovered references, not verified source artifacts. Inactive strategies must not generate trades until exact rules are recovered and approved.",
+  "account_defaults": {
+    "starting_balance_usdt": 1000,
+    "order_size_usdt": 10
+  },
+  "strategies": [
+    {
+      "strategy_id": "EMA_MACD_SHORT_4H_BTC_ETH",
+      "name": "EMA + MACD SHORT 4H (BTC, ETH)",
+      "enabled": true,
+      "status": "ACTIVE_PAPER",
+      "market": "OKX USDT-SWAP",
+      "symbols": [
+        "BTC-USDT-SWAP",
+        "ETH-USDT-SWAP"
+      ],
+      "timeframe": "4H",
+      "historical_reference": {
+        "status": "frozen_candidate_low_sample",
+        "closed_trades": 43,
+        "win_rate_pct": 46.512,
+        "net_R": 14.798227,
+        "expectancy_R": 0.344145,
+        "profit_factor": 1.609774,
+        "max_drawdown_R": 6.282355,
+        "note": "Historical selection holdout; sample below promotion thresholds. This is the only strategy currently generating paper trades."
+      }
+    },
+    {
+      "strategy_id": "EMA200_ADX_4H",
+      "name": "EMA200 + ADX 4H",
+      "enabled": false,
+      "status": "INACTIVE_RULES_MISSING",
+      "market": "OKX USDT-SWAP",
+      "timeframe": "4H",
+      "historical_reference": {
+        "closed_trades": 64,
+        "net_R": 20.35,
+        "profit_factor": 1.496,
+        "repeat_test_note": "A different test segment was reported as strongly negative (approximately -23R); exact report and rules not recovered.",
+        "note": "Regime-dependent historical result. Metrics are recalled from conversation and not verified against the original artifact."
+      }
+    },
+    {
+      "strategy_id": "XRP_SHORT_4H",
+      "name": "XRP SHORT 4H",
+      "enabled": false,
+      "status": "INACTIVE_RULES_MISSING",
+      "market": "OKX USDT-SWAP",
+      "symbols": [
+        "XRP-USDT-SWAP"
+      ],
+      "timeframe": "4H",
+      "direction": "SHORT",
+      "historical_reference": {
+        "closed_trades": 62,
+        "first_test_net_R": 12.75,
+        "repeat_test_net_R": 4.13,
+        "note": "Historical figures recalled from conversation; exact entry/exit rules and original reports not recovered."
+      }
+    },
+    {
+      "strategy_id": "SOL_SHORT_4H",
+      "name": "SOL SHORT 4H",
+      "enabled": false,
+      "status": "INACTIVE_RULES_MISSING",
+      "market": "OKX USDT-SWAP",
+      "symbols": [
+        "SOL-USDT-SWAP"
+      ],
+      "timeframe": "4H",
+      "direction": "SHORT",
+      "historical_reference": {
+        "closed_trades": 60,
+        "first_test_net_R": 3.04,
+        "repeat_test_net_R": 1.94,
+        "note": "Historical figures recalled from conversation; exact entry/exit rules and original reports not recovered."
+      }
+    },
+    {
+      "strategy_id": "BNB_LONG_4H",
+      "name": "BNB LONG 4H",
+      "enabled": false,
+      "status": "INACTIVE_RULES_MISSING",
+      "market": "OKX USDT-SWAP",
+      "symbols": [
+        "BNB-USDT-SWAP"
+      ],
+      "timeframe": "4H",
+      "direction": "LONG",
+      "historical_reference": {
+        "closed_trades": 57,
+        "first_test_net_R": 3.17,
+        "repeat_test_net_R": 1.71,
+        "note": "Historical figures recalled from conversation; exact entry/exit rules and original reports not recovered."
+      }
+    }
+  ]
+}
