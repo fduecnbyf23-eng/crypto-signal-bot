@@ -46,6 +46,18 @@ class IndicatorFeatureTests(unittest.TestCase):
         self.assertIsNone(row['vwap_utc_day'])
         self.assertFalse(row['vwap_bounce_long'])
 
+    def test_vwap_bounce_does_not_cross_utc_day_reset(self):
+        day_start = 1764115200000  # 2025-11-26 00:00 UTC
+        rows = [
+            {'timestamp_ms':str(day_start-900000),'open':'1','high':'20','low':'0',
+             'close':'1','volume_quote':'1','confirm':'1'},
+            {'timestamp_ms':str(day_start),'open':'15','high':'20','low':'0',
+             'close':'15','volume_quote':'1','confirm':'1'},
+        ]
+        features = build_features(rows)
+        self.assertFalse(features[1]['vwap_bounce_long'])
+        self.assertFalse(features[1]['vwap_bounce_short'])
+
     def test_rsi_overbought_is_exposed(self):
         rows = []
         for i in range(230):
