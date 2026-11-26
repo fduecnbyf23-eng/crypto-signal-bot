@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Isolated virtual-only strategy registry. Recovered rules and historical figures are recorded separately from source-verified results. Strategies with unresolved execution details remain disabled and must not generate trades.",
+  "description": "Separate virtual-only strategy accounts. The three EMA50/MACD/RSI 4H strategies run in an isolated simulator. Their stop anchor is provisionally signal-candle close because the original anchor was not recovered. EMA200+ADX remains inactive until exact rules are recovered.",
   "account_defaults": {
     "starting_balance_usdt": 1000,
     "order_size_usdt": 10
@@ -71,8 +71,8 @@
     {
       "strategy_id": "XRP_SHORT_4H",
       "name": "XRP SHORT 4H",
-      "enabled": false,
-      "status": "INACTIVE_STOP_ANCHOR_UNCONFIRMED",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
       "market": "OKX USDT-SWAP",
       "symbols": [
         "XRP-USDT-SWAP"
@@ -113,8 +113,8 @@
           "RSI(14) between 32 and 50 inclusive (exact boundary convention to be verified)"
         ],
         "entry": "Open of the next 4H candle after the qualifying candle closes",
-        "stop_loss": "1.5 * ATR(14); anchor price not yet confirmed",
-        "take_profit": "2R; exact R calculation depends on confirmed stop anchor",
+        "stop_loss": "1.5 * ATR(14) from signal-candle close (provisional simulator convention; original anchor not recovered)",
+        "take_profit": "2R from actual next-candle entry using the resulting entry-to-stop distance",
         "execution_assumptions": {
           "fee_per_side_pct": 0.05,
           "slippage_per_side_pct": 0.02,
@@ -127,15 +127,14 @@
         "validation_split": "First 2/3 and final 1/3; exact split timestamp to be recovered"
       },
       "paper_activation_blockers": [
-        "Confirm whether 1.5 ATR stop is anchored to signal-candle close or actual entry fill",
-        "Recover exact 2/3 split timestamp and indicator implementation details"
+        "Stop anchor is provisionally set to signal-candle close; this is not verified against the original historical test."
       ]
     },
     {
       "strategy_id": "SOL_SHORT_4H",
       "name": "SOL SHORT 4H",
-      "enabled": false,
-      "status": "INACTIVE_STOP_ANCHOR_UNCONFIRMED",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
       "market": "OKX USDT-SWAP",
       "symbols": [
         "SOL-USDT-SWAP"
@@ -173,8 +172,8 @@
           "RSI(14) between 32 and 50 inclusive (exact boundary convention to be verified)"
         ],
         "entry": "Open of the next 4H candle after the qualifying candle closes",
-        "stop_loss": "1.5 * ATR(14); anchor price not yet confirmed",
-        "take_profit": "2R; exact R calculation depends on confirmed stop anchor",
+        "stop_loss": "1.5 * ATR(14) from signal-candle close (provisional simulator convention; original anchor not recovered)",
+        "take_profit": "2R from actual next-candle entry using the resulting entry-to-stop distance",
         "execution_assumptions": {
           "fee_per_side_pct": 0.05,
           "slippage_per_side_pct": 0.02,
@@ -187,15 +186,14 @@
         "validation_split": "First 2/3 and final 1/3; exact split timestamp to be recovered"
       },
       "paper_activation_blockers": [
-        "Confirm whether 1.5 ATR stop is anchored to signal-candle close or actual entry fill",
-        "Recover exact 2/3 split timestamp and indicator implementation details"
+        "Stop anchor is provisionally set to signal-candle close; this is not verified against the original historical test."
       ]
     },
     {
       "strategy_id": "BNB_LONG_4H",
       "name": "BNB LONG 4H",
-      "enabled": false,
-      "status": "INACTIVE_STOP_ANCHOR_UNCONFIRMED",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
       "market": "OKX USDT-SWAP",
       "symbols": [
         "BNB-USDT-SWAP"
@@ -233,8 +231,8 @@
           "RSI(14) between 50 and 68 inclusive (exact boundary convention to be verified)"
         ],
         "entry": "Open of the next 4H candle after the qualifying candle closes",
-        "stop_loss": "1.5 * ATR(14); anchor price not yet confirmed",
-        "take_profit": "2R; exact R calculation depends on confirmed stop anchor",
+        "stop_loss": "1.5 * ATR(14) from signal-candle close (provisional simulator convention; original anchor not recovered)",
+        "take_profit": "2R from actual next-candle entry using the resulting entry-to-stop distance",
         "execution_assumptions": {
           "fee_per_side_pct": 0.05,
           "slippage_per_side_pct": 0.02,
@@ -247,8 +245,7 @@
         "validation_split": "First 2/3 and final 1/3; exact split timestamp to be recovered"
       },
       "paper_activation_blockers": [
-        "Confirm whether 1.5 ATR stop is anchored to signal-candle close or actual entry fill",
-        "Recover exact 2/3 split timestamp and indicator implementation details"
+        "Stop anchor is provisionally set to signal-candle close; this is not verified against the original historical test."
       ]
     }
   ]
