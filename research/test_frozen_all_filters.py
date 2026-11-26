@@ -5,9 +5,9 @@ from datetime import datetime
 import backtest_strategy as bt
 import research_ema_filters as study
 
-WARMUP_START = "2025-08-12T00:00:00+00:00"
-TEST_START = "2025-08-26T00:00:00+00:00"
-TEST_END = "2025-11-24T00:00:00+00:00"  # exclusive
+WARMUP_START = "2025-08-11T00:00:00+00:00"
+TEST_START = "2025-08-25T00:00:00+00:00"
+TEST_END = "2025-11-23T00:00:00+00:00"  # exclusive
 
 def ms(value):
     return int(datetime.fromisoformat(value.replace("Z", "+00:00")).timestamp()*1000)
