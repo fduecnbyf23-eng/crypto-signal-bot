@@ -36,9 +36,10 @@ jobs:
         run: |
           python -m py_compile research/indicator_features.py research/cross_exchange_ema_macd_audit.py
 
-      - name: Download Binance and Bybit public candles and funding; replay frozen rules
+      - name: Download Bybit public candles and funding; replay frozen rules
         env:
           PYTHONPATH: research
+          SKIP_BINANCE: "1"
         run: python research/cross_exchange_ema_macd_audit.py
 
       - name: Upload cross-exchange audit
