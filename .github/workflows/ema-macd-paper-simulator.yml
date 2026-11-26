@@ -25,6 +25,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Check simulator syntax
+        run: python -m py_compile research/ema_macd_paper_simulator.py
+
       - name: Run virtual-only simulator
         run: python research/ema_macd_paper_simulator.py
 
