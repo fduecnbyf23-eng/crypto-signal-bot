@@ -1,0 +1,78 @@
+name: Independent RSI Volume SHORT 1H Validation
+
+on:
+  push:
+    branches:
+      - indicator-research-preparation
+    paths:
+      - ".github/workflows/independent-rsi-volume-validation.yml"
+      - "research/backtest_independent_rsi_volume.py"
+      - "research/backtest_frozen_indicators.py"
+      - "research/indicator_features.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independent-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: indicator-research-preparation
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download independent candles and funding archive
+        uses: actions/download-artifact@v4
+        with:
+          name: okx-independent-1h-and-funding-2024-2025
+          run-id: 45860787155
+          github-token: ${{ github.token }}
+          path: independent-1h-data
+
+      - name: Compile frozen research code
+        run: |
+          python -m py_compile research/indicator_features.py research/backtest_frozen_indicators.py research/backtest_independent_rsi_volume.py
+
+      - name: Run frozen RSI volume independent replay
+        run: |
+          python research/backtest_independent_rsi_volume.py --input-dir independent-1h-data --output-dir independent-rsi-volume-validation
+
+      - name: Validate report and data integrity
+        run: |
+          python - <<'PY'
+          import csv, json, os
+          base = "independent-rsi-volume-validation"
+          for name in ("summary.csv", "trades.csv", "metadata.json"):
+              if not os.path.exists(os.path.join(base, name)):
+                  raise SystemExit(f"Missing output: {name}")
+          with open(os.path.join(base, "summary.csv"), newline="", encoding="utf-8") as f:
+              rows = list(csv.DictReader(f))
+          symbols = {r["symbol"]: r for r in rows if r["aggregation_level"] == "SYMBOL"}
+          aggregate = [r for r in rows if r["aggregation_level"] == "ALL_SYMBOLS"]
+          expected = {"ETH", "SOL", "BNB", "XRP"}
+          if set(symbols) != expected or len(aggregate) != 1:
+              raise SystemExit(f"Unexpected groups: {sorted(symbols)}")
+          bad = [r["symbol"] for r in rows if r["funding_valid"] != "True" or int(r["invalid_funding_trades"]) != 0]
+          if bad:
+              raise SystemExit(f"Invalid funding: {bad}")
+          print("INDEPENDENT_RSI_VOLUME_REPORT_OK")
+          for s in sorted(symbols):
+              print(s, symbols[s])
+          print("AGGREGATE", aggregate[0])
+          PY
+
+      - name: Upload independent RSI volume results
+        uses: actions/upload-artifact@v4
+        with:
+          name: independent-rsi-volume-short-1h-2024-2025
+          path: independent-rsi-volume-validation/
+          retention-days: 30
