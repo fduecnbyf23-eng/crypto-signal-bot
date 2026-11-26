@@ -141,7 +141,7 @@ def process_symbol(state, symbol):
     closes, e20, e50, e200, macd, macd_sig, atr = indicators(closed)
     book = state["symbols"][symbol]
     last_done = book["last_processed_candle"]
-    start = 0
+    start = len(closed) - 1 if last_done is None else 0
     if last_done is not None:
         matches = [i for i, c in enumerate(closed) if int(c[0]) == int(last_done)]
         if not matches:
@@ -156,6 +156,11 @@ def process_symbol(state, symbol):
 
         # Funding is applied at the 8-hour timestamp only if the short was already open.
         if position:
+            utc_hour = datetime.fromtimestamp(ts / 1000, timezone.utc).hour
+            if utc_hour % 8 == 0:
+                matching = [r for r in funding if int(r["fundingTime"]) == ts]
+                if not matching:
+                    raise RuntimeError(f"Missing expected OKX funding record for {symbol} at {ts}; refusing to assume zero funding")
             apply_funding(symbol, position, funding, ts)
 
         # A signal from the preceding candle enters at this candle's open.
