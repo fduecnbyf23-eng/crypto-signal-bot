@@ -252,6 +252,9 @@ def apply_timeframe_scope(features, timeframe):
         'bb': {'1H', '4H'},
         'macd': {'4H', '1Dutc'},
         'vwap': {'15m', '1H'},
+        'ema_macd': {'4H', '1Dutc'},
+        'rsi_volume': {'15m', '1H', '4H'},
+        'vwap_ema': {'1H'},
     }
     fields = {
         'ema': ['ema20','ema50','ema200','ema_bull_stack','ema_bear_stack',
@@ -263,7 +266,10 @@ def apply_timeframe_scope(features, timeframe):
         'bb': ['bb_upper','bb_mid','bb_lower','bb_width','bb_width_percentile',
                'bb_squeeze','bb_breakout_up','bb_breakout_down'],
         'macd': ['macd','macd_signal','macd_hist','macd_cross_up','macd_cross_down'],
-        'vwap': ['vwap_utc_day','vwap_bounce_long','vwap_bounce_short','vwap_ema_long','vwap_ema_short'],
+        'vwap': ['vwap_utc_day','vwap_bounce_long','vwap_bounce_short'],
+        'ema_macd': ['ema_macd_long','ema_macd_short'],
+        'rsi_volume': ['rsi_volume_long','rsi_volume_short'],
+        'vwap_ema': ['vwap_ema_long','vwap_ema_short'],
     }
     for family, allowed in scopes.items():
         if timeframe not in allowed:
