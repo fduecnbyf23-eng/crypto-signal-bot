@@ -334,6 +334,346 @@
         "Historical OHLCV replay does not model order-book depth, liquidation, outages, or all execution mechanics.",
         "This is a historical one-year holdout; it does not establish future or live performance."
       ]
+    },
+    {
+      "candidate_id": "OKX_SWAP_VWAP_EMA_SHORT_1H_BTC",
+      "status": "REJECTED",
+      "market": "SWAP",
+      "exchange": "OKX",
+      "timeframe": "1H",
+      "direction": "SHORT",
+      "indicator_family": "UTC VWAP bounce + bearish EMA stack",
+      "signal": "On the same closed 1H candle: UTC VWAP short bounce (current high touches or exceeds current UTC VWAP, current close is below VWAP, previous close was above VWAP; no signal across UTC day reset) AND bearish EMA stack (close < EMA20 < EMA50 < EMA200). Enter at next 1H candle open.",
+      "execution": {
+        "stop": "1.5 * ATR(14) from signal candle close; stop level fixed from actual next-open entry using signal-candle ATR",
+        "target": "Fixed 2R",
+        "same_candle_stop_target_priority": "STOP_FIRST",
+        "one_open_position_per_symbol": true,
+        "fee_per_side_pct": 0.05,
+        "slippage_per_side_pct": 0.02,
+        "funding": "Actual historical OKX funding timestamps strictly after entry and at or before exit; positive funding is received by SHORT; missing expected records invalidate the result.",
+        "no_orders_generated": true
+      },
+      "development_window_utc": {
+        "start_inclusive": "2025-11-26T15:00:00Z",
+        "end_exclusive": "2026-07-26T00:00:00Z"
+      },
+      "selection_holdout_window_utc": {
+        "start_inclusive": "2026-07-26T00:00:00Z",
+        "end_exclusive": "2026-11-26T15:00:00Z"
+      },
+      "next_independent_window_utc": {
+        "start_inclusive": "2024-11-26T00:00:00Z",
+        "end_exclusive": "2025-11-26T00:00:00Z"
+      },
+      "data_quality": {
+        "source_archive_run_id": 45843255587,
+        "hourly_candles_per_instrument": 8760,
+        "candle_gaps": 0,
+        "invalid_funding_trades": 0,
+        "funding_valid": true,
+        "source_archive_first_candle_utc": "2025-11-26T15:00:00Z",
+        "source_archive_last_candle_open_utc": "2026-11-26T14:00:00Z"
+      },
+      "backtest_reference": {
+        "workflow_run_id": 45863181833,
+        "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45863181833",
+        "result_artifact_id": 15138679139,
+        "result_artifact_name": "frozen-indicator-backtest-results"
+      },
+      "limitations": [
+        "Selection holdout is a finite historical window and was used to select instrument candidates; it is not an independent pass.",
+        "A further non-overlapping replay is required before any paper-trading discussion.",
+        "Historical OHLCV does not model order-book depth, queue position, market impact, liquidation, outages, or all exchange execution mechanics."
+      ],
+      "instrument_scope": [
+        "BTC-USDT-SWAP"
+      ],
+      "selection_holdout_metrics": {
+        "trades": 50,
+        "wins": 20,
+        "losses": 30,
+        "win_rate_pct": 40,
+        "net_R": 2.574713,
+        "expectancy_R": 0.051494,
+        "profit_factor": 1.074722,
+        "max_drawdown_R": 15.699854,
+        "net_R_at_0_10pct_roundtrip": 4.865098,
+        "net_R_at_0_20pct_roundtrip": -0.860866
+      },
+      "selection_decision": "Failed the frozen preliminary holdout gate (PF <= 1.10 or negative net R). Do not retune on this holdout or promote to paper trading."
+    },
+    {
+      "candidate_id": "OKX_SWAP_VWAP_EMA_SHORT_1H_ETH",
+      "status": "NEEDS_INDEPENDENT_TEST",
+      "market": "SWAP",
+      "exchange": "OKX",
+      "timeframe": "1H",
+      "direction": "SHORT",
+      "indicator_family": "UTC VWAP bounce + bearish EMA stack",
+      "signal": "On the same closed 1H candle: UTC VWAP short bounce (current high touches or exceeds current UTC VWAP, current close is below VWAP, previous close was above VWAP; no signal across UTC day reset) AND bearish EMA stack (close < EMA20 < EMA50 < EMA200). Enter at next 1H candle open.",
+      "execution": {
+        "stop": "1.5 * ATR(14) from signal candle close; stop level fixed from actual next-open entry using signal-candle ATR",
+        "target": "Fixed 2R",
+        "same_candle_stop_target_priority": "STOP_FIRST",
+        "one_open_position_per_symbol": true,
+        "fee_per_side_pct": 0.05,
+        "slippage_per_side_pct": 0.02,
+        "funding": "Actual historical OKX funding timestamps strictly after entry and at or before exit; positive funding is received by SHORT; missing expected records invalidate the result.",
+        "no_orders_generated": true
+      },
+      "development_window_utc": {
+        "start_inclusive": "2025-11-26T15:00:00Z",
+        "end_exclusive": "2026-07-26T00:00:00Z"
+      },
+      "selection_holdout_window_utc": {
+        "start_inclusive": "2026-07-26T00:00:00Z",
+        "end_exclusive": "2026-11-26T15:00:00Z"
+      },
+      "next_independent_window_utc": {
+        "start_inclusive": "2024-11-26T00:00:00Z",
+        "end_exclusive": "2025-11-26T00:00:00Z"
+      },
+      "data_quality": {
+        "source_archive_run_id": 45843255587,
+        "hourly_candles_per_instrument": 8760,
+        "candle_gaps": 0,
+        "invalid_funding_trades": 0,
+        "funding_valid": true,
+        "source_archive_first_candle_utc": "2025-11-26T15:00:00Z",
+        "source_archive_last_candle_open_utc": "2026-11-26T14:00:00Z"
+      },
+      "backtest_reference": {
+        "workflow_run_id": 45863181833,
+        "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45863181833",
+        "result_artifact_id": 15138679139,
+        "result_artifact_name": "frozen-indicator-backtest-results"
+      },
+      "limitations": [
+        "Selection holdout is a finite historical window and was used to select instrument candidates; it is not an independent pass.",
+        "A further non-overlapping replay is required before any paper-trading discussion.",
+        "Historical OHLCV does not model order-book depth, queue position, market impact, liquidation, outages, or all exchange execution mechanics."
+      ],
+      "instrument_scope": [
+        "ETH-USDT-SWAP"
+      ],
+      "selection_holdout_metrics": {
+        "trades": 48,
+        "wins": 19,
+        "losses": 29,
+        "win_rate_pct": 39.583,
+        "net_R": 3.290337,
+        "expectancy_R": 0.068549,
+        "profit_factor": 1.100887,
+        "max_drawdown_R": 15.42319,
+        "net_R_at_0_10pct_roundtrip": 4.991771,
+        "net_R_at_0_20pct_roundtrip": 0.738192
+      },
+      "selection_decision": "Preliminary gates met on the selection holdout (at least 20 trades, positive net R, PF > 1.10). Frozen for the next non-overlapping independent replay; not approved for paper trading."
+    },
+    {
+      "candidate_id": "OKX_SWAP_VWAP_EMA_SHORT_1H_SOL",
+      "status": "NEEDS_INDEPENDENT_TEST",
+      "market": "SWAP",
+      "exchange": "OKX",
+      "timeframe": "1H",
+      "direction": "SHORT",
+      "indicator_family": "UTC VWAP bounce + bearish EMA stack",
+      "signal": "On the same closed 1H candle: UTC VWAP short bounce (current high touches or exceeds current UTC VWAP, current close is below VWAP, previous close was above VWAP; no signal across UTC day reset) AND bearish EMA stack (close < EMA20 < EMA50 < EMA200). Enter at next 1H candle open.",
+      "execution": {
+        "stop": "1.5 * ATR(14) from signal candle close; stop level fixed from actual next-open entry using signal-candle ATR",
+        "target": "Fixed 2R",
+        "same_candle_stop_target_priority": "STOP_FIRST",
+        "one_open_position_per_symbol": true,
+        "fee_per_side_pct": 0.05,
+        "slippage_per_side_pct": 0.02,
+        "funding": "Actual historical OKX funding timestamps strictly after entry and at or before exit; positive funding is received by SHORT; missing expected records invalidate the result.",
+        "no_orders_generated": true
+      },
+      "development_window_utc": {
+        "start_inclusive": "2025-11-26T15:00:00Z",
+        "end_exclusive": "2026-07-26T00:00:00Z"
+      },
+      "selection_holdout_window_utc": {
+        "start_inclusive": "2026-07-26T00:00:00Z",
+        "end_exclusive": "2026-11-26T15:00:00Z"
+      },
+      "next_independent_window_utc": {
+        "start_inclusive": "2024-11-26T00:00:00Z",
+        "end_exclusive": "2025-11-26T00:00:00Z"
+      },
+      "data_quality": {
+        "source_archive_run_id": 45843255587,
+        "hourly_candles_per_instrument": 8760,
+        "candle_gaps": 0,
+        "invalid_funding_trades": 0,
+        "funding_valid": true,
+        "source_archive_first_candle_utc": "2025-11-26T15:00:00Z",
+        "source_archive_last_candle_open_utc": "2026-11-26T14:00:00Z"
+      },
+      "backtest_reference": {
+        "workflow_run_id": 45863181833,
+        "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45863181833",
+        "result_artifact_id": 15138679139,
+        "result_artifact_name": "frozen-indicator-backtest-results"
+      },
+      "limitations": [
+        "Selection holdout is a finite historical window and was used to select instrument candidates; it is not an independent pass.",
+        "A further non-overlapping replay is required before any paper-trading discussion.",
+        "Historical OHLCV does not model order-book depth, queue position, market impact, liquidation, outages, or all exchange execution mechanics."
+      ],
+      "instrument_scope": [
+        "SOL-USDT-SWAP"
+      ],
+      "selection_holdout_metrics": {
+        "trades": 47,
+        "wins": 19,
+        "losses": 28,
+        "win_rate_pct": 40.426,
+        "net_R": 4.988641,
+        "expectancy_R": 0.106141,
+        "profit_factor": 1.161137,
+        "max_drawdown_R": 10.589597,
+        "net_R_at_0_10pct_roundtrip": 6.470117,
+        "net_R_at_0_20pct_roundtrip": 2.76642
+      },
+      "selection_decision": "Preliminary gates met on the selection holdout (at least 20 trades, positive net R, PF > 1.10). Frozen for the next non-overlapping independent replay; not approved for paper trading."
+    },
+    {
+      "candidate_id": "OKX_SWAP_VWAP_EMA_SHORT_1H_BNB",
+      "status": "REJECTED",
+      "market": "SWAP",
+      "exchange": "OKX",
+      "timeframe": "1H",
+      "direction": "SHORT",
+      "indicator_family": "UTC VWAP bounce + bearish EMA stack",
+      "signal": "On the same closed 1H candle: UTC VWAP short bounce (current high touches or exceeds current UTC VWAP, current close is below VWAP, previous close was above VWAP; no signal across UTC day reset) AND bearish EMA stack (close < EMA20 < EMA50 < EMA200). Enter at next 1H candle open.",
+      "execution": {
+        "stop": "1.5 * ATR(14) from signal candle close; stop level fixed from actual next-open entry using signal-candle ATR",
+        "target": "Fixed 2R",
+        "same_candle_stop_target_priority": "STOP_FIRST",
+        "one_open_position_per_symbol": true,
+        "fee_per_side_pct": 0.05,
+        "slippage_per_side_pct": 0.02,
+        "funding": "Actual historical OKX funding timestamps strictly after entry and at or before exit; positive funding is received by SHORT; missing expected records invalidate the result.",
+        "no_orders_generated": true
+      },
+      "development_window_utc": {
+        "start_inclusive": "2025-11-26T15:00:00Z",
+        "end_exclusive": "2026-07-26T00:00:00Z"
+      },
+      "selection_holdout_window_utc": {
+        "start_inclusive": "2026-07-26T00:00:00Z",
+        "end_exclusive": "2026-11-26T15:00:00Z"
+      },
+      "next_independent_window_utc": {
+        "start_inclusive": "2024-11-26T00:00:00Z",
+        "end_exclusive": "2025-11-26T00:00:00Z"
+      },
+      "data_quality": {
+        "source_archive_run_id": 45843255587,
+        "hourly_candles_per_instrument": 8760,
+        "candle_gaps": 0,
+        "invalid_funding_trades": 0,
+        "funding_valid": true,
+        "source_archive_first_candle_utc": "2025-11-26T15:00:00Z",
+        "source_archive_last_candle_open_utc": "2026-11-26T14:00:00Z"
+      },
+      "backtest_reference": {
+        "workflow_run_id": 45863181833,
+        "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45863181833",
+        "result_artifact_id": 15138679139,
+        "result_artifact_name": "frozen-indicator-backtest-results"
+      },
+      "limitations": [
+        "Selection holdout is a finite historical window and was used to select instrument candidates; it is not an independent pass.",
+        "A further non-overlapping replay is required before any paper-trading discussion.",
+        "Historical OHLCV does not model order-book depth, queue position, market impact, liquidation, outages, or all exchange execution mechanics."
+      ],
+      "instrument_scope": [
+        "BNB-USDT-SWAP"
+      ],
+      "selection_holdout_metrics": {
+        "trades": 38,
+        "wins": 13,
+        "losses": 25,
+        "win_rate_pct": 34.211,
+        "net_R": -5.130576,
+        "expectancy_R": -0.135015,
+        "profit_factor": 0.824414,
+        "max_drawdown_R": 16.363888,
+        "net_R_at_0_10pct_roundtrip": -3.325286,
+        "net_R_at_0_20pct_roundtrip": -7.83852
+      },
+      "selection_decision": "Failed the frozen preliminary holdout gate (PF <= 1.10 or negative net R). Do not retune on this holdout or promote to paper trading."
+    },
+    {
+      "candidate_id": "OKX_SWAP_VWAP_EMA_SHORT_1H_XRP",
+      "status": "NEEDS_INDEPENDENT_TEST",
+      "market": "SWAP",
+      "exchange": "OKX",
+      "timeframe": "1H",
+      "direction": "SHORT",
+      "indicator_family": "UTC VWAP bounce + bearish EMA stack",
+      "signal": "On the same closed 1H candle: UTC VWAP short bounce (current high touches or exceeds current UTC VWAP, current close is below VWAP, previous close was above VWAP; no signal across UTC day reset) AND bearish EMA stack (close < EMA20 < EMA50 < EMA200). Enter at next 1H candle open.",
+      "execution": {
+        "stop": "1.5 * ATR(14) from signal candle close; stop level fixed from actual next-open entry using signal-candle ATR",
+        "target": "Fixed 2R",
+        "same_candle_stop_target_priority": "STOP_FIRST",
+        "one_open_position_per_symbol": true,
+        "fee_per_side_pct": 0.05,
+        "slippage_per_side_pct": 0.02,
+        "funding": "Actual historical OKX funding timestamps strictly after entry and at or before exit; positive funding is received by SHORT; missing expected records invalidate the result.",
+        "no_orders_generated": true
+      },
+      "development_window_utc": {
+        "start_inclusive": "2025-11-26T15:00:00Z",
+        "end_exclusive": "2026-07-26T00:00:00Z"
+      },
+      "selection_holdout_window_utc": {
+        "start_inclusive": "2026-07-26T00:00:00Z",
+        "end_exclusive": "2026-11-26T15:00:00Z"
+      },
+      "next_independent_window_utc": {
+        "start_inclusive": "2024-11-26T00:00:00Z",
+        "end_exclusive": "2025-11-26T00:00:00Z"
+      },
+      "data_quality": {
+        "source_archive_run_id": 45843255587,
+        "hourly_candles_per_instrument": 8760,
+        "candle_gaps": 0,
+        "invalid_funding_trades": 0,
+        "funding_valid": true,
+        "source_archive_first_candle_utc": "2025-11-26T15:00:00Z",
+        "source_archive_last_candle_open_utc": "2026-11-26T14:00:00Z"
+      },
+      "backtest_reference": {
+        "workflow_run_id": 45863181833,
+        "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45863181833",
+        "result_artifact_id": 15138679139,
+        "result_artifact_name": "frozen-indicator-backtest-results"
+      },
+      "limitations": [
+        "Selection holdout is a finite historical window and was used to select instrument candidates; it is not an independent pass.",
+        "A further non-overlapping replay is required before any paper-trading discussion.",
+        "Historical OHLCV does not model order-book depth, queue position, market impact, liquidation, outages, or all exchange execution mechanics."
+      ],
+      "instrument_scope": [
+        "XRP-USDT-SWAP"
+      ],
+      "selection_holdout_metrics": {
+        "trades": 62,
+        "wins": 28,
+        "losses": 34,
+        "win_rate_pct": 45.161,
+        "net_R": 14.470943,
+        "expectancy_R": 0.233402,
+        "profit_factor": 1.379281,
+        "max_drawdown_R": 9.53426,
+        "net_R_at_0_10pct_roundtrip": 16.662075,
+        "net_R_at_0_20pct_roundtrip": 11.184248
+      },
+      "selection_decision": "Preliminary gates met on the selection holdout (at least 20 trades, positive net R, PF > 1.10). Frozen for the next non-overlapping independent replay; not approved for paper trading."
     }
   ]
 }
