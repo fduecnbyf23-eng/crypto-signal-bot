@@ -2,6 +2,11 @@ name: Diagnose ETH Funding Timestamps 2023-2024
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - indicator-research-preparation
+    paths:
+      - .github/workflows/diagnose-eth-funding-timestamps.yml
 
 permissions:
   contents: read
