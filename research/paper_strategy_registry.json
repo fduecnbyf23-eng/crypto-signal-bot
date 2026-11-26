@@ -72,7 +72,7 @@
       "strategy_id": "XRP_SHORT_4H",
       "name": "XRP SHORT 4H",
       "enabled": false,
-      "status": "INACTIVE_RULES_MISSING",
+      "status": "INACTIVE_STOP_ANCHOR_UNCONFIRMED",
       "market": "OKX USDT-SWAP",
       "symbols": [
         "XRP-USDT-SWAP"
@@ -135,7 +135,7 @@
       "strategy_id": "SOL_SHORT_4H",
       "name": "SOL SHORT 4H",
       "enabled": false,
-      "status": "INACTIVE_RULES_MISSING",
+      "status": "INACTIVE_STOP_ANCHOR_UNCONFIRMED",
       "market": "OKX USDT-SWAP",
       "symbols": [
         "SOL-USDT-SWAP"
@@ -195,7 +195,7 @@
       "strategy_id": "BNB_LONG_4H",
       "name": "BNB LONG 4H",
       "enabled": false,
-      "status": "INACTIVE_RULES_MISSING",
+      "status": "INACTIVE_STOP_ANCHOR_UNCONFIRMED",
       "market": "OKX USDT-SWAP",
       "symbols": [
         "BNB-USDT-SWAP"
