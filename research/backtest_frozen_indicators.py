@@ -90,7 +90,7 @@ def simulate(rows, features, tf, long_flag, short_flag, market, symbol, strategy
         if not eligible:
             return trades, invalid_funding
         last_index = eligible[-1]
-    end_ts = int(rows[last_index]["timestamp_ms"]) + interval
+    end_ts = int(rows[last_index]["timestamp_ms"]) + interval - 1  # Exclude the exclusive data-window boundary from open-position funding.
 
     def finish(pos, exit_idx, exit_ts, raw_exit, reason, closed=True):
         nonlocal invalid_funding
