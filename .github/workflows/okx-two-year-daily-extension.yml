@@ -1,0 +1,50 @@
+name: OKX Two-Year Daily Candle Extension
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Daily candle history to download"
+        required: true
+        default: "730"
+        type: choice
+        options:
+          - "730"
+
+permissions:
+  contents: read
+
+jobs:
+  download-daily-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile downloader and audit
+        run: |
+          python -m py_compile research/download_okx_candles.py
+          python -m py_compile research/download_okx_daily_2y.py
+          python -m py_compile research/audit_okx_daily_2y.py
+
+      - name: Download two years of closed daily candles
+        run: python research/download_okx_daily_2y.py --days "${{ inputs.days }}" --out research-daily-2y
+
+      - name: Validate daily archive
+        run: python research/audit_okx_daily_2y.py research-daily-2y
+
+      - name: Upload daily archive and audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: okx-daily-candles-2-years
+          path: research-daily-2y/
+          if-no-files-found: error
+          retention-days: 30
