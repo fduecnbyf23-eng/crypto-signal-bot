@@ -252,8 +252,9 @@ def summarize(trades, invalid_funding):
     valid_funding = invalid_funding == 0
     return {
         "trades_closed": len(closed), "open_at_end": len(opens),
-        "wins": len(wins), "losses": len(losses),
-        "win_rate_pct": round(100*len(wins)/len(closed), 3) if closed else "",
+        "wins": len(wins) if valid_funding else "",
+        "losses": len(losses) if valid_funding else "",
+        "win_rate_pct": round(100*len(wins)/len(closed), 3) if closed and valid_funding else "",
         "net_R": round(total, 6) if valid_funding else "",
         "expectancy_R": round(total/len(closed), 6) if closed and valid_funding else "",
         "profit_factor": (round(gross_profit/gross_loss, 6) if gross_loss else ("INF" if gross_profit else "")) if valid_funding else "",
@@ -329,6 +330,23 @@ def main():
                         "holdout_start_utc": "2026-05-25T00:00:00+00:00",
                         **summarize(trades, invalid)
                     })
+    # Aggregate by market/timeframe/strategy/exit mode/period; sort chronologically for drawdown.
+    groups = defaultdict(list)
+    for trade in all_trades:
+        key = (trade["market"], trade["timeframe"], trade["strategy"], trade["exit_mode"], trade["period"])
+        groups[key].append(trade)
+    for key, group_trades in groups.items():
+        group_trades.sort(key=lambda t: (t["exit_time_utc"] or "9999", t["entry_time_utc"]))
+        invalid = sum(1 for t in group_trades if t["funding_valid"] is False)
+        market, tf, strategy, exit_mode, period = key
+        summaries.append({
+            "aggregation_level": "ALL_SYMBOLS", "market": market, "symbol": "ALL",
+            "timeframe": tf, "strategy": strategy, "exit_mode": exit_mode, "period": period,
+            "holdout_start_utc": "2026-05-25T00:00:00+00:00" if tf == "1Dutc" else "2026-07-26T00:00:00+00:00",
+            **summarize(group_trades, invalid)
+        })
+    for row in summaries:
+        row.setdefault("aggregation_level", "SYMBOL")
     os.makedirs(args.output_dir, exist_ok=True)
     write_csv(os.path.join(args.output_dir, "trades.csv"), all_trades)
     write_csv(os.path.join(args.output_dir, "summary.csv"), summaries)
