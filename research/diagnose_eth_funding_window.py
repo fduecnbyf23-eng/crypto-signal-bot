@@ -11,32 +11,33 @@ def iso(ts):
     return datetime.fromtimestamp(ts/1000,timezone.utc).isoformat()
 
 def main():
-    rates={}
-    add_archive_rates("ETH-USDT-SWAP",START,END,rates)
-    stamps=sorted(rates)
-    expected=set(range(START,END,8*HOUR))
-    actual=set(stamps)
-    missing=sorted(expected-actual)
-    extra=sorted(actual-expected)
-    deltas=[b-a for a,b in zip(stamps,stamps[1:])]
     from collections import Counter
-    interval_counts=Counter(round(x/HOUR,3) for x in deltas)
-    offset_counts=Counter(((x-START)%(8*HOUR))//(60*1000) for x in stamps)
     os.makedirs("funding-diagnostic",exist_ok=True)
-    with open("funding-diagnostic/eth_funding_timestamps.csv","w",newline="",encoding="utf-8") as f:
-        w=csv.writer(f); w.writerow(["funding_time_ms","utc_time","rate"])
-        for ts in stamps: w.writerow([ts,iso(ts),rates[ts]["rate"]])
-    report={
-      "instrument":"ETH-USDT-SWAP","start_utc":iso(START),"end_utc_exclusive":iso(END),
-      "record_count":len(stamps),"unique_count":len(actual),
-      "missing_from_midnight_utc_8h_grid":len(missing),"off_grid_count":len(extra),
-      "first_timestamps":[iso(x) for x in stamps[:12]],
-      "last_timestamps":[iso(x) for x in stamps[-12:]],
-      "first_missing_expected":[iso(x) for x in missing[:20]],
-      "first_off_grid_actual":[iso(x) for x in extra[:20]],
-      "interval_hours_distribution":dict(sorted(interval_counts.items())),
-      "offset_minutes_from_utc_00_08_16_grid_distribution":dict(sorted(offset_counts.items()))
-    }
-    with open("funding-diagnostic/eth_funding_diagnostic.json","w",encoding="utf-8") as f: json.dump(report,f,indent=2)
-    print(json.dumps(report,indent=2),flush=True)
+    all_reports={}
+    for inst in ["BTC-USDT-SWAP","ETH-USDT-SWAP","SOL-USDT-SWAP","BNB-USDT-SWAP","XRP-USDT-SWAP"]:
+        rates={}
+        add_archive_rates(inst,START,END,rates)
+        stamps=sorted(rates)
+        expected=list(range(START,END,8*HOUR))
+        deltas=[b-a for a,b in zip(stamps,stamps[1:])]
+        offsets=[ts-expected[min(range(len(expected)),key=lambda i:abs(expected[i]-ts))] for ts in stamps] if stamps else []
+        interval_counts=Counter(round(x/1000,3) for x in deltas)
+        nearest_offsets=Counter(x for x in offsets)
+        report={
+          "instrument":inst,"start_utc":iso(START),"end_utc_exclusive":iso(END),
+          "record_count":len(stamps),"unique_count":len(set(stamps)),
+          "count_within_5_seconds_of_expected_grid":sum(abs(x)<=5000 for x in offsets),
+          "count_outside_5_seconds_of_expected_grid":sum(abs(x)>5000 for x in offsets),
+          "first_timestamps":[iso(x) for x in stamps[:6]],
+          "last_timestamps":[iso(x) for x in stamps[-6:]],
+          "offset_ms_distribution":dict(sorted(nearest_offsets.items())),
+          "interval_seconds_distribution":dict(sorted(interval_counts.items()))
+        }
+        all_reports[inst]=report
+        safe=inst.replace("-","_")
+        with open(f"funding-diagnostic/{safe}_funding_timestamps.csv","w",newline="",encoding="utf-8") as f:
+            w=csv.writer(f); w.writerow(["funding_time_ms","utc_time","rate"])
+            for ts in stamps: w.writerow([ts,iso(ts),rates[ts]["rate"]])
+    with open("funding-diagnostic/funding_timestamp_diagnostic_all5.json","w",encoding="utf-8") as f: json.dump(all_reports,f,indent=2)
+    print(json.dumps(all_reports,indent=2),flush=True)
 if __name__=="__main__": main()
