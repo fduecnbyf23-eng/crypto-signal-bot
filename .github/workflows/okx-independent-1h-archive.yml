@@ -8,6 +8,7 @@ on:
       - ".github/workflows/okx-independent-1h-archive.yml"
       - "research/download_okx_candles_window.py"
       - "research/download_okx_funding_window.py"
+      - "research/download_okx_funding_archive.py"
       - "research/audit_independent_1h_archive.py"
   workflow_dispatch:
 
