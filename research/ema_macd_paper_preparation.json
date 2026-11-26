@@ -51,13 +51,13 @@
     }
   },
   "evidence_gate": {
-    "minimum_aggregate_closed_trades": 100,
-    "minimum_closed_trades_per_contributing_symbol": 20,
-    "minimum_profit_factor": 1.1,
-    "net_expectancy_after_fees_slippage_and_funding_must_be_positive": true,
+    "minimum_aggregate_closed_trades_for_strategy_promotion": 100,
+    "minimum_closed_trades_per_symbol_for_strategy_promotion": 20,
+    "minimum_profit_factor_for_strategy_promotion": 1.1,
+    "net_expectancy_after_fees_slippage_and_funding_must_be_positive_for_strategy_promotion": true,
     "must_report_drawdown_and_monthly_results": true,
-    "independent_validation_required_before_paper_approval": true,
-    "explicit_user_approval_required_before_paper_trading": true
+    "independent_validation_required_before_strategy_promotion": true,
+    "explicit_user_approval_required_before_any_future_live_trading": true
   },
   "safety": [
     "Exploratory virtual-only paper simulation; it is not evidence that the strategy is profitable or validated.",
