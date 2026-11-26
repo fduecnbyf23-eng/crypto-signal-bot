@@ -1,0 +1,105 @@
+{
+  "updated_utc": "2026-11-26T20:25:39.218325+00:00",
+  "mode": "PAPER_ONLY_NO_ORDERS",
+  "strategy": "RSI(14) crosses down through 70; SHORT next 1H candle",
+  "stop_anchor": "SIGNAL_CANDLE_CLOSE_PROVISIONAL",
+  "stop_anchor_note": "Recovered notes specify 1.5 ATR but do not confirm the stop anchor. This simulator provisionally anchors the stop 1.5*ATR above the signal-candle close. This is an explicit paper-only assumption, not a verified original rule.",
+  "stop_distance": "1.5 * ATR(14)",
+  "take_profit": "2R from actual next-candle entry",
+  "fee_per_side_pct": 0.05,
+  "slippage_per_side_pct": 0.02,
+  "funding": "Actual OKX historical funding; missing/insufficient records fail closed.",
+  "same_candle_stop_and_target": "STOP_FIRST",
+  "strategy_accounts": {
+    "RSI70_BTC_SHORT_1H": {
+      "strategy_name": "RSI70 BTC SHORT 1H",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
+      "symbol": "BTC-USDT-SWAP",
+      "direction": "SHORT",
+      "timeframe": "1H",
+      "metrics": {
+        "starting_balance_usdt": 1000.0,
+        "balance_usdt": 1000.0,
+        "realized_pnl_usdt": 0.0,
+        "order_size_usdt": 10.0,
+        "closed_trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "open_position": null,
+        "pending_signal": null,
+        "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00",
+        "trades": []
+      },
+      "historical_reference": {
+        "status": "conversation_recovered_not_source_verified",
+        "closed_trades": 26,
+        "net_R": 8.4,
+        "profit_factor": 1.538,
+        "note": "Per-symbol metrics recalled from the earlier RSI70 cross-down research summary; original source report/trade log not yet verified. Not a guarantee of future performance."
+      }
+    },
+    "RSI70_BNB_SHORT_1H": {
+      "strategy_name": "RSI70 BNB SHORT 1H",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
+      "symbol": "BNB-USDT-SWAP",
+      "direction": "SHORT",
+      "timeframe": "1H",
+      "metrics": {
+        "starting_balance_usdt": 1000.0,
+        "balance_usdt": 1000.0,
+        "realized_pnl_usdt": 0.0,
+        "order_size_usdt": 10.0,
+        "closed_trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "open_position": null,
+        "pending_signal": null,
+        "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00",
+        "trades": []
+      },
+      "historical_reference": {
+        "status": "conversation_recovered_not_source_verified",
+        "closed_trades": 39,
+        "net_R": 8.78,
+        "profit_factor": 1.359,
+        "note": "Per-symbol metrics recalled from the earlier RSI70 cross-down research summary; original source report/trade log not yet verified. Not a guarantee of future performance."
+      }
+    },
+    "RSI70_XRP_SHORT_1H": {
+      "strategy_name": "RSI70 XRP SHORT 1H",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
+      "symbol": "XRP-USDT-SWAP",
+      "direction": "SHORT",
+      "timeframe": "1H",
+      "metrics": {
+        "starting_balance_usdt": 1000.0,
+        "balance_usdt": 1000.0,
+        "realized_pnl_usdt": 0.0,
+        "order_size_usdt": 10.0,
+        "closed_trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "open_position": null,
+        "pending_signal": null,
+        "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00",
+        "trades": []
+      },
+      "historical_reference": {
+        "status": "conversation_recovered_not_source_verified",
+        "closed_trades": 30,
+        "net_R": 15.55,
+        "profit_factor": 2.034,
+        "note": "Per-symbol metrics recalled from the earlier RSI70 cross-down research summary; original source report/trade log not yet verified. Not a guarantee of future performance."
+      }
+    }
+  }
+}
