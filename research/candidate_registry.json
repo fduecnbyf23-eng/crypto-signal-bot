@@ -405,7 +405,7 @@
     },
     {
       "candidate_id": "OKX_SWAP_VWAP_EMA_SHORT_1H_ETH",
-      "status": "NEEDS_INDEPENDENT_TEST",
+      "status": "REJECTED",
       "market": "SWAP",
       "exchange": "OKX",
       "timeframe": "1H",
@@ -469,11 +469,55 @@
         "net_R_at_0_10pct_roundtrip": 4.991771,
         "net_R_at_0_20pct_roundtrip": 0.738192
       },
-      "selection_decision": "Preliminary gates met on the selection holdout (at least 20 trades, positive net R, PF > 1.10). Frozen for the next non-overlapping independent replay; not approved for paper trading."
+      "selection_decision": "Preliminary gates met on the selection holdout (at least 20 trades, positive net R, PF > 1.10). Frozen for the next non-overlapping independent replay; not approved for paper trading.",
+      "independent_test_window_utc": {
+        "start_inclusive": "2024-11-26T00:00:00Z",
+        "end_exclusive": "2025-11-26T00:00:00Z"
+      },
+      "independent_test_metrics": {
+        "closed_trades": 116,
+        "win_rate_pct": 31.897,
+        "net_R": -14.453736,
+        "expectancy_R": -0.124601,
+        "profit_factor": 0.831349,
+        "max_drawdown_R": 21.314655,
+        "net_R_at_0_10pct_roundtrip": -11.673882,
+        "net_R_at_0_20pct_roundtrip": -18.623522
+      },
+      "independent_test_aggregate_all5": {
+        "closed_trades": 558,
+        "wins": 193,
+        "losses": 365,
+        "win_rate_pct": 34.588,
+        "net_R": -31.763101,
+        "expectancy_R": -0.056923,
+        "profit_factor": 0.920509,
+        "max_drawdown_R": 76.410098,
+        "net_R_at_0_10pct_roundtrip": -16.441035,
+        "net_R_at_0_20pct_roundtrip": -54.746188,
+        "invalid_funding_trades": 0,
+        "funding_valid": true
+      },
+      "independent_test_reference": {
+        "workflow_run_id": 45870953646,
+        "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45870953646",
+        "result_artifact_id": 15142821865,
+        "result_artifact_name": "independent-vwap-ema-short-2024-2025"
+      },
+      "rejection_reason": "The frozen candidate failed its further non-overlapping independent replay: this instrument had negative net R and PF below 1.10. The five-symbol aggregate was also negative (−31.763R, PF 0.921). No retuning on this independent period or promotion to paper trading is permitted.",
+      "independent_test_data_quality": {
+        "hourly_candles_per_instrument": 8760,
+        "hourly_candle_gaps": 0,
+        "funding_records_per_swap_instrument": 1095,
+        "missing_funding_records": 0,
+        "invalid_funding_trades": 0,
+        "funding_valid": true,
+        "open_positions_at_end": 0
+      }
     },
     {
       "candidate_id": "OKX_SWAP_VWAP_EMA_SHORT_1H_SOL",
-      "status": "NEEDS_INDEPENDENT_TEST",
+      "status": "REJECTED",
       "market": "SWAP",
       "exchange": "OKX",
       "timeframe": "1H",
@@ -537,7 +581,51 @@
         "net_R_at_0_10pct_roundtrip": 6.470117,
         "net_R_at_0_20pct_roundtrip": 2.76642
       },
-      "selection_decision": "Preliminary gates met on the selection holdout (at least 20 trades, positive net R, PF > 1.10). Frozen for the next non-overlapping independent replay; not approved for paper trading."
+      "selection_decision": "Preliminary gates met on the selection holdout (at least 20 trades, positive net R, PF > 1.10). Frozen for the next non-overlapping independent replay; not approved for paper trading.",
+      "independent_test_window_utc": {
+        "start_inclusive": "2024-11-26T00:00:00Z",
+        "end_exclusive": "2025-11-26T00:00:00Z"
+      },
+      "independent_test_metrics": {
+        "closed_trades": 127,
+        "win_rate_pct": 35.433,
+        "net_R": -1.149429,
+        "expectancy_R": -0.009051,
+        "profit_factor": 0.98695,
+        "max_drawdown_R": 13.933354,
+        "net_R_at_0_10pct_roundtrip": 1.431565,
+        "net_R_at_0_20pct_roundtrip": -5.020929
+      },
+      "independent_test_aggregate_all5": {
+        "closed_trades": 558,
+        "wins": 193,
+        "losses": 365,
+        "win_rate_pct": 34.588,
+        "net_R": -31.763101,
+        "expectancy_R": -0.056923,
+        "profit_factor": 0.920509,
+        "max_drawdown_R": 76.410098,
+        "net_R_at_0_10pct_roundtrip": -16.441035,
+        "net_R_at_0_20pct_roundtrip": -54.746188,
+        "invalid_funding_trades": 0,
+        "funding_valid": true
+      },
+      "independent_test_reference": {
+        "workflow_run_id": 45870953646,
+        "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45870953646",
+        "result_artifact_id": 15142821865,
+        "result_artifact_name": "independent-vwap-ema-short-2024-2025"
+      },
+      "rejection_reason": "The frozen candidate failed its further non-overlapping independent replay: this instrument had negative net R and PF below 1.10. The five-symbol aggregate was also negative (−31.763R, PF 0.921). No retuning on this independent period or promotion to paper trading is permitted.",
+      "independent_test_data_quality": {
+        "hourly_candles_per_instrument": 8760,
+        "hourly_candle_gaps": 0,
+        "funding_records_per_swap_instrument": 1095,
+        "missing_funding_records": 0,
+        "invalid_funding_trades": 0,
+        "funding_valid": true,
+        "open_positions_at_end": 0
+      }
     },
     {
       "candidate_id": "OKX_SWAP_VWAP_EMA_SHORT_1H_BNB",
@@ -609,7 +697,7 @@
     },
     {
       "candidate_id": "OKX_SWAP_VWAP_EMA_SHORT_1H_XRP",
-      "status": "NEEDS_INDEPENDENT_TEST",
+      "status": "REJECTED",
       "market": "SWAP",
       "exchange": "OKX",
       "timeframe": "1H",
@@ -673,7 +761,51 @@
         "net_R_at_0_10pct_roundtrip": 16.662075,
         "net_R_at_0_20pct_roundtrip": 11.184248
       },
-      "selection_decision": "Preliminary gates met on the selection holdout (at least 20 trades, positive net R, PF > 1.10). Frozen for the next non-overlapping independent replay; not approved for paper trading."
+      "selection_decision": "Preliminary gates met on the selection holdout (at least 20 trades, positive net R, PF > 1.10). Frozen for the next non-overlapping independent replay; not approved for paper trading.",
+      "independent_test_window_utc": {
+        "start_inclusive": "2024-11-26T00:00:00Z",
+        "end_exclusive": "2025-11-26T00:00:00Z"
+      },
+      "independent_test_metrics": {
+        "closed_trades": 119,
+        "win_rate_pct": 33.613,
+        "net_R": -8.359629,
+        "expectancy_R": -0.070249,
+        "profit_factor": 0.901775,
+        "max_drawdown_R": 20.565431,
+        "net_R_at_0_10pct_roundtrip": -5.613962,
+        "net_R_at_0_20pct_roundtrip": -12.478117
+      },
+      "independent_test_aggregate_all5": {
+        "closed_trades": 558,
+        "wins": 193,
+        "losses": 365,
+        "win_rate_pct": 34.588,
+        "net_R": -31.763101,
+        "expectancy_R": -0.056923,
+        "profit_factor": 0.920509,
+        "max_drawdown_R": 76.410098,
+        "net_R_at_0_10pct_roundtrip": -16.441035,
+        "net_R_at_0_20pct_roundtrip": -54.746188,
+        "invalid_funding_trades": 0,
+        "funding_valid": true
+      },
+      "independent_test_reference": {
+        "workflow_run_id": 45870953646,
+        "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45870953646",
+        "result_artifact_id": 15142821865,
+        "result_artifact_name": "independent-vwap-ema-short-2024-2025"
+      },
+      "rejection_reason": "The frozen candidate failed its further non-overlapping independent replay: this instrument had negative net R and PF below 1.10. The five-symbol aggregate was also negative (−31.763R, PF 0.921). No retuning on this independent period or promotion to paper trading is permitted.",
+      "independent_test_data_quality": {
+        "hourly_candles_per_instrument": 8760,
+        "hourly_candle_gaps": 0,
+        "funding_records_per_swap_instrument": 1095,
+        "missing_funding_records": 0,
+        "invalid_funding_trades": 0,
+        "funding_valid": true,
+        "open_positions_at_end": 0
+      }
     }
   ]
 }
