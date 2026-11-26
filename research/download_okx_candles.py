@@ -12,7 +12,7 @@ from datetime import datetime, timedelta, timezone
 BASE = "https://www.okx.com/api/v5/market/history-candles"
 SPOT = ["BTC-USDT", "ETH-USDT", "SOL-USDT", "BNB-USDT", "XRP-USDT"]
 SWAPS = [f"{s}-SWAP" for s in SPOT]
-TIMEFRAMES = ["15m", "1H", "4H"]
+TIMEFRAMES = ["15m", "1H", "4H", "1Dutc"]
 FIELDS = ["timestamp_ms", "utc_time", "open", "high", "low", "close",
           "volume", "volume_currency", "volume_quote", "confirm"]
 _last_request = 0.0
@@ -69,7 +69,7 @@ def download(inst_id, bar, cutoff_ms):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--days", type=int, default=90)
+    parser.add_argument("--days", type=int, default=365)
     parser.add_argument("--out", default="research-data")
     args = parser.parse_args()
     if not 30 <= args.days <= 365:
