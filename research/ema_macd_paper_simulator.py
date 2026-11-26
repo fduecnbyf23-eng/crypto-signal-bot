@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Isolated, virtual-only EMA/MACD paper simulator. Never sends orders or Telegram messages."""
+"""Isolated, virtual-only multi-strategy paper simulator. Never sends orders or Telegram messages."""
 import json
 import math
 import os
@@ -17,6 +17,8 @@ SLIPPAGE_SIDE = 0.0002
 BAR_SECONDS = 4 * 60 * 60
 STATE_PATH = "research/paper_simulator_state.json"
 REPORT_PATH = "research/paper_simulator_report.json"
+REGISTRY_PATH = "research/paper_strategy_registry.json"
+ACTIVE_STRATEGY_ID = "EMA_MACD_SHORT_4H_BTC_ETH"
 
 
 def utc_now():
@@ -120,7 +122,7 @@ def close_position(state, symbol, position, exit_raw, reason, exit_ts):
     state["balance_usdt"] += net
     state["realized_pnl_usdt"] += net
     trade = {
-        "symbol": symbol, "direction": "SHORT", "entry_time_utc": position["entry_time_utc"],
+        "strategy_id": ACTIVE_STRATEGY_ID, "symbol": symbol, "direction": "SHORT", "entry_time_utc": position["entry_time_utc"],
         "exit_time_utc": datetime.fromtimestamp(exit_ts / 1000, timezone.utc).isoformat(),
         "entry_price": position["entry_fill"], "exit_price": exit_fill, "quantity": qty,
         "stop": position["stop"], "target": position["target"], "exit_reason": reason,
@@ -217,10 +219,12 @@ def main():
     for symbol in SYMBOLS:
         process_symbol(state, symbol)
     save_json(STATE_PATH, state)
+    registry = load_json(REGISTRY_PATH, {"strategies": []})
     summary = {
         "updated_utc": utc_now(), "mode": "PAPER_ONLY_NO_ORDERS",
         "starting_balance_usdt": START_BALANCE, "balance_usdt": round(state["balance_usdt"], 8),
         "realized_pnl_usdt": round(state["realized_pnl_usdt"], 8),
+        "strategy_accounts": {},
         "symbols": {}
     }
     for symbol, book in state["symbols"].items():
@@ -246,6 +250,30 @@ def main():
             "open_position": book["position"], "pending_signal": book["pending_signal"],
             "latest_closed_candle_utc": book.get("latest_closed_candle_utc")
         }
+    all_trades = [t for book in state["symbols"].values() for t in book["trades"]]
+    for strategy in registry.get("strategies", []):
+        sid = strategy["strategy_id"]
+        if sid == ACTIVE_STRATEGY_ID:
+            trades = all_trades
+            wins = sum(1 for t in trades if t["net_pnl_usdt"] > 0)
+            gross_wins = sum(t["net_pnl_usdt"] for t in trades if t["net_pnl_usdt"] > 0)
+            gross_losses = abs(sum(t["net_pnl_usdt"] for t in trades if t["net_pnl_usdt"] < 0))
+            account = {"enabled": True, "status": "ACTIVE_PAPER", "starting_balance_usdt": START_BALANCE,
+                       "balance_usdt": round(state["balance_usdt"], 8),
+                       "realized_pnl_usdt": round(state["realized_pnl_usdt"], 8),
+                       "order_size_usdt": ORDER_USDT, "closed_trades": len(trades),
+                       "wins": wins, "losses": len(trades)-wins,
+                       "win_rate_pct": round(100*wins/len(trades), 2) if trades else None,
+                       "profit_factor": round(gross_wins/gross_losses, 4) if gross_losses else (None if not gross_wins else "INF"),
+                       "historical_reference": strategy.get("historical_reference")}
+        else:
+            account = {"enabled": False, "status": strategy.get("status", "INACTIVE_RULES_MISSING"),
+                       "starting_balance_usdt": START_BALANCE, "balance_usdt": START_BALANCE,
+                       "realized_pnl_usdt": 0.0, "order_size_usdt": ORDER_USDT,
+                       "closed_trades": 0, "wins": 0, "losses": 0, "win_rate_pct": None,
+                       "profit_factor": None, "historical_reference": strategy.get("historical_reference"),
+                       "note": "No trades generated: exact entry/exit rules have not been recovered."}
+        summary["strategy_accounts"][sid] = {"strategy_name": strategy.get("name", sid), **account}
     save_json(REPORT_PATH, summary)
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 
