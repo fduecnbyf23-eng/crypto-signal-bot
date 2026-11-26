@@ -1,0 +1,51 @@
+name: Cross-exchange EMA MACD frozen validation
+
+on:
+  push:
+    branches:
+      - cross-exchange-ema-macd-validation
+    paths:
+      - research/cross_exchange_ema_macd_audit.py
+      - research/indicator_features.py
+      - .github/workflows/cross-exchange-ema-macd-validation.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cross-exchange-ema-macd-validation
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: cross-exchange-ema-macd-validation
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile frozen research code
+        run: |
+          python -m py_compile research/indicator_features.py research/cross_exchange_ema_macd_audit.py
+
+      - name: Download Binance and Bybit public candles and funding; replay frozen rules
+        env:
+          PYTHONPATH: research
+        run: python research/cross_exchange_ema_macd_audit.py
+
+      - name: Upload cross-exchange audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cross-exchange-ema-macd-audit
+          path: cross-exchange-results/
+          if-no-files-found: warn
+          retention-days: 30
