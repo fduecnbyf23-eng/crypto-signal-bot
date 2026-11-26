@@ -6,6 +6,7 @@ on:
       - indicator-research-preparation
     paths:
       - ".github/workflows/independent-rsi-short-validation.yml"
+      - "research/backtest_frozen_indicators.py"
   workflow_dispatch:
 
 permissions:
