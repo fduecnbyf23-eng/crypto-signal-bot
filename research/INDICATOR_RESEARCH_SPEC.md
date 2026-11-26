@@ -70,3 +70,18 @@ No other combinations, filters, parameter grids, or symbol-specific tuning are a
 - Historical OHLCV backtests do not model order-book depth, queue position, market impact, liquidation, outages, or all exchange execution mechanics.
 - Feature calculation success is not evidence of strategy profitability.
 - This is isolated research only; no production bot file, Telegram workflow, API secret, or order endpoint is used.
+
+
+## 8. One preselected candidate for a genuinely independent replay
+The first frozen comparison is complete. It produced one candidate worth a further independent check; this is not an approval:
+- Instrument universe: the five listed OKX USDT-SWAP contracts only.
+- Timeframe: 1H only.
+- Direction: SHORT only.
+- Entry: after a closed 1H candle where RSI(14) crosses from >=70 to <70; enter at the next 1H candle open.
+- Stop: 1.5 × ATR(14) from actual entry; target: 2R.
+- One open position per symbol; stop-first on same-candle ambiguity.
+- Costs: 0.05% taker fee and 0.02% slippage per side; report the frozen 0.10% and 0.20% round-trip cost sensitivities.
+- Funding: actual historical OKX funding timestamps; entry notional held constant for funding cashflow; missing expected 8-hour records invalidates the affected result.
+- Independent, non-overlapping replay window: 2024-11-26 00:00 UTC inclusive to 2025-11-26 00:00 UTC exclusive. This period was not used in the first one-year comparison.
+- No parameter, direction, timeframe, stop, target, or signal changes are permitted after this freeze. Do not promote any other strategy from the first comparison into this independent replay.
+- Passing this independent replay would only justify discussing a separately approved paper-trading phase; it does not authorize paper or live orders.
