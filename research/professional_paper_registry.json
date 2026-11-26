@@ -1,0 +1,326 @@
+{
+  "version": 1,
+  "mode": "PAPER_ONLY_NO_ORDERS",
+  "created_utc": "2026-11-27",
+  "strategies": [
+    {
+      "strategy_id": "DONCHIAN_ENSEMBLE_BTC_1H",
+      "symbol": "BTC-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "DONCHIAN_ENSEMBLE"
+    },
+    {
+      "strategy_id": "DONCHIAN_ENSEMBLE_BTC_4H",
+      "symbol": "BTC-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "DONCHIAN_ENSEMBLE"
+    },
+    {
+      "strategy_id": "DONCHIAN_ENSEMBLE_ETH_1H",
+      "symbol": "ETH-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "DONCHIAN_ENSEMBLE"
+    },
+    {
+      "strategy_id": "DONCHIAN_ENSEMBLE_ETH_4H",
+      "symbol": "ETH-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "DONCHIAN_ENSEMBLE"
+    },
+    {
+      "strategy_id": "DONCHIAN_ENSEMBLE_SOL_1H",
+      "symbol": "SOL-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "DONCHIAN_ENSEMBLE"
+    },
+    {
+      "strategy_id": "DONCHIAN_ENSEMBLE_SOL_4H",
+      "symbol": "SOL-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "DONCHIAN_ENSEMBLE"
+    },
+    {
+      "strategy_id": "DONCHIAN_ENSEMBLE_BNB_1H",
+      "symbol": "BNB-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "DONCHIAN_ENSEMBLE"
+    },
+    {
+      "strategy_id": "DONCHIAN_ENSEMBLE_BNB_4H",
+      "symbol": "BNB-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "DONCHIAN_ENSEMBLE"
+    },
+    {
+      "strategy_id": "DONCHIAN_ENSEMBLE_XRP_1H",
+      "symbol": "XRP-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "DONCHIAN_ENSEMBLE"
+    },
+    {
+      "strategy_id": "DONCHIAN_ENSEMBLE_XRP_4H",
+      "symbol": "XRP-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "DONCHIAN_ENSEMBLE"
+    },
+    {
+      "strategy_id": "TURTLE_STYLE_BTC_1H",
+      "symbol": "BTC-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "TURTLE_STYLE"
+    },
+    {
+      "strategy_id": "TURTLE_STYLE_BTC_4H",
+      "symbol": "BTC-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "TURTLE_STYLE"
+    },
+    {
+      "strategy_id": "TURTLE_STYLE_ETH_1H",
+      "symbol": "ETH-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "TURTLE_STYLE"
+    },
+    {
+      "strategy_id": "TURTLE_STYLE_ETH_4H",
+      "symbol": "ETH-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "TURTLE_STYLE"
+    },
+    {
+      "strategy_id": "TURTLE_STYLE_SOL_1H",
+      "symbol": "SOL-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "TURTLE_STYLE"
+    },
+    {
+      "strategy_id": "TURTLE_STYLE_SOL_4H",
+      "symbol": "SOL-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "TURTLE_STYLE"
+    },
+    {
+      "strategy_id": "TURTLE_STYLE_BNB_1H",
+      "symbol": "BNB-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "TURTLE_STYLE"
+    },
+    {
+      "strategy_id": "TURTLE_STYLE_BNB_4H",
+      "symbol": "BNB-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "TURTLE_STYLE"
+    },
+    {
+      "strategy_id": "TURTLE_STYLE_XRP_1H",
+      "symbol": "XRP-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "TURTLE_STYLE"
+    },
+    {
+      "strategy_id": "TURTLE_STYLE_XRP_4H",
+      "symbol": "XRP-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "TURTLE_STYLE"
+    },
+    {
+      "strategy_id": "HOLY_GRAIL_BTC_1H",
+      "symbol": "BTC-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "HOLY_GRAIL"
+    },
+    {
+      "strategy_id": "HOLY_GRAIL_BTC_4H",
+      "symbol": "BTC-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "HOLY_GRAIL"
+    },
+    {
+      "strategy_id": "HOLY_GRAIL_ETH_1H",
+      "symbol": "ETH-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "HOLY_GRAIL"
+    },
+    {
+      "strategy_id": "HOLY_GRAIL_ETH_4H",
+      "symbol": "ETH-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "HOLY_GRAIL"
+    },
+    {
+      "strategy_id": "HOLY_GRAIL_SOL_1H",
+      "symbol": "SOL-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "HOLY_GRAIL"
+    },
+    {
+      "strategy_id": "HOLY_GRAIL_SOL_4H",
+      "symbol": "SOL-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "HOLY_GRAIL"
+    },
+    {
+      "strategy_id": "HOLY_GRAIL_BNB_1H",
+      "symbol": "BNB-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "HOLY_GRAIL"
+    },
+    {
+      "strategy_id": "HOLY_GRAIL_BNB_4H",
+      "symbol": "BNB-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "HOLY_GRAIL"
+    },
+    {
+      "strategy_id": "HOLY_GRAIL_XRP_1H",
+      "symbol": "XRP-USDT-SWAP",
+      "timeframe": "1H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "HOLY_GRAIL"
+    },
+    {
+      "strategy_id": "HOLY_GRAIL_XRP_4H",
+      "symbol": "XRP-USDT-SWAP",
+      "timeframe": "4H",
+      "starting_balance_usdt": 1000,
+      "order_size_usdt": 10,
+      "enabled": true,
+      "status": "EXPERIMENTAL_PAPER_ONLY",
+      "rule_family": "HOLY_GRAIL"
+    }
+  ],
+  "common": {
+    "market": "OKX USDT-SWAP",
+    "symbols": [
+      "BTC-USDT-SWAP",
+      "ETH-USDT-SWAP",
+      "SOL-USDT-SWAP",
+      "BNB-USDT-SWAP",
+      "XRP-USDT-SWAP"
+    ],
+    "timeframes": [
+      "1H",
+      "4H"
+    ],
+    "fee_per_side_pct": 0.05,
+    "slippage_per_side_pct": 0.02,
+    "funding": "Historical OKX funding-rate-history; stop/fail-closed if 100-record window does not cover an open position.",
+    "first_run": "Start at latest closed candle; no historical backfill.",
+    "note": "30 separate accounts; no private credentials, order endpoints, Telegram or production bot changes."
+  }
+}
