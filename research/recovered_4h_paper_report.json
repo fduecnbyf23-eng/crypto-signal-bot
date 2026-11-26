@@ -1,0 +1,107 @@
+{
+  "updated_utc": "2026-11-26T20:13:00.476485+00:00",
+  "mode": "PAPER_ONLY_NO_ORDERS",
+  "stop_anchor": "SIGNAL_CANDLE_CLOSE_PROVISIONAL",
+  "stop_anchor_note": "The recovered notes specify 1.5 ATR but do not identify the anchor. For safe, consistent paper-only operation this simulator provisionally anchors the stop 1.5*ATR from the signal candle close; this is an explicit assumption, not a claim that the original historical test used this exact convention.",
+  "fee_per_side_pct": 0.05,
+  "slippage_per_side_pct": 0.02,
+  "funding": "Actual OKX historical funding; missing/insufficient records fail closed.",
+  "strategy_accounts": {
+    "BNB_LONG_4H": {
+      "strategy_name": "BNB LONG 4H",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
+      "symbol": "BNB-USDT-SWAP",
+      "direction": "LONG",
+      "metrics": {
+        "starting_balance_usdt": 1000.0,
+        "balance_usdt": 1000.0,
+        "realized_pnl_usdt": 0.0,
+        "order_size_usdt": 10.0,
+        "closed_trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "open_position": null,
+        "pending_signal": null,
+        "latest_closed_candle_utc": "2026-11-26T16:00:00+00:00",
+        "trades": []
+      },
+      "historical_reference": {
+        "status": "conversation_recovered_not_source_verified",
+        "closed_trades": 57,
+        "first_test_net_R": 3.17,
+        "first_test_profit_factor": null,
+        "final_third_net_R": 1.71,
+        "final_third_profit_factor": null,
+        "note": "Metrics supplied by user from recovered historical notes; original trade log/script not yet found."
+      }
+    },
+    "XRP_SHORT_4H": {
+      "strategy_name": "XRP SHORT 4H",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
+      "symbol": "XRP-USDT-SWAP",
+      "direction": "SHORT",
+      "metrics": {
+        "starting_balance_usdt": 1000.0,
+        "balance_usdt": 1000.0,
+        "realized_pnl_usdt": 0.0,
+        "order_size_usdt": 10.0,
+        "closed_trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "open_position": null,
+        "pending_signal": null,
+        "latest_closed_candle_utc": "2026-11-26T16:00:00+00:00",
+        "trades": []
+      },
+      "historical_reference": {
+        "status": "conversation_recovered_not_source_verified",
+        "closed_trades": 62,
+        "wins": 26,
+        "losses": 36,
+        "win_rate_pct": 41.94,
+        "first_test_net_R": 12.75,
+        "first_test_profit_factor": 1.337,
+        "final_third_net_R": 4.13,
+        "final_third_profit_factor": 1.36,
+        "note": "Metrics supplied by user from recovered historical notes; original trade log/script not yet found."
+      }
+    },
+    "SOL_SHORT_4H": {
+      "strategy_name": "SOL SHORT 4H",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
+      "symbol": "SOL-USDT-SWAP",
+      "direction": "SHORT",
+      "metrics": {
+        "starting_balance_usdt": 1000.0,
+        "balance_usdt": 1000.0,
+        "realized_pnl_usdt": 0.0,
+        "order_size_usdt": 10.0,
+        "closed_trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "open_position": null,
+        "pending_signal": null,
+        "latest_closed_candle_utc": "2026-11-26T16:00:00+00:00",
+        "trades": []
+      },
+      "historical_reference": {
+        "status": "conversation_recovered_not_source_verified",
+        "closed_trades": 60,
+        "first_test_net_R": 3.04,
+        "first_test_profit_factor": 1.076,
+        "final_third_net_R": 1.94,
+        "final_third_profit_factor": 1.141,
+        "note": "Metrics supplied by user from recovered historical notes; original trade log/script not yet found."
+      }
+    }
+  }
+}

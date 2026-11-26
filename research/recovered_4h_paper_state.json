@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "created_utc": "2026-11-26T20:12:59.460656+00:00",
+  "accounts": {
+    "BNB_LONG_4H": {
+      "starting_balance_usdt": 1000.0,
+      "balance_usdt": 1000.0,
+      "realized_pnl_usdt": 0.0,
+      "last_processed_candle": 1795708800000,
+      "pending_signal": null,
+      "position": null,
+      "trades": [],
+      "latest_closed_candle_utc": "2026-11-26T16:00:00+00:00"
+    },
+    "XRP_SHORT_4H": {
+      "starting_balance_usdt": 1000.0,
+      "balance_usdt": 1000.0,
+      "realized_pnl_usdt": 0.0,
+      "last_processed_candle": 1795708800000,
+      "pending_signal": null,
+      "position": null,
+      "trades": [],
+      "latest_closed_candle_utc": "2026-11-26T16:00:00+00:00"
+    },
+    "SOL_SHORT_4H": {
+      "starting_balance_usdt": 1000.0,
+      "balance_usdt": 1000.0,
+      "realized_pnl_usdt": 0.0,
+      "last_processed_candle": 1795708800000,
+      "pending_signal": null,
+      "position": null,
+      "trades": [],
+      "latest_closed_candle_utc": "2026-11-26T16:00:00+00:00"
+    }
+  }
+}
