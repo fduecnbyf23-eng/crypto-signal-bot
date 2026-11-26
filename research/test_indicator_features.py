@@ -1,5 +1,5 @@
 import unittest
-from indicator_features import ema, rsi_wilder, atr_wilder, divergence_flags, build_features
+from indicator_features import ema, rsi_wilder, atr_wilder, divergence_flags, build_features, apply_timeframe_scope
 
 
 class IndicatorFeatureTests(unittest.TestCase):
@@ -25,6 +25,36 @@ class IndicatorFeatureTests(unittest.TestCase):
         self.assertFalse(any(bull[:9]))
         self.assertTrue(bull[9])
         self.assertFalse(any(bear))
+
+    def test_daily_scope_disables_intraday_only_families(self):
+        features = [{
+            'ema20': 100.0, 'ema_bull_stack': True,
+            'rsi14': 25.0, 'rsi_oversold': True, 'rsi_overbought': False,
+            'volume_ratio': 2.0, 'volume_confirm': True,
+            'vpvr_poc_100': 99.0, 'bb_upper': 110.0, 'bb_squeeze': True,
+            'macd': 1.0, 'macd_cross_up': True,
+            'vwap_utc_day': 101.0, 'vwap_bounce_long': True,
+        }]
+        scoped = apply_timeframe_scope(features, '1Dutc')
+        row = scoped[0]
+        self.assertEqual(row['ema20'], 100.0)
+        self.assertEqual(row['macd'], 1.0)
+        self.assertIsNone(row['rsi14'])
+        self.assertIsNone(row['volume_ratio'])
+        self.assertIsNone(row['vpvr_poc_100'])
+        self.assertIsNone(row['bb_upper'])
+        self.assertIsNone(row['vwap_utc_day'])
+        self.assertFalse(row['vwap_bounce_long'])
+
+    def test_rsi_overbought_is_exposed(self):
+        rows = []
+        for i in range(230):
+            close = 100+i
+            rows.append({'timestamp_ms':str(1764000000000+i*900000),'open':str(close),
+                         'high':str(close+1),'low':str(close-1),'close':str(close),
+                         'volume_quote':'1000','confirm':'1'})
+        features = build_features(rows)
+        self.assertTrue(features[-1]['rsi_overbought'])
 
     def test_prefix_is_independent_of_future_rows(self):
         rows = []
