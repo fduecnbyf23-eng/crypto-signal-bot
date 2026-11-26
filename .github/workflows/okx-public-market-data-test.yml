@@ -1,0 +1,35 @@
+name: OKX Public Market Data Feed Test
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: okx-market-data-feed-test
+  cancel-in-progress: false
+jobs:
+  read-only-feed-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: okx-market-data-feed-test
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install WebSocket client
+        run: python -m pip install --disable-pip-version-check "websockets>=12,<16"
+      - name: Compile test
+        run: python -m py_compile research/okx_public_market_data_test.py
+      - name: Connect to OKX public feed (read-only)
+        run: python research/okx_public_market_data_test.py
+      - name: Upload diagnostic report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: okx-public-market-data-test-report
+          path: research/okx_market_data_test_report.json
+          if-no-files-found: warn
+          retention-days: 30
