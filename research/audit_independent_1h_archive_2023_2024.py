@@ -25,9 +25,13 @@ def main():
     if len(fm.get("instruments",{}))!=5: raise SystemExit("Unexpected funding manifest")
     for s in SYMBOLS:
       inst=f"{s}-USDT-SWAP"; rows=read(os.path.join(folder,f"{s}_USDT_SWAP_funding.csv")); ts=[int(x["funding_time_ms"]) for x in rows]
-      expected=list(range(START,END,8*HOUR)); missing=sum(1 for t in expected if t not in set(ts))
-      valid=len(rows)==1095 and ts[0]==START and ts[-1]==END-8*HOUR and len(set(ts))==1095 and missing==0
-      report["funding_sets"][inst]={"records":len(rows),"missing":missing,"valid":valid}
+      source_ts=[int(x.get("source_funding_time_ms",x["funding_time_ms"])) for x in rows]
+      expected=list(range(START,END,8*HOUR)); missing=len(set(expected)-set(ts))
+      drift=[abs(a-b) for a,b in zip(source_ts,ts)]
+      source_in_window=all(START<=t<END for t in source_ts)
+      valid=(len(rows)==1095 and ts==expected and len(set(ts))==1095 and missing==0
+             and source_in_window and len(source_ts)==1095 and max(drift,default=10**9)<=30000)
+      report["funding_sets"][inst]={"records":len(rows),"missing":missing,"max_source_timestamp_drift_ms":max(drift,default=None),"source_timestamps_in_window":source_in_window,"valid":valid}
       report["all_valid"] &= valid
     with open(os.path.join(folder,"independent_1h_audit_report.json"),"w",encoding="utf-8") as f: json.dump(report,f,indent=2)
     if not report["all_valid"]: raise SystemExit("Independent archive failed audit")
