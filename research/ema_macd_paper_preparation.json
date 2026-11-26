@@ -1,0 +1,71 @@
+{
+  "config_version": 1,
+  "project": "CryptoSignalAI_27_bot",
+  "status": "PAPER_SIMULATION_ENABLED",
+  "paper_trading_enabled": true,
+  "live_trading_enabled": false,
+  "production_bot_changes_allowed": false,
+  "research_candidate_id": "OKX_SWAP_EMA_MACD_SHORT_4H_ALL5",
+  "exchange": "OKX",
+  "market": "USDT_SWAP",
+  "timeframe": "4H",
+  "direction": "SHORT",
+  "strategy": {
+    "ema_periods": [
+      20,
+      50,
+      200
+    ],
+    "ema_condition": "closed_candle_close < EMA20 < EMA50 < EMA200",
+    "macd": {
+      "fast": 12,
+      "slow": 26,
+      "signal": 9,
+      "condition": "on the same closed 4H candle MACD line crosses below MACD signal line; previous candle MACD line was >= its signal"
+    },
+    "entry": "next 4H candle open after the qualifying candle closes",
+    "atr_period": 14,
+    "stop": "1.5 * ATR(14) from signal candle close, fixed from actual next-open entry",
+    "take_profit": "2R",
+    "same_candle_stop_and_target": "STOP_FIRST",
+    "one_open_position_per_symbol": true,
+    "fees_per_side_pct": 0.05,
+    "slippage_per_side_pct": 0.02,
+    "funding": "Use actual historical/current OKX funding timestamps and rates for the simulated SHORT; never assume missing funding is zero."
+  },
+  "paper_account": {
+    "starting_balance_usdt": 1000,
+    "virtual_order_size_usdt": 10,
+    "enabled": true
+  },
+  "symbols": {
+    "BTC-USDT-SWAP": {
+      "enabled": true,
+      "candidate_status": "INCONCLUSIVE_LOW_SAMPLE",
+      "selection_holdout_closed_trades": 5
+    },
+    "ETH-USDT-SWAP": {
+      "enabled": true,
+      "candidate_status": "INCONCLUSIVE_LOW_SAMPLE",
+      "selection_holdout_closed_trades": 8
+    }
+  },
+  "evidence_gate": {
+    "minimum_aggregate_closed_trades_for_strategy_promotion": 100,
+    "minimum_closed_trades_per_symbol_for_strategy_promotion": 20,
+    "minimum_profit_factor_for_strategy_promotion": 1.1,
+    "net_expectancy_after_fees_slippage_and_funding_must_be_positive_for_strategy_promotion": true,
+    "must_report_drawdown_and_monthly_results": true,
+    "independent_validation_required_before_strategy_promotion": true,
+    "explicit_user_approval_required_before_any_future_live_trading": true
+  },
+  "safety": [
+    "Exploratory virtual-only paper simulation; it is not evidence that the strategy is profitable or validated.",
+    "The simulator uses public OKX market and funding data only and has no order-placement code.",
+    "Never connect this simulator to real order endpoints or real account credentials.",
+    "Do not modify production bot.py or .github/workflows/bot.yml.",
+    "Do not send messages to the production Telegram chat from this simulator.",
+    "BTC and ETH are simulated independently with a virtual 10 USDT notional per position.",
+    "Never place real orders."
+  ]
+}
