@@ -1,13 +1,19 @@
 {
   "registry_version": 1,
-  "updated_utc": "2026-11-26T16:55:30Z",
+  "updated_utc": "2026-11-26T17:03:00Z",
   "candidates": [
     {
       "candidate_id": "OKX_SWAP_RSI14_CROSSDOWN70_SHORT_1H",
       "status": "REJECTED",
       "market": "SWAP",
       "exchange": "OKX",
-      "instrument_scope": ["BTC-USDT-SWAP", "BNB-USDT-SWAP", "XRP-USDT-SWAP", "ETH-USDT-SWAP", "SOL-USDT-SWAP"],
+      "instrument_scope": [
+        "BTC-USDT-SWAP",
+        "BNB-USDT-SWAP",
+        "XRP-USDT-SWAP",
+        "ETH-USDT-SWAP",
+        "SOL-USDT-SWAP"
+      ],
       "timeframe": "1H",
       "direction": "SHORT",
       "indicator_family": "RSI extreme reversal",
@@ -46,11 +52,56 @@
         "net_R_at_0_20pct_roundtrip": -124.930836
       },
       "per_symbol": {
-        "BTC": {"closed_trades": 112, "open_at_end": 0, "win_rate_pct": 30.357, "net_R": -27.360783, "profit_factor": 0.697486, "max_drawdown_R": 27.360783, "net_R_at_0_10pct_roundtrip": -22.04301, "net_R_at_0_20pct_roundtrip": -35.337447},
-        "BNB": {"closed_trades": 115, "open_at_end": 0, "win_rate_pct": 32.174, "net_R": -19.241197, "profit_factor": 0.782876, "max_drawdown_R": 36.313271, "net_R_at_0_10pct_roundtrip": -14.749796, "net_R_at_0_20pct_roundtrip": -25.978305},
-        "XRP": {"closed_trades": 114, "open_at_end": 0, "win_rate_pct": 33.333, "net_R": -8.38999, "profit_factor": 0.897567, "max_drawdown_R": 14.90034, "net_R_at_0_10pct_roundtrip": -5.771369, "net_R_at_0_20pct_roundtrip": -12.317934},
-        "ETH": {"closed_trades": 115, "open_at_end": 1, "win_rate_pct": 32.174, "net_R": -13.983716, "profit_factor": 0.835319, "max_drawdown_R": 26.523004, "net_R_at_0_10pct_roundtrip": -10.880767, "net_R_at_0_20pct_roundtrip": -18.638132},
-        "SOL": {"closed_trades": 97, "open_at_end": 0, "win_rate_pct": 25.773, "net_R": -29.385643, "profit_factor": 0.621118, "max_drawdown_R": 29.487786, "net_R_at_0_10pct_roundtrip": -27.203391, "net_R_at_0_20pct_roundtrip": -32.659018}
+        "BTC": {
+          "closed_trades": 112,
+          "open_at_end": 0,
+          "win_rate_pct": 30.357,
+          "net_R": -27.360783,
+          "profit_factor": 0.697486,
+          "max_drawdown_R": 27.360783,
+          "net_R_at_0_10pct_roundtrip": -22.04301,
+          "net_R_at_0_20pct_roundtrip": -35.337447
+        },
+        "BNB": {
+          "closed_trades": 115,
+          "open_at_end": 0,
+          "win_rate_pct": 32.174,
+          "net_R": -19.241197,
+          "profit_factor": 0.782876,
+          "max_drawdown_R": 36.313271,
+          "net_R_at_0_10pct_roundtrip": -14.749796,
+          "net_R_at_0_20pct_roundtrip": -25.978305
+        },
+        "XRP": {
+          "closed_trades": 114,
+          "open_at_end": 0,
+          "win_rate_pct": 33.333,
+          "net_R": -8.38999,
+          "profit_factor": 0.897567,
+          "max_drawdown_R": 14.90034,
+          "net_R_at_0_10pct_roundtrip": -5.771369,
+          "net_R_at_0_20pct_roundtrip": -12.317934
+        },
+        "ETH": {
+          "closed_trades": 115,
+          "open_at_end": 1,
+          "win_rate_pct": 32.174,
+          "net_R": -13.983716,
+          "profit_factor": 0.835319,
+          "max_drawdown_R": 26.523004,
+          "net_R_at_0_10pct_roundtrip": -10.880767,
+          "net_R_at_0_20pct_roundtrip": -18.638132
+        },
+        "SOL": {
+          "closed_trades": 97,
+          "open_at_end": 0,
+          "win_rate_pct": 25.773,
+          "net_R": -29.385643,
+          "profit_factor": 0.621118,
+          "max_drawdown_R": 29.487786,
+          "net_R_at_0_10pct_roundtrip": -27.203391,
+          "net_R_at_0_20pct_roundtrip": -32.659018
+        }
       },
       "workflow_run_id": 45863155703,
       "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45863155703",
@@ -61,6 +112,109 @@
         "One ETH position remained open at the exclusive end of the data window and is excluded from closed-trade win rate, PF, and net R.",
         "Historical OHLCV replay does not model order-book depth, liquidation, outages, or all execution mechanics.",
         "Monthly and per-trade detail are preserved in the linked workflow artifact."
+      ]
+    },
+    {
+      "candidate_id": "OKX_SWAP_RSI_VOLUME_SHORT_1H_EXIT_RSI30_ETH_SOL_BNB_XRP",
+      "status": "REJECTED",
+      "market": "SWAP",
+      "exchange": "OKX",
+      "instrument_scope": [
+        "ETH-USDT-SWAP",
+        "SOL-USDT-SWAP",
+        "BNB-USDT-SWAP",
+        "XRP-USDT-SWAP"
+      ],
+      "timeframe": "1H",
+      "direction": "SHORT",
+      "indicator_family": "RSI + quote-volume confirmation",
+      "signal": "(RSI14 crosses down through 70 OR confirmed bearish RSI divergence) AND quote_volume >= 1.5 * SMA20 quote_volume; enter next 1H candle open.",
+      "execution": {
+        "stop": "1.5 * ATR(14) protective stop",
+        "target": "No fixed profit target",
+        "exit": "After a closed candle RSI14 <= 30, exit at next candle open",
+        "one_open_position_per_symbol": true,
+        "fee_per_side_pct": 0.05,
+        "slippage_per_side_pct": 0.02,
+        "funding": "Actual historical OKX funding timestamps; positive funding is received by SHORT; missing expected records invalidate the result.",
+        "no_orders_generated": true
+      },
+      "development_reference": {
+        "period": "first study development split",
+        "trades": 103,
+        "net_R": 31.2252,
+        "profit_factor": 1.39007,
+        "note": "The four-symbol subset and exit mode were frozen from development only; this is discovery evidence, not validation."
+      },
+      "independent_window_utc": {
+        "start_inclusive": "2024-11-26T00:00:00Z",
+        "end_exclusive": "2025-11-26T00:00:00Z"
+      },
+      "data_quality": {
+        "hourly_candles_per_instrument": 8760,
+        "funding_records_per_swap_instrument": 1095,
+        "hourly_candle_gaps": 0,
+        "missing_funding_records": 0,
+        "invalid_funding_trades": 0,
+        "funding_valid": true
+      },
+      "aggregate_closed_trades": 167,
+      "aggregate_open_at_end": 0,
+      "aggregate_metrics": {
+        "win_rate_pct": 20.958,
+        "net_R": -52.4732,
+        "expectancy_R": -0.314211,
+        "profit_factor": 0.633944,
+        "max_drawdown_R": 64.306347,
+        "net_R_at_0_10pct_roundtrip": -47.872874,
+        "net_R_at_0_20pct_roundtrip": -59.373704
+      },
+      "per_symbol": {
+        "ETH": {
+          "closed_trades": 35,
+          "win_rate_pct": 20,
+          "net_R": -12.581678,
+          "profit_factor": 0.584924,
+          "max_drawdown_R": 16.11594,
+          "net_R_at_0_10pct_roundtrip": -11.658613,
+          "net_R_at_0_20pct_roundtrip": -13.966279
+        },
+        "SOL": {
+          "closed_trades": 35,
+          "win_rate_pct": 17.143,
+          "net_R": -13.313954,
+          "profit_factor": 0.559918,
+          "max_drawdown_R": 21.980955,
+          "net_R_at_0_10pct_roundtrip": -12.548899,
+          "net_R_at_0_20pct_roundtrip": -14.461544
+        },
+        "BNB": {
+          "closed_trades": 55,
+          "win_rate_pct": 21.818,
+          "net_R": -16.950228,
+          "profit_factor": 0.650893,
+          "max_drawdown_R": 32.540668,
+          "net_R_at_0_10pct_roundtrip": -14.963533,
+          "net_R_at_0_20pct_roundtrip": -19.930266
+        },
+        "XRP": {
+          "closed_trades": 42,
+          "win_rate_pct": 23.81,
+          "net_R": -9.62734,
+          "profit_factor": 0.718738,
+          "max_drawdown_R": 16.669881,
+          "net_R_at_0_10pct_roundtrip": -8.701829,
+          "net_R_at_0_20pct_roundtrip": -11.015615
+        }
+      },
+      "workflow_run_id": 45864262242,
+      "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45864262242",
+      "result_artifact_id": 15139911030,
+      "result_artifact_name": "independent-rsi-volume-short-1h-2024-2025",
+      "rejection_reason": "Independent replay has negative net R and PF below 1.10 overall and on each of the four selected instruments. All 167 trades had valid historical funding. Candidate rejected; no retuning or promotion to paper trading.",
+      "limitations": [
+        "Historical OHLCV replay does not model order-book depth, liquidation, outages, or all execution mechanics.",
+        "The independent period is one year; results remain historical and do not imply live execution performance."
       ]
     }
   ]
