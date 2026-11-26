@@ -1,0 +1,56 @@
+name: OKX Spot and Futures Data Audit
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Historical data period"
+        required: true
+        default: "365"
+        type: choice
+        options:
+          - "90"
+          - "180"
+          - "365"
+
+permissions:
+  contents: read
+
+jobs:
+  audit-market-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout isolated audit branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile audit tools
+        run: |
+          python -m py_compile research/download_okx_candles.py
+          python -m py_compile research/download_okx_funding_archive.py
+          python -m py_compile research/audit_okx_spot_futures_data.py
+
+      - name: Download closed spot and SWAP candles
+        run: python research/download_okx_candles.py --days "${{ inputs.days }}" --out research-data
+
+      - name: Download archived historical SWAP funding
+        run: python research/download_okx_funding_archive.py --days "${{ inputs.days }}" --out research-data
+
+      - name: Audit timestamps, OHLC, quote volume and funding
+        run: python research/audit_okx_spot_futures_data.py research-data
+
+      - name: Upload audit dataset and report
+        uses: actions/upload-artifact@v4
+        with:
+          name: okx-spot-futures-data-audit-${{ inputs.days }}-days
+          path: |
+            research-data/
+          if-no-files-found: error
+          retention-days: 30
