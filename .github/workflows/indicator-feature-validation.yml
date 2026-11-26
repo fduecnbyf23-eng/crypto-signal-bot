@@ -8,6 +8,8 @@ on:
       - ".github/workflows/indicator-feature-validation.yml"
       - "research/indicator_features.py"
       - "research/test_indicator_features.py"
+      - "research/backtest_frozen_indicators.py"
+      - "research/test_frozen_backtest.py"
   workflow_dispatch:
 
 permissions:
@@ -45,11 +47,11 @@ jobs:
           path: research-data
 
       - name: Compile indicator code
-        run: python -m py_compile research/indicator_features.py research/test_indicator_features.py
+        run: python -m py_compile research/indicator_features.py research/test_indicator_features.py research/backtest_frozen_indicators.py research/test_frozen_backtest.py
 
       - name: Run synthetic unit tests
         working-directory: research
-        run: python -m unittest -v test_indicator_features.py
+        run: python -m unittest -v test_indicator_features.py test_frozen_backtest.py
 
       - name: Build features from two-year daily candles
         run: python research/indicator_features.py --input-dir research-daily-2y --output-dir research-features --markets both
