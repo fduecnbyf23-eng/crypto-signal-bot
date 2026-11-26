@@ -100,6 +100,8 @@ def fresh_state():
 def apply_funding(symbol, position, funding_records, candle_ts):
     if not position:
         return
+    if not funding_records or int(position["entry_ts"]) < int(funding_records[0]["fundingTime"]):
+        raise RuntimeError(f"Funding history does not cover the full open position for {symbol}; refusing an incomplete PnL")
     for record in funding_records:
         ft = int(record["fundingTime"])
         if int(position["entry_ts"]) < ft <= candle_ts and ft > int(position.get("last_funding_time", position["entry_ts"])):
@@ -168,8 +170,14 @@ def process_symbol(state, symbol):
         if pending and position is None and int(pending["signal_ts"]) + BAR_SECONDS * 1000 == ts:
             entry_fill = o * (1.0 - SLIPPAGE_SIDE)
             distance = float(pending["atr"]) * 1.5
-            stop = entry_fill + distance
-            target = entry_fill - 2.0 * distance
+            # Match the frozen research rule: stop is anchored to signal-candle close.
+            stop = float(pending["signal_close"]) + distance
+            risk_distance = stop - entry_fill
+            if risk_distance <= 0:
+                book["pending_signal"] = None
+                book["last_processed_candle"] = ts
+                continue
+            target = entry_fill - 2.0 * risk_distance
             qty = ORDER_USDT / entry_fill
             book["position"] = {
                 "entry_ts": ts, "entry_time_utc": datetime.fromtimestamp(ts / 1000, timezone.utc).isoformat(),
