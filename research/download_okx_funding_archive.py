@@ -173,6 +173,8 @@ def main():
         coverage = len(rows)/expected if expected else 0
         if coverage < 0.90:
             raise RuntimeError(f"Funding coverage too low for {inst}: {len(rows)} records, approx {coverage:.1%}")
+        if not rows or rows[0]["funding_time_ms"] > start_ms + 8*3600000 or rows[-1]["funding_time_ms"] < end_ms - 8*3600000:
+            raise RuntimeError(f"Funding history does not cover both ends of the requested range for {inst}")
         name = inst.replace("-", "_") + "_funding.csv"
         with open(os.path.join(args.out, name), "w", newline="", encoding="utf-8") as f:
             w = csv.DictWriter(f, fieldnames=["funding_time_ms", "utc_time", "rate", "rate_field"])
