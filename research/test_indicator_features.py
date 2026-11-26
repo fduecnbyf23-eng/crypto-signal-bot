@@ -26,6 +26,14 @@ class IndicatorFeatureTests(unittest.TestCase):
         self.assertTrue(bull[9])
         self.assertFalse(any(bear))
 
+    def test_equal_low_ties_are_not_divergence_pivots(self):
+        low = [10, 8, 8, 9, 10]
+        high = [x+2 for x in low]
+        rsi = [40, 30, 30, 40, 45]
+        bull, bear = divergence_flags(high, low, rsi, left=1, right=1, max_gap=10)
+        self.assertFalse(any(bull))
+        self.assertFalse(any(bear))
+
     def test_daily_scope_disables_intraday_only_families(self):
         features = [{
             'ema20': 100.0, 'ema_bull_stack': True,
@@ -34,6 +42,8 @@ class IndicatorFeatureTests(unittest.TestCase):
             'vpvr_poc_100': 99.0, 'bb_upper': 110.0, 'bb_squeeze': True,
             'macd': 1.0, 'macd_cross_up': True,
             'vwap_utc_day': 101.0, 'vwap_bounce_long': True,
+            'rsi_cross_up_30': True, 'vpvr_bounce_long': True,
+            'ema_macd_long': True, 'rsi_volume_long': True, 'vwap_ema_long': True,
         }]
         scoped = apply_timeframe_scope(features, '1Dutc')
         row = scoped[0]
@@ -45,6 +55,11 @@ class IndicatorFeatureTests(unittest.TestCase):
         self.assertIsNone(row['bb_upper'])
         self.assertIsNone(row['vwap_utc_day'])
         self.assertFalse(row['vwap_bounce_long'])
+        self.assertFalse(row['rsi_cross_up_30'])
+        self.assertFalse(row['vpvr_bounce_long'])
+        self.assertFalse(row['ema_macd_long'])
+        self.assertFalse(row['rsi_volume_long'])
+        self.assertFalse(row['vwap_ema_long'])
 
     def test_vwap_bounce_does_not_cross_utc_day_reset(self):
         day_start = 1764115200000  # 2025-11-26 00:00 UTC
