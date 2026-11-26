@@ -6,31 +6,31 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "pending_signal": null,
       "position": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "RSI70_BNB_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "pending_signal": null,
       "position": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     },
     "RSI70_XRP_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795719600000,
+      "last_processed_candle": 1795726800000,
       "pending_signal": null,
       "position": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00"
     }
   }
 }

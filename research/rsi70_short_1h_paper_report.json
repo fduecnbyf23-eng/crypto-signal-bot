@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-26T20:25:39.218325+00:00",
+  "updated_utc": "2026-11-26T22:08:00.839281+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "strategy": "RSI(14) crosses down through 70; SHORT next 1H candle",
   "stop_anchor": "SIGNAL_CANDLE_CLOSE_PROVISIONAL",
@@ -30,7 +30,7 @@
         "profit_factor": null,
         "open_position": null,
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00",
         "trades": []
       },
       "historical_reference": {
@@ -60,7 +60,7 @@
         "profit_factor": null,
         "open_position": null,
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00",
         "trades": []
       },
       "historical_reference": {
@@ -90,7 +90,7 @@
         "profit_factor": null,
         "open_position": null,
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-26T19:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-26T21:00:00+00:00",
         "trades": []
       },
       "historical_reference": {
