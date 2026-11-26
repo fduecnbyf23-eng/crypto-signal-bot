@@ -36,6 +36,14 @@ jobs:
           github-token: ${{ github.token }}
           path: research-daily-2y
 
+      - name: Download verified one-year multi-timeframe archive
+        uses: actions/download-artifact@v4
+        with:
+          name: okx-spot-futures-data-audit-365-days
+          run-id: 45843255587
+          github-token: ${{ github.token }}
+          path: research-data
+
       - name: Compile indicator code
         run: python -m py_compile research/indicator_features.py research/test_indicator_features.py
 
@@ -46,29 +54,42 @@ jobs:
       - name: Build features from two-year daily candles
         run: python research/indicator_features.py --input-dir research-daily-2y --output-dir research-features --markets both
 
+      - name: Build features from one-year multi-timeframe candles
+        run: python research/indicator_features.py --input-dir research-data --output-dir research-features-1y --markets both
+
       - name: Verify generated feature files
         run: |
           python - <<'PY'
-          import csv, glob, os, sys
-          files = sorted(glob.glob("research-features/*_1Dutc_features.csv"))
-          if len(files) != 10:
-              raise SystemExit(f"Expected 10 feature files, got {len(files)}")
-          total = 0
-          for path in files:
+          import csv, glob, os
+          daily = sorted(glob.glob("research-features/*_1Dutc_features.csv"))
+          if len(daily) != 10:
+              raise SystemExit(f"Expected 10 two-year daily feature files, got {len(daily)}")
+          for path in daily:
               with open(path, newline="", encoding="utf-8") as f:
                   rows = list(csv.DictReader(f))
-              if len(rows) != 729:
-                  raise SystemExit(f"{path}: expected 729 rows, got {len(rows)}")
-              if not rows[-1]["ema200"]:
-                  raise SystemExit(f"{path}: EMA200 missing on final row")
+              if len(rows) != 729 or not rows[-1]["ema200"]:
+                  raise SystemExit(f"{path}: daily count or EMA200 check failed")
+          multi = sorted(glob.glob("research-features-1y/*_features.csv"))
+          if len(multi) != 40:
+              raise SystemExit(f"Expected 40 one-year multi-timeframe feature files, got {len(multi)}")
+          total = 0
+          for path in multi:
+              source = os.path.join("research-data", os.path.basename(path).replace("_features.csv", ".csv"))
+              with open(source, newline="", encoding="utf-8") as f:
+                  source_count = sum(1 for _ in f) - 1
+              with open(path, newline="", encoding="utf-8") as f:
+                  rows = list(csv.DictReader(f))
+              if len(rows) != source_count:
+                  raise SystemExit(f"{path}: feature row count differs from source")
               total += len(rows)
-              print(f"{os.path.basename(path)}: {len(rows)} rows; EMA200 final value present")
-          print(f"VALIDATION_OK files={len(files)} rows={total}")
+          print(f"VALIDATION_OK daily_2y_files={len(daily)} daily_2y_rows={len(daily)*729} multi_tf_files={len(multi)} multi_tf_rows={total}")
           PY
 
       - name: Upload feature outputs
         uses: actions/upload-artifact@v4
         with:
-          name: indicator-daily-features-validation
-          path: research-features/
+          name: indicator-features-multitimeframe-validation
+          path: |
+            research-features/
+            research-features-1y/
           retention-days: 30
