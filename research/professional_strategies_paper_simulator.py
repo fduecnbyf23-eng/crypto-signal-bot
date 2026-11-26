@@ -167,7 +167,7 @@ def process_account(state,sid,kind,symbol,tf,candles,fundings):
         pos=acc["position"]
         if pos:
             if not fundings: raise RuntimeError(f"No funding records for {sid}; fail-closed.")
-            if int(fundings[0]["fundingTime"])>int(pos["entry_ts"]):
+            if int(fundings[0]["fundingTime"])>int(pos.get("last_funding_time",pos["entry_ts"])):
                 raise RuntimeError(f"Funding coverage too short for {sid}; fail-closed.")
             for rec in fundings:
                 ft=int(rec["fundingTime"])
