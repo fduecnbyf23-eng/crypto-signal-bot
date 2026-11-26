@@ -1,0 +1,52 @@
+name: OKX Independent One-Year 1H Archive
+
+on:
+  push:
+    branches:
+      - indicator-research-preparation
+    paths:
+      - ".github/workflows/okx-independent-1h-archive.yml"
+      - "research/download_okx_candles_window.py"
+      - "research/download_okx_funding_window.py"
+      - "research/audit_independent_1h_archive.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile archive tools
+        run: |
+          python -m py_compile research/download_okx_candles.py research/download_okx_candles_window.py research/download_okx_funding_archive.py research/download_okx_funding_window.py research/audit_independent_1h_archive.py
+
+      - name: Download independent one-year 1H spot and SWAP candles
+        run: |
+          python research/download_okx_candles_window.py --start-utc 2024-11-26T00:00:00Z --end-utc 2025-11-26T00:00:00Z --out independent-1h-data
+
+      - name: Download independent historical SWAP funding
+        run: |
+          python research/download_okx_funding_window.py --start-utc 2024-11-26T00:00:00Z --end-utc 2025-11-26T00:00:00Z --out independent-1h-data
+
+      - name: Audit exact 1H and funding coverage
+        run: python research/audit_independent_1h_archive.py
+
+      - name: Upload independent archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: okx-independent-1h-and-funding-2024-2025
+          path: independent-1h-data/
+          retention-days: 30
