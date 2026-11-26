@@ -1,0 +1,93 @@
+name: Frozen Indicator Historical Backtest
+
+on:
+  push:
+    branches:
+      - indicator-research-preparation
+    paths:
+      - ".github/workflows/frozen-indicator-backtest.yml"
+      - "research/indicator_features.py"
+      - "research/backtest_frozen_indicators.py"
+      - "research/test_indicator_features.py"
+      - "research/test_frozen_backtest.py"
+      - "research/INDICATOR_RESEARCH_SPEC.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  frozen-backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: \${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download one-year spot, SWAP and funding archive
+        uses: actions/download-artifact@v4
+        with:
+          name: okx-spot-futures-data-audit-365-days
+          run-id: 45843255587
+          github-token: \${{ github.token }}
+          path: research-data
+
+      - name: Download two-year daily candle archive
+        uses: actions/download-artifact@v4
+        with:
+          name: okx-daily-candles-2-years
+          run-id: 45851151740
+          github-token: \${{ github.token }}
+          path: research-daily-2y
+
+      - name: Compile research code
+        run: |
+          python -m py_compile research/indicator_features.py research/backtest_frozen_indicators.py research/test_indicator_features.py research/test_frozen_backtest.py
+
+      - name: Run all deterministic tests
+        working-directory: research
+        run: python -m unittest -v test_indicator_features.py test_frozen_backtest.py
+
+      - name: Run frozen strategy replay
+        run: |
+          python research/backtest_frozen_indicators.py \
+            --input-1y research-data \
+            --input-2y-daily research-daily-2y \
+            --output-dir frozen-indicator-backtest
+
+      - name: Validate report structure and SWAP funding coverage
+        run: |
+          python - <<'PY'
+          import csv, os, sys
+          summary_path = "frozen-indicator-backtest/summary.csv"
+          trades_path = "frozen-indicator-backtest/trades.csv"
+          if not os.path.exists(summary_path) or not os.path.exists(trades_path):
+              raise SystemExit("Backtest output files are missing")
+          with open(summary_path, newline="", encoding="utf-8") as f:
+              summary = list(csv.DictReader(f))
+          with open(trades_path, newline="", encoding="utf-8") as f:
+              trades = list(csv.DictReader(f))
+          holdout = [r for r in summary if r["period"] == "holdout" and r["aggregation_level"] == "ALL_SYMBOLS"]
+          if not holdout:
+              raise SystemExit("No aggregate holdout summaries were produced")
+          invalid = [r for r in holdout if r["market"] == "SWAP" and r["funding_valid"] != "True"]
+          if invalid:
+              raise SystemExit(f"SWAP holdout has invalid funding coverage in {len(invalid)} groups")
+          print(f"BACKTEST_REPORT_OK summary_rows={len(summary)} trade_rows={len(trades)} aggregate_holdout_groups={len(holdout)}")
+          print(f"Closed and open trades are separated; all SWAP holdout funding groups valid.")
+          PY
+
+      - name: Upload frozen backtest results
+        uses: actions/upload-artifact@v4
+        with:
+          name: frozen-indicator-backtest-results
+          path: frozen-indicator-backtest/
+          retention-days: 30
