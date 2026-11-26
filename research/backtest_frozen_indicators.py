@@ -128,7 +128,7 @@ def simulate(rows, features, tf, long_flag, short_flag, market, symbol, strategy
             "closed": closed
         })
 
-    for i in range(len(rows)):
+    for i in range(last_index + 1):
         row = rows[i]
         ts = int(row["timestamp_ms"])
         op, hi, lo = float(row["open"]), float(row["high"]), float(row["low"])
