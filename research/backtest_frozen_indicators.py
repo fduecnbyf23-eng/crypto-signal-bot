@@ -180,7 +180,10 @@ def simulate(rows, features, tf, long_flag, short_flag, market, symbol, strategy
             atr = feat.get("atr14")
             if atr is None or float(atr) <= 0:
                 continue
-            direction = 1 if bool(feat.get(long_flag)) else (-1 if bool(feat.get(short_flag)) else 0)
+            long_signal, short_signal = bool(feat.get(long_flag)), bool(feat.get(short_flag))
+            if long_signal and short_signal:
+                continue
+            direction = 1 if long_signal else (-1 if short_signal else 0)
             if market == "SPOT" and direction < 0:
                 direction = 0
             if direction == 0:
@@ -300,11 +303,22 @@ def main():
                             all_trades.extend(trades)
                             summary = summarize(trades, invalid)
                             summaries.append({
+                                "aggregation_level": "SYMBOL", "direction": "BOTH",
                                 "market": market, "symbol": symbol, "timeframe": tf,
                                 "strategy": strategy, "exit_mode": exit_mode, "period": period,
                                 "holdout_start_utc": "2026-07-26T00:00:00+00:00",
                                 **summary
                             })
+                            for direction_label in ("LONG", "SHORT"):
+                                directional = [t for t in trades if t["direction"] == direction_label]
+                                directional_invalid = sum(1 for t in directional if t["funding_valid"] is False)
+                                summaries.append({
+                                    "aggregation_level": "SYMBOL", "direction": direction_label,
+                                    "market": market, "symbol": symbol, "timeframe": tf,
+                                    "strategy": strategy, "exit_mode": exit_mode, "period": period,
+                                    "holdout_start_utc": "2026-07-26T00:00:00+00:00",
+                                    **summarize(directional, directional_invalid)
+                                })
             # Daily strategies use the separate two-year daily archive.
             tf = "1Dutc"
             src = os.path.join(args.input_2y_daily, f"{symbol}_USDT{suffix}_{tf}.csv")
@@ -325,28 +339,41 @@ def main():
                     )
                     all_trades.extend(trades)
                     summaries.append({
+                        "aggregation_level": "SYMBOL", "direction": "BOTH",
                         "market": market, "symbol": symbol, "timeframe": tf,
                         "strategy": strategy, "exit_mode": "base", "period": period,
                         "holdout_start_utc": "2026-05-25T00:00:00+00:00",
                         **summarize(trades, invalid)
                     })
-    # Aggregate by market/timeframe/strategy/exit mode/period; sort chronologically for drawdown.
-    groups = defaultdict(list)
-    for trade in all_trades:
-        key = (trade["market"], trade["timeframe"], trade["strategy"], trade["exit_mode"], trade["period"])
-        groups[key].append(trade)
-    for key, group_trades in groups.items():
-        group_trades.sort(key=lambda t: (t["exit_time_utc"] or "9999", t["entry_time_utc"]))
-        invalid = sum(1 for t in group_trades if t["funding_valid"] is False)
-        market, tf, strategy, exit_mode, period = key
-        summaries.append({
-            "aggregation_level": "ALL_SYMBOLS", "market": market, "symbol": "ALL",
-            "timeframe": tf, "strategy": strategy, "exit_mode": exit_mode, "period": period,
-            "holdout_start_utc": "2026-05-25T00:00:00+00:00" if tf == "1Dutc" else "2026-07-26T00:00:00+00:00",
-            **summarize(group_trades, invalid)
-        })
-    for row in summaries:
-        row.setdefault("aggregation_level", "SYMBOL")
+                    for direction_label in ("LONG", "SHORT"):
+                        directional = [t for t in trades if t["direction"] == direction_label]
+                        directional_invalid = sum(1 for t in directional if t["funding_valid"] is False)
+                        summaries.append({
+                            "aggregation_level": "SYMBOL", "direction": direction_label,
+                            "market": market, "symbol": symbol, "timeframe": tf,
+                            "strategy": strategy, "exit_mode": "base", "period": period,
+                            "holdout_start_utc": "2026-05-25T00:00:00+00:00",
+                            **summarize(directional, directional_invalid)
+                        })
+    # Aggregate each direction separately, plus BOTH; sort chronologically for drawdown.
+    for direction_label in ("LONG", "SHORT", "BOTH"):
+        groups = defaultdict(list)
+        for trade in all_trades:
+            if direction_label != "BOTH" and trade["direction"] != direction_label:
+                continue
+            key = (trade["market"], trade["timeframe"], trade["strategy"], trade["exit_mode"], trade["period"])
+            groups[key].append(trade)
+        for key, group_trades in groups.items():
+            group_trades.sort(key=lambda t: (t["exit_time_utc"] or "9999", t["entry_time_utc"]))
+            invalid = sum(1 for t in group_trades if t["funding_valid"] is False)
+            market, tf, strategy, exit_mode, period = key
+            summaries.append({
+                "aggregation_level": "ALL_SYMBOLS", "direction": direction_label, "market": market,
+                "symbol": "ALL", "timeframe": tf, "strategy": strategy,
+                "exit_mode": exit_mode, "period": period,
+                "holdout_start_utc": "2026-05-25T00:00:00+00:00" if tf == "1Dutc" else "2026-07-26T00:00:00+00:00",
+                **summarize(group_trades, invalid)
+            })
     os.makedirs(args.output_dir, exist_ok=True)
     write_csv(os.path.join(args.output_dir, "trades.csv"), all_trades)
     write_csv(os.path.join(args.output_dir, "summary.csv"), summaries)
