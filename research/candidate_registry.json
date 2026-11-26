@@ -806,6 +806,75 @@
         "funding_valid": true,
         "open_positions_at_end": 0
       }
+    },
+    {
+      "candidate_id": "OKX_SWAP_EMA_MACD_SHORT_4H_ALL5",
+      "status": "INCONCLUSIVE_LOW_SAMPLE",
+      "market": "SWAP",
+      "exchange": "OKX",
+      "instrument_scope": [
+        "BTC-USDT-SWAP",
+        "ETH-USDT-SWAP",
+        "SOL-USDT-SWAP",
+        "BNB-USDT-SWAP",
+        "XRP-USDT-SWAP"
+      ],
+      "timeframe": "4H",
+      "direction": "SHORT",
+      "indicator_family": "EMA + MACD",
+      "signal": "On the same closed 4H candle: bearish EMA stack (close < EMA20 < EMA50 < EMA200) AND MACD(12,26,9) bearish line/signal cross; enter at next 4H candle open.",
+      "execution": {
+        "stop": "1.5 * ATR(14) from signal candle close; fixed from actual next-open entry",
+        "target": "Fixed 2R",
+        "same_candle_stop_target_priority": "STOP_FIRST",
+        "one_open_position_per_symbol": true,
+        "fee_per_side_pct": 0.05,
+        "slippage_per_side_pct": 0.02,
+        "funding": "Actual historical OKX funding timestamps; positive funding is received by SHORT; missing expected records invalidate the result.",
+        "no_orders_generated": true
+      },
+      "development_window_utc": {
+        "start_inclusive": "2025-11-26T15:00:00Z",
+        "end_exclusive": "2026-07-26T00:00:00Z"
+      },
+      "selection_holdout_window_utc": {
+        "start_inclusive": "2026-07-26T00:00:00Z",
+        "end_exclusive": "2026-11-26T15:00:00Z"
+      },
+      "selection_holdout_metrics": {
+        "closed_trades": 43,
+        "wins": 20,
+        "losses": 23,
+        "win_rate_pct": 46.512,
+        "net_R": 14.798227,
+        "expectancy_R": 0.344145,
+        "profit_factor": 1.609774,
+        "max_drawdown_R": 6.282355,
+        "net_R_at_0_10pct_roundtrip": 15.529238,
+        "net_R_at_0_20pct_roundtrip": 13.701709,
+        "invalid_funding_trades": 0,
+        "funding_valid": true,
+        "per_symbol_closed_trades": {
+          "BTC": 5,
+          "ETH": 8,
+          "SOL": 13,
+          "BNB": 5,
+          "XRP": 12
+        }
+      },
+      "decision": "Positive preliminary result, but 43 aggregate trades is below the frozen minimum of 100 and every contributing symbol is below 20 trades. Keep inconclusive; do not promote to independent validation or paper trading based on this sample.",
+      "data_reference": {
+        "source_archive_run_id": 45843255587,
+        "backtest_run_id": 45863181833,
+        "workflow_url": "https://github.com/fduecnbyf23-eng/crypto-signal-bot/actions/runs/45863181833",
+        "result_artifact_id": 15138679139,
+        "result_artifact_name": "frozen-indicator-backtest-results"
+      },
+      "limitations": [
+        "Selection holdout is a finite historical window and the observed trade sample is below the frozen evidence threshold.",
+        "No symbol-specific tuning or parameter search is permitted on this holdout.",
+        "Historical OHLCV does not model order-book depth, queue position, market impact, liquidation, outages, or all exchange execution mechanics."
+      ]
     }
   ]
 }
