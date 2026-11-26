@@ -277,7 +277,7 @@ def apply_timeframe_scope(features, timeframe):
                 for field in fields[family]:
                     row[field] = False if field in {
                         'ema_bull_stack','ema_bear_stack','ema20_bounce_long',
-                        'ema20_bounce_short','rsi_oversold','rsi_overbought',
+                        'ema20_bounce_short','rsi_oversold','rsi_overbought','rsi_cross_up_30','rsi_cross_down_70',
                         'rsi_bullish_divergence','rsi_bearish_divergence',
                         'volume_confirm','bb_squeeze','bb_breakout_up',
                         'bb_breakout_down','macd_cross_up','macd_cross_down',
