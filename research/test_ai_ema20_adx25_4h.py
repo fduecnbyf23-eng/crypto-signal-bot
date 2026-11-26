@@ -34,7 +34,7 @@ def download_candles(inst, start, end):
     cursor = None
     pages = 0
     while True:
-        params = {"instId": inst, "bar": TF, "limit": "100"}
+        params = {"instId": inst, "bar": "4Hutc", "limit": "100"}
         if cursor is not None:
             params["after"] = str(cursor)
         batch = get_page(params)
