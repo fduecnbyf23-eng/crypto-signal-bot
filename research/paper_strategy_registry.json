@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Separate virtual-only strategy accounts. The three EMA50/MACD/RSI 4H strategies run in an isolated simulator. Their stop anchor is provisionally signal-candle close because the original anchor was not recovered. EMA200+ADX remains inactive until exact rules are recovered.",
+  "description": "Separate virtual-only strategy accounts. The three EMA50/MACD/RSI 4H strategies run in an isolated simulator. Their stop anchor is provisionally signal-candle close because the original anchor was not recovered. EMA200+ADX remains inactive until exact rules are recovered. RSI70 cross-down SHORT 1H BTC/BNB/XRP candidates run in a separate isolated simulator with separate accounts; stop anchor remains provisional.",
   "account_defaults": {
     "starting_balance_usdt": 1000,
     "order_size_usdt": 10
@@ -246,6 +246,150 @@
       },
       "paper_activation_blockers": [
         "Stop anchor is provisionally set to signal-candle close; this is not verified against the original historical test."
+      ]
+    },
+    {
+      "strategy_id": "RSI70_BTC_SHORT_1H",
+      "name": "RSI70 BTC SHORT 1H",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
+      "market": "OKX USDT-SWAP Futures",
+      "symbols": [
+        "BTC-USDT-SWAP"
+      ],
+      "timeframe": "1H",
+      "direction": "SHORT",
+      "historical_reference": {
+        "status": "conversation_recovered_not_source_verified",
+        "closed_trades": 26,
+        "net_R": 8.4,
+        "profit_factor": 1.538,
+        "note": "Per-symbol metrics recalled from the earlier RSI70 cross-down research summary; original source report/trade log not yet verified. Not a guarantee of future performance."
+      },
+      "recovered_rules": {
+        "status": "PARTIAL_STOP_ANCHOR_UNCONFIRMED",
+        "market": "OKX USDT-SWAP Futures",
+        "symbol": "BTC-USDT-SWAP",
+        "timeframe": "1H",
+        "direction": "SHORT",
+        "indicators": {
+          "rsi_period": 14,
+          "atr_period": 14
+        },
+        "signal_conditions": [
+          "On a closed 1H candle, RSI(14) crosses down through 70: previous RSI >= 70 and current RSI < 70."
+        ],
+        "entry": "Open of the next 1H candle after the qualifying candle closes",
+        "stop_loss": "1.5 * ATR(14) above signal-candle close (provisional simulator convention; original anchor not recovered)",
+        "take_profit": "2R from actual next-candle entry using the resulting entry-to-stop distance",
+        "execution_assumptions": {
+          "fee_per_side_pct": 0.05,
+          "slippage_per_side_pct": 0.02,
+          "funding": "Historical OKX funding rates",
+          "max_open_positions_per_symbol": 1,
+          "same_candle_stop_and_target": "STOP_FIRST",
+          "signal_candle": "Closed candle only"
+        }
+      },
+      "paper_activation_blockers": [
+        "Stop anchor is provisionally set to signal-candle close; this is not verified against the original historical test.",
+        "Historical per-symbol metrics are recalled from conversation and not verified against the original source artifact."
+      ]
+    },
+    {
+      "strategy_id": "RSI70_BNB_SHORT_1H",
+      "name": "RSI70 BNB SHORT 1H",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
+      "market": "OKX USDT-SWAP Futures",
+      "symbols": [
+        "BNB-USDT-SWAP"
+      ],
+      "timeframe": "1H",
+      "direction": "SHORT",
+      "historical_reference": {
+        "status": "conversation_recovered_not_source_verified",
+        "closed_trades": 39,
+        "net_R": 8.78,
+        "profit_factor": 1.359,
+        "note": "Per-symbol metrics recalled from the earlier RSI70 cross-down research summary; original source report/trade log not yet verified. Not a guarantee of future performance."
+      },
+      "recovered_rules": {
+        "status": "PARTIAL_STOP_ANCHOR_UNCONFIRMED",
+        "market": "OKX USDT-SWAP Futures",
+        "symbol": "BNB-USDT-SWAP",
+        "timeframe": "1H",
+        "direction": "SHORT",
+        "indicators": {
+          "rsi_period": 14,
+          "atr_period": 14
+        },
+        "signal_conditions": [
+          "On a closed 1H candle, RSI(14) crosses down through 70: previous RSI >= 70 and current RSI < 70."
+        ],
+        "entry": "Open of the next 1H candle after the qualifying candle closes",
+        "stop_loss": "1.5 * ATR(14) above signal-candle close (provisional simulator convention; original anchor not recovered)",
+        "take_profit": "2R from actual next-candle entry using the resulting entry-to-stop distance",
+        "execution_assumptions": {
+          "fee_per_side_pct": 0.05,
+          "slippage_per_side_pct": 0.02,
+          "funding": "Historical OKX funding rates",
+          "max_open_positions_per_symbol": 1,
+          "same_candle_stop_and_target": "STOP_FIRST",
+          "signal_candle": "Closed candle only"
+        }
+      },
+      "paper_activation_blockers": [
+        "Stop anchor is provisionally set to signal-candle close; this is not verified against the original historical test.",
+        "Historical per-symbol metrics are recalled from conversation and not verified against the original source artifact."
+      ]
+    },
+    {
+      "strategy_id": "RSI70_XRP_SHORT_1H",
+      "name": "RSI70 XRP SHORT 1H",
+      "enabled": true,
+      "status": "ACTIVE_PAPER_PROVISIONAL_STOP_ANCHOR",
+      "market": "OKX USDT-SWAP Futures",
+      "symbols": [
+        "XRP-USDT-SWAP"
+      ],
+      "timeframe": "1H",
+      "direction": "SHORT",
+      "historical_reference": {
+        "status": "conversation_recovered_not_source_verified",
+        "closed_trades": 30,
+        "net_R": 15.55,
+        "profit_factor": 2.034,
+        "note": "Per-symbol metrics recalled from the earlier RSI70 cross-down research summary; original source report/trade log not yet verified. Not a guarantee of future performance."
+      },
+      "recovered_rules": {
+        "status": "PARTIAL_STOP_ANCHOR_UNCONFIRMED",
+        "market": "OKX USDT-SWAP Futures",
+        "symbol": "XRP-USDT-SWAP",
+        "timeframe": "1H",
+        "direction": "SHORT",
+        "indicators": {
+          "rsi_period": 14,
+          "atr_period": 14
+        },
+        "signal_conditions": [
+          "On a closed 1H candle, RSI(14) crosses down through 70: previous RSI >= 70 and current RSI < 70."
+        ],
+        "entry": "Open of the next 1H candle after the qualifying candle closes",
+        "stop_loss": "1.5 * ATR(14) above signal-candle close (provisional simulator convention; original anchor not recovered)",
+        "take_profit": "2R from actual next-candle entry using the resulting entry-to-stop distance",
+        "execution_assumptions": {
+          "fee_per_side_pct": 0.05,
+          "slippage_per_side_pct": 0.02,
+          "funding": "Historical OKX funding rates",
+          "max_open_positions_per_symbol": 1,
+          "same_candle_stop_and_target": "STOP_FIRST",
+          "signal_candle": "Closed candle only"
+        }
+      },
+      "paper_activation_blockers": [
+        "Stop anchor is provisionally set to signal-candle close; this is not verified against the original historical test.",
+        "Historical per-symbol metrics are recalled from conversation and not verified against the original source artifact."
       ]
     }
   ]
