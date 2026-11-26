@@ -1,0 +1,73 @@
+name: Independent RSI Volume SHORT 2R Validation 2023-2024
+
+on:
+  push:
+    branches:
+      - indicator-research-preparation
+    paths:
+      - ".github/workflows/independent-rsi-volume-2r-validation.yml"
+      - "research/download_okx_candles_window.py"
+      - "research/download_okx_funding_window.py"
+      - "research/download_okx_funding_archive.py"
+      - "research/audit_independent_1h_archive_2023_2024.py"
+      - "research/backtest_independent_rsi_volume_2r.py"
+      - "research/backtest_frozen_indicators.py"
+      - "research/indicator_features.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: indicator-research-preparation
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile frozen research code
+        run: |
+          python -m py_compile research/download_okx_candles.py research/download_okx_candles_window.py research/download_okx_funding_archive.py research/download_okx_funding_window.py research/audit_independent_1h_archive_2023_2024.py research/indicator_features.py research/backtest_frozen_indicators.py research/backtest_independent_rsi_volume_2r.py
+      - name: Download historical 1H spot and SWAP candles
+        run: |
+          python research/download_okx_candles_window.py --start-utc 2023-11-26T00:00:00Z --end-utc 2024-11-25T00:00:00Z --out independent-1h-data
+      - name: Download historical SWAP funding
+        run: |
+          python research/download_okx_funding_window.py --start-utc 2023-11-26T00:00:00Z --end-utc 2024-11-25T00:00:00Z --out independent-1h-data
+      - name: Audit exact candles and funding coverage
+        run: python research/audit_independent_1h_archive_2023_2024.py
+      - name: Run frozen RSI volume SHORT 2R replay
+        run: |
+          python research/backtest_independent_rsi_volume_2r.py --input-dir independent-1h-data --output-dir independent-rsi-volume-2r
+      - name: Validate report integrity
+        run: |
+          python - <<'PY'
+          import csv, json, os
+          base="independent-rsi-volume-2r"
+          for name in ("summary.csv","trades.csv","metadata.json"):
+              if not os.path.exists(os.path.join(base,name)): raise SystemExit("Missing "+name)
+          with open(os.path.join(base,"summary.csv"),newline="",encoding="utf-8") as f: rows=list(csv.DictReader(f))
+          syms={r["symbol"]:r for r in rows if r["aggregation_level"]=="SYMBOL"}
+          agg=[r for r in rows if r["aggregation_level"]=="ALL_SYMBOLS"]
+          if set(syms)!={"BTC","ETH","SOL","BNB","XRP"} or len(agg)!=1: raise SystemExit("Unexpected summary groups")
+          bad=[r["symbol"] for r in rows if r["funding_valid"]!="True" or int(r["invalid_funding_trades"])!=0]
+          if bad: raise SystemExit("Invalid funding: "+str(bad))
+          print("INDEPENDENT_RSI_VOLUME_2R_REPORT_OK")
+          for s in sorted(syms): print(s,syms[s])
+          print("AGGREGATE",agg[0])
+          PY
+      - name: Upload independent results and audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: independent-rsi-volume-short-2r-2023-2024
+          path: |
+            independent-1h-data/independent_1h_audit_report.json
+            independent-1h-data/funding_manifest.json
+            independent-rsi-volume-2r/
+          retention-days: 30
