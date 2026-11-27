@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-27T16:18:32.287775+00:00",
+  "updated_utc": "2026-11-27T18:01:51.721671+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "strategy": "RSI(14) crosses down through 70; SHORT next 1H candle",
   "stop_anchor": "SIGNAL_CANDLE_CLOSE_PROVISIONAL",
@@ -30,7 +30,7 @@
         "profit_factor": "INF",
         "open_position": null,
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
         "trades": [
           {
             "strategy_id": "RSI70_BTC_SHORT_1H",
@@ -79,7 +79,7 @@
         "profit_factor": "INF",
         "open_position": null,
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
         "trades": [
           {
             "strategy_id": "RSI70_BNB_SHORT_1H",
@@ -128,7 +128,7 @@
         "profit_factor": "INF",
         "open_position": null,
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
         "trades": [
           {
             "strategy_id": "RSI70_XRP_SHORT_1H",
