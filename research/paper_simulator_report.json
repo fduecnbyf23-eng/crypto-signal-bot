@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-27T17:08:49.649387+00:00",
+  "updated_utc": "2026-11-27T20:57:05.811383+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "starting_balance_usdt": 1000.0,
   "balance_usdt": 1000.0,
@@ -205,7 +205,7 @@
       "monthly_net_pnl_usdt": {},
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T16:00:00+00:00"
     },
     "ETH-USDT-SWAP": {
       "closed_trades": 0,
@@ -218,7 +218,7 @@
       "monthly_net_pnl_usdt": {},
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T16:00:00+00:00"
     }
   }
 }
