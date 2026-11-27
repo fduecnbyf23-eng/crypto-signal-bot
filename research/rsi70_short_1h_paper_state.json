@@ -6,31 +6,51 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795759200000,
+      "last_processed_candle": 1795766400000,
       "pending_signal": null,
-      "position": null,
+      "position": {
+        "entry_ts": 1795766400000,
+        "entry_time_utc": "2026-11-27T08:00:00+00:00",
+        "entry_fill": 61611.27528,
+        "quantity": 0.00016230795344770535,
+        "stop": 62286.39536394584,
+        "target": 60261.03511210832,
+        "entry_fee": 0.005,
+        "funding_usdt": 0.0,
+        "last_funding_time": 1795766400000
+      },
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T06:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T08:00:00+00:00"
     },
     "RSI70_BNB_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795759200000,
+      "last_processed_candle": 1795766400000,
       "pending_signal": null,
-      "position": null,
+      "position": {
+        "entry_ts": 1795766400000,
+        "entry_time_utc": "2026-11-27T08:00:00+00:00",
+        "entry_fill": 564.667044,
+        "quantity": 0.01770955132986298,
+        "stop": 570.1868513463559,
+        "target": 553.6274293072884,
+        "entry_fee": 0.004999999999999999,
+        "funding_usdt": 0.0,
+        "last_funding_time": 1795766400000
+      },
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T06:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T08:00:00+00:00"
     },
     "RSI70_XRP_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795759200000,
+      "last_processed_candle": 1795766400000,
       "pending_signal": null,
       "position": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T06:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T08:00:00+00:00"
     }
   }
 }
