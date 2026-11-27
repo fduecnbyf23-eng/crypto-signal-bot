@@ -2147,7 +2147,7 @@
     "target": 60095.84285714285,
     "rsi": 36.32065334193,
     "bar": "1795737600000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "SOL-USDT",
@@ -2157,7 +2157,7 @@
     "target": 70.25714285714285,
     "rsi": 39.99999999999984,
     "bar": "1795737600000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "XRP-USDT",
@@ -2167,6 +2167,46 @@
     "target": 0.9371714285714285,
     "rsi": 37.81512605042014,
     "bar": "1795739400000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "BTC-USDT",
+    "direction": "BUY",
+    "price": 60701.7,
+    "stop": 60469.767857142855,
+    "target": 61165.56428571428,
+    "rsi": 57.63398541497817,
+    "bar": "1795743000000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "ETH-USDT",
+    "direction": "BUY",
+    "price": 1700.09,
+    "stop": 1692.0874999999999,
+    "target": 1716.095,
+    "rsi": 54.881345749474264,
+    "bar": "1795743000000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "SOL-USDT",
+    "direction": "BUY",
+    "price": 71.4,
+    "stop": 71.05607142857143,
+    "target": 72.08785714285716,
+    "rsi": 59.33333333333337,
+    "bar": "1795743000000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "BNB-USDT",
+    "direction": "BUY",
+    "price": 556.34,
+    "stop": 554.4575000000001,
+    "target": 560.105,
+    "rsi": 60.74972436604195,
+    "bar": "1795743000000",
     "status": "PENDING"
   }
 ]
