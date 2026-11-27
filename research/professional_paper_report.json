@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-27T16:44:52.471240+00:00",
+  "updated_utc": "2026-11-27T18:28:56.571453+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "fee_per_side_pct": 0.05,
   "slippage_per_side_pct": 0.02,
@@ -8,30 +8,36 @@
   "accounts": {
     "DONCHIAN_ENSEMBLE_BTC_1H": {
       "starting_balance_usdt": 1000.0,
-      "balance_usdt": 1000.0,
-      "realized_pnl_usdt": 0.0,
+      "balance_usdt": 999.80805441,
+      "realized_pnl_usdt": -0.19194559,
       "order_size_usdt": 10.0,
-      "closed_trades": 0,
+      "closed_trades": 1,
       "wins": 0,
-      "losses": 0,
-      "win_rate_pct": null,
-      "profit_factor": null,
-      "open_position": {
-        "entry_ts": 1795791600000,
-        "entry_time_utc": "2026-11-27T15:00:00+00:00",
-        "entry_fill": 59168.963840000004,
-        "qty": 0.00016900752271142017,
-        "stop": 60232.898909396645,
-        "target": null,
-        "entry_fee": 0.005,
-        "funding_usdt": 0.0,
-        "last_funding_time": 1795791600000,
-        "direction": "SHORT",
-        "exit_period": 10
-      },
+      "losses": 1,
+      "win_rate_pct": 0.0,
+      "profit_factor": 0.0,
+      "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
-      "trades": []
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
+      "trades": [
+        {
+          "strategy_id": "DONCHIAN_ENSEMBLE_BTC_1H",
+          "symbol": "BTC-USDT-SWAP",
+          "direction": "SHORT",
+          "entry_time_utc": "2026-11-27T15:00:00+00:00",
+          "exit_time_utc": "2026-11-27T17:00:00+00:00",
+          "entry_price": 59168.96384,
+          "exit_price": 60244.9454891785,
+          "stop": 60232.898909396645,
+          "target": null,
+          "exit_reason": "STOP",
+          "gross_pnl_usdt": -0.18184899,
+          "fees_usdt": 0.01009092,
+          "funding_usdt": -5.67e-06,
+          "net_pnl_usdt": -0.19194559,
+          "balance_after_usdt": 999.80805441
+        }
+      ]
     },
     "DONCHIAN_ENSEMBLE_BTC_4H": {
       "starting_balance_usdt": 1000.0,
@@ -66,13 +72,13 @@
         "stop": 1687.732801688949,
         "target": null,
         "entry_fee": 0.005,
-        "funding_usdt": 0.0,
-        "last_funding_time": 1795791600000,
+        "funding_usdt": -7.5041504145e-05,
+        "last_funding_time": 1795795200000,
         "direction": "SHORT",
         "exit_period": 10
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": []
     },
     "DONCHIAN_ENSEMBLE_ETH_4H": {
@@ -102,7 +108,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": []
     },
     "DONCHIAN_ENSEMBLE_SOL_4H": {
@@ -132,7 +138,7 @@
       "profit_factor": 0.0,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": [
         {
           "strategy_id": "DONCHIAN_ENSEMBLE_BNB_1H",
@@ -186,13 +192,13 @@
         "stop": 0.9565235567604408,
         "target": null,
         "entry_fee": 0.005,
-        "funding_usdt": 0.0,
-        "last_funding_time": 1795791600000,
+        "funding_usdt": 8.931981391099999e-05,
+        "last_funding_time": 1795795200000,
         "direction": "SHORT",
         "exit_period": 10
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": [
         {
           "strategy_id": "DONCHIAN_ENSEMBLE_XRP_1H",
@@ -230,29 +236,17 @@
     },
     "TURTLE_STYLE_BTC_1H": {
       "starting_balance_usdt": 1000.0,
-      "balance_usdt": 999.83409843,
-      "realized_pnl_usdt": -0.16590157,
+      "balance_usdt": 999.64215284,
+      "realized_pnl_usdt": -0.35784716,
       "order_size_usdt": 10.0,
-      "closed_trades": 1,
+      "closed_trades": 2,
       "wins": 0,
-      "losses": 1,
+      "losses": 2,
       "win_rate_pct": 0.0,
       "profit_factor": 0.0,
-      "open_position": {
-        "entry_ts": 1795791600000,
-        "entry_time_utc": "2026-11-27T15:00:00+00:00",
-        "entry_fill": 59168.963840000004,
-        "qty": 0.00016900752271142017,
-        "stop": 60232.898909396645,
-        "target": null,
-        "entry_fee": 0.005,
-        "funding_usdt": 0.0,
-        "last_funding_time": 1795791600000,
-        "direction": "SHORT",
-        "exit_period": 10
-      },
+      "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_BTC_1H",
@@ -270,6 +264,23 @@
           "funding_usdt": -0.00048554,
           "net_pnl_usdt": -0.16590157,
           "balance_after_usdt": 999.83409843
+        },
+        {
+          "strategy_id": "TURTLE_STYLE_BTC_1H",
+          "symbol": "BTC-USDT-SWAP",
+          "direction": "SHORT",
+          "entry_time_utc": "2026-11-27T15:00:00+00:00",
+          "exit_time_utc": "2026-11-27T17:00:00+00:00",
+          "entry_price": 59168.96384,
+          "exit_price": 60244.9454891785,
+          "stop": 60232.898909396645,
+          "target": null,
+          "exit_reason": "STOP",
+          "gross_pnl_usdt": -0.18184899,
+          "fees_usdt": 0.01009092,
+          "funding_usdt": -5.67e-06,
+          "net_pnl_usdt": -0.19194559,
+          "balance_after_usdt": 999.64215284
         }
       ]
     },
@@ -306,13 +317,13 @@
         "stop": 1687.732801688949,
         "target": null,
         "entry_fee": 0.005,
-        "funding_usdt": 0.0,
-        "last_funding_time": 1795791600000,
+        "funding_usdt": -7.5041504145e-05,
+        "last_funding_time": 1795795200000,
         "direction": "SHORT",
         "exit_period": 10
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_ETH_1H",
@@ -360,7 +371,7 @@
       "profit_factor": 0.0,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_SOL_1H",
@@ -408,7 +419,7 @@
       "profit_factor": 0.0,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_BNB_1H",
@@ -479,13 +490,13 @@
         "stop": 0.9565235567604408,
         "target": null,
         "entry_fee": 0.005,
-        "funding_usdt": 0.0,
-        "last_funding_time": 1795791600000,
+        "funding_usdt": 8.931981391099999e-05,
+        "last_funding_time": 1795795200000,
         "direction": "SHORT",
         "exit_period": 10
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_XRP_1H",
@@ -551,7 +562,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_BTC_4H": {
@@ -581,7 +592,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_ETH_4H": {
@@ -611,7 +622,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_SOL_4H": {
@@ -641,7 +652,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_BNB_4H": {
@@ -671,7 +682,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-27T15:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_XRP_4H": {
