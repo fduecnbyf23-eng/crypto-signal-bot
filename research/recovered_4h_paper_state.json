@@ -4,43 +4,52 @@
   "accounts": {
     "BNB_LONG_4H": {
       "starting_balance_usdt": 1000.0,
-      "balance_usdt": 1000.0,
-      "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795766400000,
+      "balance_usdt": 999.7271141677622,
+      "realized_pnl_usdt": -0.27288583223776836,
+      "last_processed_candle": 1795780800000,
       "pending_signal": null,
-      "position": {
-        "entry_ts": 1795752000000,
-        "entry_time_utc": "2026-11-27T04:00:00+00:00",
-        "entry_fill": 562.4524680000001,
-        "quantity": 0.017779280150656215,
-        "stop": 547.8014012319853,
-        "target": 591.7546015360296,
-        "entry_fee": 0.005000000000000001,
-        "funding_usdt": -0.000583725409126,
-        "last_funding_time": 1795766400000
-      },
-      "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T08:00:00+00:00"
+      "position": null,
+      "trades": [
+        {
+          "strategy_id": "BNB_LONG_4H",
+          "symbol": "BNB-USDT-SWAP",
+          "direction": "LONG",
+          "entry_time_utc": "2026-11-27T04:00:00+00:00",
+          "exit_time_utc": "2026-11-27T16:00:00+00:00",
+          "entry_price": 562.452468,
+          "exit_price": 547.6918409517,
+          "quantity": 0.017779280150656215,
+          "stop": 547.8014012319853,
+          "target": 591.7546015360296,
+          "exit_reason": "STOP",
+          "gross_pnl_usdt": -0.26243332,
+          "fees_usdt": 0.00986878,
+          "funding_usdt": -0.00058373,
+          "net_pnl_usdt": -0.27288583,
+          "balance_after_usdt": 999.72711417
+        }
+      ],
+      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
     },
     "XRP_SHORT_4H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795766400000,
+      "last_processed_candle": 1795780800000,
       "pending_signal": null,
       "position": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T08:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
     },
     "SOL_SHORT_4H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795766400000,
+      "last_processed_candle": 1795780800000,
       "pending_signal": null,
       "position": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T08:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
     }
   }
 }
