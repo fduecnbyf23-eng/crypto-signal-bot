@@ -6,7 +6,7 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795777200000,
+      "last_processed_candle": 1795780800000,
       "pending_signal": null,
       "position": {
         "entry_ts": 1795766400000,
@@ -20,13 +20,13 @@
         "last_funding_time": 1795766400000
       },
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T11:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
     },
     "RSI70_BNB_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795777200000,
+      "last_processed_candle": 1795780800000,
       "pending_signal": null,
       "position": {
         "entry_ts": 1795766400000,
@@ -40,23 +40,27 @@
         "last_funding_time": 1795766400000
       },
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T11:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
     },
     "RSI70_XRP_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795777200000,
-      "pending_signal": {
-        "signal_ts": 1795777200000,
-        "signal_close": 0.9755,
-        "atr": 0.00810413005210453,
-        "rsi_previous": 73.80369285671284,
-        "rsi_current": 66.4986178094161
+      "last_processed_candle": 1795780800000,
+      "pending_signal": null,
+      "position": {
+        "entry_ts": 1795780800000,
+        "entry_time_utc": "2026-11-27T12:00:00+00:00",
+        "entry_fill": 0.9753049,
+        "quantity": 10.253203895520262,
+        "stop": 0.9876561950781568,
+        "target": 0.9506023098436864,
+        "entry_fee": 0.005,
+        "funding_usdt": 0.0,
+        "last_funding_time": 1795780800000
       },
-      "position": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T11:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
     }
   }
 }
