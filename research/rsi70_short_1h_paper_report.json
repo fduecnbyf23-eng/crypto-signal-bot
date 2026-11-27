@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-27T09:24:22.272496+00:00",
+  "updated_utc": "2026-11-27T11:05:46.062962+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "strategy": "RSI(14) crosses down through 70; SHORT next 1H candle",
   "stop_anchor": "SIGNAL_CANDLE_CLOSE_PROVISIONAL",
@@ -40,7 +40,7 @@
           "last_funding_time": 1795766400000
         },
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-27T08:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-27T10:00:00+00:00",
         "trades": []
       },
       "historical_reference": {
@@ -80,7 +80,7 @@
           "last_funding_time": 1795766400000
         },
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-27T08:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-27T10:00:00+00:00",
         "trades": []
       },
       "historical_reference": {
@@ -110,7 +110,7 @@
         "profit_factor": null,
         "open_position": null,
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-27T08:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-27T10:00:00+00:00",
         "trades": []
       },
       "historical_reference": {
