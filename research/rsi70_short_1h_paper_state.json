@@ -4,63 +4,90 @@
   "accounts": {
     "RSI70_BTC_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
-      "balance_usdt": 1000.0,
-      "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795780800000,
+      "balance_usdt": 1000.2073071485316,
+      "realized_pnl_usdt": 0.2073071485316764,
+      "last_processed_candle": 1795788000000,
       "pending_signal": null,
-      "position": {
-        "entry_ts": 1795766400000,
-        "entry_time_utc": "2026-11-27T08:00:00+00:00",
-        "entry_fill": 61611.27528,
-        "quantity": 0.00016230795344770535,
-        "stop": 62286.39536394584,
-        "target": 60261.03511210832,
-        "entry_fee": 0.005,
-        "funding_usdt": 0.0,
-        "last_funding_time": 1795766400000
-      },
-      "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
+      "position": null,
+      "trades": [
+        {
+          "strategy_id": "RSI70_BTC_SHORT_1H",
+          "symbol": "BTC-USDT-SWAP",
+          "direction": "SHORT",
+          "entry_time_utc": "2026-11-27T08:00:00+00:00",
+          "exit_time_utc": "2026-11-27T15:00:00+00:00",
+          "entry_price": 61611.27528,
+          "exit_price": 60273.0873191307,
+          "quantity": 0.00016230795344770535,
+          "stop": 62286.39536394584,
+          "target": 60261.03511210832,
+          "exit_reason": "TARGET_2R",
+          "gross_pnl_usdt": 0.21719855,
+          "fees_usdt": 0.0098914,
+          "funding_usdt": 0.0,
+          "net_pnl_usdt": 0.20730715,
+          "balance_after_usdt": 1000.20730715
+        }
+      ],
+      "latest_closed_candle_utc": "2026-11-27T14:00:00+00:00"
     },
     "RSI70_BNB_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
-      "balance_usdt": 1000.0,
-      "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795780800000,
+      "balance_usdt": 1000.1836424972493,
+      "realized_pnl_usdt": 0.18364249724929396,
+      "last_processed_candle": 1795788000000,
       "pending_signal": null,
-      "position": {
-        "entry_ts": 1795766400000,
-        "entry_time_utc": "2026-11-27T08:00:00+00:00",
-        "entry_fill": 564.667044,
-        "quantity": 0.01770955132986298,
-        "stop": 570.1868513463559,
-        "target": 553.6274293072884,
-        "entry_fee": 0.004999999999999999,
-        "funding_usdt": 0.0,
-        "last_funding_time": 1795766400000
-      },
-      "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
+      "position": null,
+      "trades": [
+        {
+          "strategy_id": "RSI70_BNB_SHORT_1H",
+          "symbol": "BNB-USDT-SWAP",
+          "direction": "SHORT",
+          "entry_time_utc": "2026-11-27T08:00:00+00:00",
+          "exit_time_utc": "2026-11-27T15:00:00+00:00",
+          "entry_price": 564.667044,
+          "exit_price": 553.7381547931,
+          "quantity": 0.01770955132986298,
+          "stop": 570.1868513463559,
+          "target": 553.6274293072884,
+          "exit_reason": "TARGET_2R",
+          "gross_pnl_usdt": 0.19354572,
+          "fees_usdt": 0.00990323,
+          "funding_usdt": 0.0,
+          "net_pnl_usdt": 0.1836425,
+          "balance_after_usdt": 1000.1836425
+        }
+      ],
+      "latest_closed_candle_utc": "2026-11-27T14:00:00+00:00"
     },
     "RSI70_XRP_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
-      "balance_usdt": 1000.0,
-      "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795780800000,
+      "balance_usdt": 1000.2414570154338,
+      "realized_pnl_usdt": 0.24145701543375833,
+      "last_processed_candle": 1795788000000,
       "pending_signal": null,
-      "position": {
-        "entry_ts": 1795780800000,
-        "entry_time_utc": "2026-11-27T12:00:00+00:00",
-        "entry_fill": 0.9753049,
-        "quantity": 10.253203895520262,
-        "stop": 0.9876561950781568,
-        "target": 0.9506023098436864,
-        "entry_fee": 0.005,
-        "funding_usdt": 0.0,
-        "last_funding_time": 1795780800000
-      },
-      "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T12:00:00+00:00"
+      "position": null,
+      "trades": [
+        {
+          "strategy_id": "RSI70_XRP_SHORT_1H",
+          "symbol": "XRP-USDT-SWAP",
+          "direction": "SHORT",
+          "entry_time_utc": "2026-11-27T12:00:00+00:00",
+          "exit_time_utc": "2026-11-27T15:00:00+00:00",
+          "entry_price": 0.9753049,
+          "exit_price": 0.9507924303,
+          "quantity": 10.253203895520262,
+          "stop": 0.9876561950781568,
+          "target": 0.9506023098436864,
+          "exit_reason": "TARGET_2R",
+          "gross_pnl_usdt": 0.25133135,
+          "fees_usdt": 0.00987433,
+          "funding_usdt": 0.0,
+          "net_pnl_usdt": 0.24145702,
+          "balance_after_usdt": 1000.24145702
+        }
+      ],
+      "latest_closed_candle_utc": "2026-11-27T14:00:00+00:00"
     }
   }
 }
