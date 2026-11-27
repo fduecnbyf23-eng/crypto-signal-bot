@@ -6,7 +6,7 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.2073071485316,
       "realized_pnl_usdt": 0.2073071485316764,
-      "last_processed_candle": 1795798800000,
+      "last_processed_candle": 1795802400000,
       "pending_signal": null,
       "position": null,
       "trades": [
@@ -29,13 +29,13 @@
           "balance_after_usdt": 1000.20730715
         }
       ],
-      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T18:00:00+00:00"
     },
     "RSI70_BNB_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.1836424972493,
       "realized_pnl_usdt": 0.18364249724929396,
-      "last_processed_candle": 1795798800000,
+      "last_processed_candle": 1795802400000,
       "pending_signal": null,
       "position": null,
       "trades": [
@@ -58,13 +58,13 @@
           "balance_after_usdt": 1000.1836425
         }
       ],
-      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T18:00:00+00:00"
     },
     "RSI70_XRP_SHORT_1H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.2414570154338,
       "realized_pnl_usdt": 0.24145701543375833,
-      "last_processed_candle": 1795798800000,
+      "last_processed_candle": 1795802400000,
       "pending_signal": null,
       "position": null,
       "trades": [
@@ -87,7 +87,7 @@
           "balance_after_usdt": 1000.24145702
         }
       ],
-      "latest_closed_candle_utc": "2026-11-27T17:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-27T18:00:00+00:00"
     }
   }
 }
