@@ -10,7 +10,6 @@ TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
 SYMBOLS = ["BTC-USDT", "ETH-USDT", "SOL-USDT", "BNB-USDT", "XRP-USDT"]
-MAX_SIGNALS_PER_DAY = 15
 
 sent_signals = set()
 daily_count = 0
@@ -323,9 +322,6 @@ def main():
 
     for symbol in SYMBOLS:
         try:
-            if daily_count >= MAX_SIGNALS_PER_DAY:
-                break
-
             result = analyze(symbol)
             print(symbol, "Результат:", result)
 
