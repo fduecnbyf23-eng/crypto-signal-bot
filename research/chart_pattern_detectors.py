@@ -183,7 +183,7 @@ def detect(candles: Iterable[Candle], *, left: int = 3, right: int = 3,
                 emit("trend_reversal_structure_break", "LONG", last_high.price, last_low.price if last_low else last_high.price-atr, ps[-6:], "bullish break of confirmed swing high")
 
         # Rounding top: a broad rolling arc with a central maximum and weakening right half.
-        window = bars[max(0, i-39):i+1]
+        window = bars[max(0, i-40):i]
         if len(window) >= 30:
             closes = [x.close for x in window]
             mid = len(closes)//2
@@ -195,7 +195,7 @@ def detect(candles: Iterable[Candle], *, left: int = 3, right: int = 3,
                 emit("rounding_top", "SHORT", floor, max(x.high for x in window), ps[-6:], "rounded distribution arc; support close break")
 
         # Inverted cup-and-handle: rounded trough then a weak recovery/handle and support break.
-        if len(window := bars[max(0, i-39):i+1]) >= 30:
+        if len(window := bars[max(0, i-40):i]) >= 30:
             lows = [x.close for x in window]
             mid = len(lows)//2
             trough = min(range(len(lows)), key=lambda z: lows[z])
