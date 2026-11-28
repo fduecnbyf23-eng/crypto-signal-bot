@@ -139,7 +139,7 @@ def pattern_fixture(anchors, *, direction="SHORT", close_shape=None):
         bars.append(Candle(i * 3_600_000, close, high, low, close, 100.0))
     # Break only after all pattern pivots have had time to confirm.
     final_close = 90.0 if direction == "SHORT" else 110.0
-    bars[-1] = Candle(bars[-1].ts, final_close, final_close + 0.25,
+    bars[-2] = Candle(bars[-2].ts, final_close, final_close + 0.25,
                       final_close - 0.25, final_close, 100.0)
     return bars
 
