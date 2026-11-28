@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-28T15:07:16.560455+00:00",
+  "updated_utc": "2026-11-28T15:58:56.968177+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "strategy": "RSI(14) crosses down through 70; SHORT next 1H candle",
   "stop_anchor": "SIGNAL_CANDLE_CLOSE_PROVISIONAL",
