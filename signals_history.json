@@ -2277,7 +2277,7 @@
     "target": 70.14642857142857,
     "rsi": 36.276849642004706,
     "bar": "1795796100000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "BNB-USDT",
@@ -2387,7 +2387,7 @@
     "target": 0.9340857142857143,
     "rsi": 33.70165745856349,
     "bar": "1795850100000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "BTC-USDT",
@@ -2407,7 +2407,7 @@
     "target": 70.37642857142856,
     "rsi": 35.41666666666737,
     "bar": "1795853700000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "BTC-USDT",
@@ -2427,7 +2427,7 @@
     "target": 1635.9007142857145,
     "rsi": 40.54997817546951,
     "bar": "1795857300000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "SOL-USDT",
@@ -2437,7 +2437,7 @@
     "target": 70.34285714285713,
     "rsi": 40.74074074074084,
     "bar": "1795857300000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "BNB-USDT",
@@ -2457,7 +2457,7 @@
     "target": 0.9336428571428572,
     "rsi": 33.33333333333333,
     "bar": "1795857300000",
-    "status": "PENDING"
+    "status": "WIN"
   },
   {
     "symbol": "SOL-USDT",
@@ -2497,6 +2497,6 @@
     "target": 546.2307142857144,
     "rsi": 34.58781362007194,
     "bar": "1795866300000",
-    "status": "PENDING"
+    "status": "LOSS"
   }
 ]
