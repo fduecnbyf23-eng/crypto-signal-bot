@@ -2447,7 +2447,7 @@
     "target": 546.5364285714285,
     "rsi": 46.23803009575963,
     "bar": "1795857300000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "XRP-USDT",
@@ -2517,6 +2517,26 @@
     "target": 556.1278571428572,
     "rsi": 61.88769414575887,
     "bar": "1795878900000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "BTC-USDT",
+    "direction": "BUY",
+    "price": 59497.2,
+    "stop": 59257.73571428571,
+    "target": 59976.12857142857,
+    "rsi": 66.18757612667409,
+    "bar": "1795881600000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "BNB-USDT",
+    "direction": "BUY",
+    "price": 552.16,
+    "stop": 549.8907142857142,
+    "target": 556.6985714285714,
+    "rsi": 61.00427350427306,
+    "bar": "1795881600000",
     "status": "PENDING"
   }
 ]
