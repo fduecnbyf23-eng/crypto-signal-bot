@@ -2467,7 +2467,7 @@
     "target": 70.10357142857143,
     "rsi": 33.33333333333333,
     "bar": "1795863600000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "BNB-USDT",
@@ -2477,7 +2477,7 @@
     "target": 545.9192857142857,
     "rsi": 38.13443072702314,
     "bar": "1795863600000",
-    "status": "PENDING"
+    "status": "LOSS"
   },
   {
     "symbol": "ETH-USDT",
