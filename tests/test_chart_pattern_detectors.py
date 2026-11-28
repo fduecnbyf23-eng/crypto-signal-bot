@@ -120,6 +120,8 @@ def pattern_fixture(anchors, *, direction="SHORT", close_shape=None, breakout_pr
         for j in range(40):
             x = j / 39
             closes[start + j] = 100.0 + 10.0 * (1.0 - abs(2.0*x - 1.0)) - 0.05 * j
+        # Keep the final pre-break candle above the support threshold.
+        closes[break_index - 1] = 105.0
     elif close_shape == "inverted_cup":
         start = break_index - 40
         for j in range(40):
