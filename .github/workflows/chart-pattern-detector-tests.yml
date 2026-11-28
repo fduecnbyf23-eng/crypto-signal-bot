@@ -1,0 +1,31 @@
+name: Chart Pattern Detector Tests
+
+on:
+  push:
+    branches:
+      - chart-pattern-research
+    paths:
+      - "research/chart_pattern_detectors.py"
+      - "tests/test_chart_pattern_detectors.py"
+      - ".github/workflows/chart-pattern-detector-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  detector-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+        with:
+          ref: chart-pattern-research
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run detector unit tests
+        run: python -m unittest discover -s tests -p "test_chart_pattern_detectors.py" -v
+      - name: Compile detector module
+        run: python -m py_compile research/chart_pattern_detectors.py
