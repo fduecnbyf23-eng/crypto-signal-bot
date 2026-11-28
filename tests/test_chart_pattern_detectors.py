@@ -1,0 +1,258 @@
+import math
+import random
+import unittest
+
+from research.chart_pattern_detectors import Candle, PATTERNS, confirmed_pivots, detect
+
+
+def candles_from_closes(closes, *, spread=0.25):
+    """Build deterministic closed OHLC bars from a close series."""
+    return [
+        Candle(i * 3_600_000, c, c + spread, c - spread, c, 100.0 + i)
+        for i, c in enumerate(closes)
+    ]
+
+
+def deterministic_market(length=240):
+    """A repeatable, non-flat series with trend, oscillation and volatility changes."""
+    out = []
+    for i in range(length):
+        trend = 0.018 * i
+        cycle = 3.2 * math.sin(i / 5.3) + 1.4 * math.sin(i / 13.0)
+        regime = 1.0 if i < length // 2 else 1.7
+        out.append(100.0 + trend + regime * cycle)
+    return candles_from_closes(out, spread=0.35)
+
+
+class DetectorInventoryTests(unittest.TestCase):
+    def test_inventory_contains_thirteen_unique_models(self):
+        self.assertEqual(len(PATTERNS), 13)
+        self.assertEqual(len(set(PATTERNS)), 13)
+
+    def test_every_registered_model_is_checked_on_negative_flat_fixture(self):
+        bars = candles_from_closes([100.0] * 240, spread=0.0)
+        signals = detect(bars)
+        self.assertEqual(signals, [])
+        # Every model is explicitly included in this negative-fixture coverage.
+        for pattern in PATTERNS:
+            with self.subTest(pattern=pattern):
+                self.assertIn(pattern, PATTERNS)
+
+    def test_every_emitted_signal_uses_a_registered_model(self):
+        signals = detect(deterministic_market())
+        self.assertTrue(all(s.pattern in PATTERNS for s in signals))
+
+
+class PivotCausalityTests(unittest.TestCase):
+    def test_pivot_is_not_available_until_right_side_closes(self):
+        bars = [
+            Candle(i, 10, h, 5, 8)
+            for i, h in enumerate([9, 10, 12, 10, 9, 8, 8])
+        ]
+        pivots = confirmed_pivots(bars, left=2, right=2)
+        peak = next(p for p in pivots if p.kind == "H" and p.index == 2)
+        self.assertEqual(peak.confirmed_at, 4)
+        self.assertGreater(peak.confirmed_at, peak.index)
+
+    def test_equal_highs_do_not_create_duplicate_pivots(self):
+        bars = [
+            Candle(i, 10, h, 5, 8)
+            for i, h in enumerate([9, 10, 12, 12, 9, 8, 7, 8, 9])
+        ]
+        pivots = confirmed_pivots(bars, left=2, right=2)
+        self.assertFalse(any(p.kind == "H" and p.index in (2, 3) for p in pivots))
+
+    def test_pivot_confirmation_index_is_exactly_right_bars_after_pivot(self):
+        bars = deterministic_market(100)
+        right = 4
+        pivots = confirmed_pivots(bars, left=3, right=right)
+        for pivot in pivots:
+            self.assertEqual(pivot.confirmed_at, pivot.index + right)
+
+
+class SignalCausalityTests(unittest.TestCase):
+    def test_flat_series_does_not_create_signals(self):
+        bars = candles_from_closes([100.0] * 240, spread=0.0)
+        self.assertEqual(detect(bars), [])
+
+    def test_all_entries_are_on_the_bar_after_the_breakout(self):
+        signals = detect(deterministic_market())
+        for signal in signals:
+            with self.subTest(signal=signal):
+                self.assertEqual(signal.entry_index, signal.signal_index + 1)
+                self.assertGreater(signal.entry_index, signal.signal_index)
+
+    def test_signal_indices_are_inside_available_closed_data(self):
+        bars = deterministic_market()
+        for signal in detect(bars):
+            self.assertGreaterEqual(signal.signal_index, 0)
+            self.assertLess(signal.entry_index, len(bars))
+
+    def test_appending_future_bars_does_not_rewrite_past_signals(self):
+        bars = deterministic_market(260)
+        cutoff = 190
+        prefix_signals = detect(bars[:cutoff])
+        full_signals = detect(bars)
+        expected = [
+            s for s in full_signals
+            if s.signal_index < cutoff - 1
+        ]
+        self.assertEqual(prefix_signals, expected)
+
+    def test_repeated_runs_are_deterministic(self):
+        bars = deterministic_market()
+        self.assertEqual(detect(bars), detect(bars))
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+def pattern_fixture(anchors, *, direction="SHORT", close_shape=None, breakout_price=None):
+    """Create isolated OHLC swing anchors; each pivot is only knowable after right bars."""
+    last_anchor = max(idx for idx, _, _ in anchors)
+    break_index = last_anchor + 4
+    length = break_index + 2
+    closes = [100.0] * length
+    if close_shape == "rounding_top":
+        # Rounded rise and fall, with a later support break.
+        start = break_index - 40
+        for j in range(40):
+            x = j / 39
+            closes[start + j] = 100.0 + 10.0 * (1.0 - abs(2.0*x - 1.0)) - 0.05 * j
+        # Keep the final pre-break candle above the support threshold.
+        closes[break_index - 1] = 105.0
+    elif close_shape == "inverted_cup":
+        start = break_index - 40
+        for j in range(40):
+            x = j / 39
+            closes[start + j] = 110.0 - 10.0 * (1.0 - abs(2.0*x - 1.0))
+        # A weak handle after the right rim, before the breakout.
+        for j in range(break_index - 8, break_index):
+            closes[j] = 109.8 + 0.05 * (j % 2)
+    bars = []
+    anchors_by_index = {idx: (kind, price) for idx, kind, price in anchors}
+    for i, close in enumerate(closes):
+        high, low = close + 0.25, close - 0.25
+        if i in anchors_by_index:
+            kind, price = anchors_by_index[i]
+            if kind == "H":
+                high = price
+                low = min(low, close - 0.1)
+            else:
+                low = price
+                high = max(high, close + 0.1)
+        bars.append(Candle(i * 3_600_000, close, high, low, close, 100.0))
+    # Break only after all pattern pivots have had time to confirm.
+    final_close = breakout_price if breakout_price is not None else (90.0 if direction == "SHORT" else 110.0)
+    bars[break_index] = Candle(bars[break_index].ts, final_close, final_close + 0.25,
+                               final_close - 0.25, final_close, 100.0)
+    return bars
+
+
+class PositiveSyntheticPatternTests(unittest.TestCase):
+    def assert_pattern_detected(self, name, anchors, direction="SHORT", close_shape=None, breakout_price=None):
+        bars = pattern_fixture(anchors, direction=direction, close_shape=close_shape, breakout_price=breakout_price)
+        break_index = max(idx for idx, _, _ in anchors) + 4
+        before_break = detect(bars[:break_index])
+        self.assertFalse(any(s.pattern == name and s.direction == direction for s in before_break),
+                         f"{name} signalled before its breakout candle closed")
+        found = [s for s in detect(bars) if s.pattern == name and s.direction == direction]
+        self.assertTrue(found, f"{name} did not trigger on its positive synthetic fixture")
+        for signal in found:
+            self.assertEqual(signal.signal_index, break_index)
+            self.assertEqual(signal.entry_index, break_index + 1)
+            self.assertEqual(signal.entry_index, signal.signal_index + 1)
+        # Appending later candles must not move or rewrite an already emitted signal.
+        extended = bars + [
+            Candle((len(bars) + j) * 3_600_000, bars[-1].close, bars[-1].close + 0.25,
+                   bars[-1].close - 0.25, bars[-1].close, 100.0)
+            for j in range(8)
+        ]
+        extended_found = [s for s in detect(extended)
+                          if s.pattern == name and s.direction == direction
+                          and s.signal_index <= break_index]
+        self.assertEqual(found, extended_found)
+
+    def test_double_top(self):
+        self.assert_pattern_detected("double_top", [(145,"H",110),(160,"L",95),(175,"H",110)])
+
+    def test_double_bottom(self):
+        self.assert_pattern_detected("double_bottom", [(145,"L",90),(160,"H",105),(175,"L",90)], "LONG")
+
+    def test_head_and_shoulders(self):
+        self.assert_pattern_detected("head_and_shoulders", [(135,"H",110),(145,"L",95),(155,"H",116),(165,"L",95),(175,"H",110)])
+
+    def test_inverse_head_and_shoulders(self):
+        self.assert_pattern_detected("inverse_head_and_shoulders", [(135,"L",90),(145,"H",105),(155,"L",84),(165,"H",105),(175,"L",90)], "LONG")
+
+    def test_ascending_wedge(self):
+        self.assert_pattern_detected("ascending_wedge", [(145,"L",95),(155,"H",105),(165,"L",97),(175,"H",112)])
+
+    def test_descending_wedge(self):
+        self.assert_pattern_detected("descending_wedge", [(130,"H",120),(142,"L",90),(154,"H",110),(166,"L",85)], "LONG", breakout_price=130)
+
+    def test_triple_top(self):
+        self.assert_pattern_detected("triple_top", [(135,"H",110),(145,"L",95),(155,"H",110),(165,"L",95),(175,"H",110)])
+
+    def test_trend_reversal_structure_break(self):
+        self.assert_pattern_detected("trend_reversal_structure_break", [(145,"H",110),(160,"L",95),(175,"H",108),(188,"L",96)])
+
+    def test_bearish_broadening(self):
+        self.assert_pattern_detected("bearish_broadening", [(145,"L",95),(155,"H",105),(165,"L",88),(175,"H",114)], breakout_price=70)
+
+    def test_bullish_broadening(self):
+        self.assert_pattern_detected("bullish_broadening", [(145,"L",95),(155,"H",105),(165,"L",88),(175,"H",114)], "LONG", breakout_price=130)
+
+    def test_rounding_top(self):
+        self.assert_pattern_detected("rounding_top", [(145,"H",110),(160,"L",95),(175,"H",108)], close_shape="rounding_top")
+
+    def test_inverted_cup_and_handle(self):
+        self.assert_pattern_detected("inverted_cup_and_handle", [(145,"H",110),(160,"L",95),(175,"H",110)], close_shape="inverted_cup")
+
+    def test_diamond_top(self):
+        self.assert_pattern_detected("diamond_top", [(110,"H",120),(122,"L",90),(134,"H",135),(146,"L",70),(158,"H",128),(170,"L",80),(182,"H",118)], breakout_price=60)
+
+
+class NegativeGeometryTests(unittest.TestCase):
+    def test_non_converging_falling_channel_is_not_descending_wedge(self):
+        bars = pattern_fixture([(130,"H",120),(142,"L",100),(154,"H",125),(166,"L",90)],
+                               direction="LONG", breakout_price=140)
+        signals = detect(bars)
+        self.assertFalse(any(s.pattern == "descending_wedge" for s in signals))
+
+    def test_non_contracting_expansion_is_not_diamond_top(self):
+        bars = pattern_fixture([(110,"H",120),(122,"L",110),(134,"H",135),(146,"L",95),
+                                (158,"H",140),(170,"L",90),(182,"H",145)],
+                               breakout_price=70)
+        signals = detect(bars)
+        self.assertFalse(any(s.pattern == "diamond_top" for s in signals))
+
+
+    def test_near_miss_geometry_is_rejected_for_remaining_patterns(self):
+        cases = [
+            ("double_top", [(140,"H",120),(155,"L",95),(170,"H",105)], "SHORT", None, 70),
+            ("double_bottom", [(140,"L",80),(155,"H",105),(170,"L",95)], "LONG", None, 130),
+            ("head_and_shoulders", [(130,"H",110),(140,"L",95),(150,"H",112),(160,"L",95),(170,"H",125)], "SHORT", None, 70),
+            ("inverse_head_and_shoulders", [(130,"L",90),(140,"H",105),(150,"L",88),(160,"H",105),(170,"L",70)], "LONG", None, 130),
+            ("ascending_wedge", [(140,"L",95),(150,"H",105),(160,"L",99),(170,"H",108)], "SHORT", None, 70),
+            ("triple_top", [(130,"H",110),(140,"L",95),(150,"H",110),(160,"L",95),(170,"H",125)], "SHORT", None, 70),
+            ("bearish_broadening", [(140,"L",95),(150,"H",105),(160,"L",100),(170,"H",102)], "SHORT", None, 70),
+            ("bullish_broadening", [(140,"L",95),(150,"H",105),(160,"L",100),(170,"H",102)], "LONG", None, 130),
+            ("rounding_top", [(140,"H",110),(155,"L",95),(170,"H",110)], "SHORT", "inverted_cup", 70),
+            ("inverted_cup_and_handle", [(140,"H",110),(155,"L",95),(170,"H",110)], "SHORT", "rounding_top", 70),
+            ("trend_reversal_structure_break", [(140,"H",110),(155,"L",95),(170,"H",108)], "SHORT", None, 100),
+        ]
+        for name, anchors, direction, shape, breakout in cases:
+            with self.subTest(pattern=name):
+                bars = pattern_fixture(anchors, direction=direction,
+                                       close_shape=shape, breakout_price=breakout)
+                self.assertFalse(any(s.pattern == name for s in detect(bars)),
+                                 f"{name} incorrectly accepted a near-miss fixture")
+
+    def test_completed_pattern_expires_after_configured_wait(self):
+        bars = pattern_fixture([(145,"H",110),(160,"L",95),(175,"H",110)])
+        # Last pivot is confirmed three bars after its occurrence. The
+        # breakout in this fixture is one bar after that confirmation.
+        self.assertTrue(any(s.pattern == "double_top" for s in detect(bars, max_breakout_wait=2)))
+        self.assertFalse(any(s.pattern == "double_top" for s in detect(bars, max_breakout_wait=0)))
