@@ -90,18 +90,17 @@ def settle(history, symbol, tf, closed_bars):
         if exit_price is None:
             continue
         sign = -1 if item["direction"] == "SHORT" else 1
-            gross_r = (exit_price - item["entry"]) * sign / item["risk"]
-            # Estimated taker fee 0.05% + slippage 0.02% per side.
-            cost_r = 0.0007 * (item["entry"] + exit_price) / item["risk"]
-            item.update({
-                "status": "LOSS" if stop_hit else "WIN",
-                "exit_ts": exit_ts,
-                "exit_price": exit_price,
-                "gross_r": gross_r,
-                "cost_r": cost_r,
-                "realized_r": gross_r - cost_r,
-            })
-            break
+        gross_r = (exit_price - item["entry"]) * sign / item["risk"]
+        # Estimated taker fee 0.05% + slippage 0.02% per side.
+        cost_r = 0.0007 * (item["entry"] + exit_price) / item["risk"]
+        item.update({
+            "status": "LOSS" if stop_hit else "WIN",
+            "exit_ts": exit_ts,
+            "exit_price": exit_price,
+            "gross_r": gross_r,
+            "cost_r": cost_r,
+            "realized_r": gross_r - cost_r,
+        })
 
 
 def detect_new(symbol, tf, raw, history, state, send_message):
