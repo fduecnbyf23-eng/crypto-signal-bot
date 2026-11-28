@@ -111,6 +111,10 @@ def detect(candles: Iterable[Candle], *, left: int = 3, right: int = 3,
             key = (name, i, direction)
             if key in seen:
                 return
+            # A completed formation expires after a fixed number of bars.
+            # The clock starts only when its latest selected pivot is confirmed.
+            if not chosen or i - max(p.confirmed_at for p in chosen) > max_breakout_wait:
+                return
             broke = c < boundary - buf if direction == "SHORT" else c > boundary + buf
             if not broke:
                 return
