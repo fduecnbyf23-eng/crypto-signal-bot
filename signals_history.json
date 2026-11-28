@@ -2478,5 +2478,25 @@
     "rsi": 38.13443072702314,
     "bar": "1795863600000",
     "status": "PENDING"
+  },
+  {
+    "symbol": "ETH-USDT",
+    "direction": "SELL",
+    "price": 1648.27,
+    "stop": 1655.3060714285714,
+    "target": 1634.1978571428572,
+    "rsi": 35.69946035699461,
+    "bar": "1795866300000",
+    "status": "PENDING"
+  },
+  {
+    "symbol": "BNB-USDT",
+    "direction": "SELL",
+    "price": 549.7,
+    "stop": 551.4346428571429,
+    "target": 546.2307142857144,
+    "rsi": 34.58781362007194,
+    "bar": "1795866300000",
+    "status": "PENDING"
   }
 ]
