@@ -106,3 +106,88 @@ class SignalCausalityTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def pattern_fixture(anchors, *, direction="SHORT", close_shape=None):
+    """Create isolated OHLC swing anchors; each pivot is only knowable after right bars."""
+    length = 230
+    closes = [100.0] * length
+    if close_shape == "rounding_top":
+        # Rounded rise and fall, with a later support break.
+        for j in range(40):
+            x = j / 39
+            closes[length - 41 + j] = 100.0 + 10.0 * (1.0 - abs(2.0*x - 1.0))
+    elif close_shape == "inverted_cup":
+        for j in range(40):
+            x = j / 39
+            closes[length - 41 + j] = 110.0 - 10.0 * (1.0 - abs(2.0*x - 1.0))
+        # A weak handle after the right rim.
+        for j in range(length - 8, length - 1):
+            closes[j] = 108.0 + 0.15 * (j % 2)
+    bars = []
+    anchors_by_index = {idx: (kind, price) for idx, kind, price in anchors}
+    for i, close in enumerate(closes):
+        high, low = close + 0.25, close - 0.25
+        if i in anchors_by_index:
+            kind, price = anchors_by_index[i]
+            if kind == "H":
+                high = price
+                low = min(low, close - 0.1)
+            else:
+                low = price
+                high = max(high, close + 0.1)
+        bars.append(Candle(i * 3_600_000, close, high, low, close, 100.0))
+    # Break only after all pattern pivots have had time to confirm.
+    final_close = 90.0 if direction == "SHORT" else 110.0
+    bars[-1] = Candle(bars[-1].ts, final_close, final_close + 0.25,
+                      final_close - 0.25, final_close, 100.0)
+    return bars
+
+
+class PositiveSyntheticPatternTests(unittest.TestCase):
+    def assert_pattern_detected(self, name, anchors, direction="SHORT", close_shape=None):
+        bars = pattern_fixture(anchors, direction=direction, close_shape=close_shape)
+        found = [s for s in detect(bars) if s.pattern == name and s.direction == direction]
+        self.assertTrue(found, f"{name} did not trigger on its positive synthetic fixture")
+        for signal in found:
+            self.assertEqual(signal.entry_index, signal.signal_index + 1)
+            self.assertEqual(signal.signal_index, len(bars) - 2)
+
+    def test_double_top(self):
+        self.assert_pattern_detected("double_top", [(145,"H",110),(160,"L",95),(175,"H",110)])
+
+    def test_double_bottom(self):
+        self.assert_pattern_detected("double_bottom", [(145,"L",90),(160,"H",105),(175,"L",90)], "LONG")
+
+    def test_head_and_shoulders(self):
+        self.assert_pattern_detected("head_and_shoulders", [(135,"H",110),(145,"L",95),(155,"H",116),(165,"L",95),(175,"H",110)])
+
+    def test_inverse_head_and_shoulders(self):
+        self.assert_pattern_detected("inverse_head_and_shoulders", [(135,"L",90),(145,"H",105),(155,"L",84),(165,"H",105),(175,"L",90)], "LONG")
+
+    def test_ascending_wedge(self):
+        self.assert_pattern_detected("ascending_wedge", [(145,"L",95),(155,"H",105),(165,"L",97),(175,"H",112)])
+
+    def test_descending_wedge(self):
+        self.assert_pattern_detected("descending_wedge", [(145,"H",112),(155,"L",95),(165,"H",100),(175,"L",93)], "LONG")
+
+    def test_triple_top(self):
+        self.assert_pattern_detected("triple_top", [(135,"H",110),(145,"L",95),(155,"H",110),(165,"L",95),(175,"H",110)])
+
+    def test_trend_reversal_structure_break(self):
+        self.assert_pattern_detected("trend_reversal_structure_break", [(145,"H",110),(160,"L",95),(175,"H",108),(188,"L",96)])
+
+    def test_bearish_broadening(self):
+        self.assert_pattern_detected("bearish_broadening", [(145,"L",95),(155,"H",105),(165,"L",88),(175,"H",114)])
+
+    def test_bullish_broadening(self):
+        self.assert_pattern_detected("bullish_broadening", [(145,"L",95),(155,"H",105),(165,"L",88),(175,"H",114)], "LONG")
+
+    def test_rounding_top(self):
+        self.assert_pattern_detected("rounding_top", [(145,"H",110),(160,"L",95),(175,"H",108)], close_shape="rounding_top")
+
+    def test_inverted_cup_and_handle(self):
+        self.assert_pattern_detected("inverted_cup_and_handle", [(145,"H",110),(160,"L",95),(175,"H",110)], close_shape="inverted_cup")
+
+    def test_diamond_top(self):
+        self.assert_pattern_detected("diamond_top", [(130,"H",110),(138,"L",100),(146,"H",118),(154,"L",96),(162,"H",116),(170,"L",98),(178,"H",111)])
