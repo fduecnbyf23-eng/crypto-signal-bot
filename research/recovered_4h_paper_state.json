@@ -6,7 +6,7 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 999.7271141677622,
       "realized_pnl_usdt": -0.27288583223776836,
-      "last_processed_candle": 1795809600000,
+      "last_processed_candle": 1795824000000,
       "pending_signal": null,
       "position": null,
       "trades": [
@@ -29,27 +29,27 @@
           "balance_after_usdt": 999.72711417
         }
       ],
-      "latest_closed_candle_utc": "2026-11-27T20:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-28T00:00:00+00:00"
     },
     "XRP_SHORT_4H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795809600000,
+      "last_processed_candle": 1795824000000,
       "pending_signal": null,
       "position": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T20:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-28T00:00:00+00:00"
     },
     "SOL_SHORT_4H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795809600000,
+      "last_processed_candle": 1795824000000,
       "pending_signal": null,
       "position": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-27T20:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-28T00:00:00+00:00"
     }
   }
 }
