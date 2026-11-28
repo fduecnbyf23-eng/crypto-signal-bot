@@ -249,3 +249,10 @@ class NegativeGeometryTests(unittest.TestCase):
                                        close_shape=shape, breakout_price=breakout)
                 self.assertFalse(any(s.pattern == name for s in detect(bars)),
                                  f"{name} incorrectly accepted a near-miss fixture")
+
+    def test_completed_pattern_expires_after_configured_wait(self):
+        bars = pattern_fixture([(145,"H",110),(160,"L",95),(175,"H",110)])
+        # Last pivot is confirmed three bars after its occurrence. The
+        # breakout in this fixture is one bar after that confirmation.
+        self.assertTrue(any(s.pattern == "double_top" for s in detect(bars, max_breakout_wait=2)))
+        self.assertFalse(any(s.pattern == "double_top" for s in detect(bars, max_breakout_wait=0)))
