@@ -65,6 +65,9 @@ def settle(history, symbol, tf, closed_bars):
     pending = [x for x in history if x["symbol"] == symbol
                and x["timeframe"] == tf and x["status"] == "OPEN"]
     for item in pending:
+        exit_price = None
+        stop_hit = False
+        exit_ts = None
         for bar in closed_bars:
             if bar.ts < item["entry_ts"]:
                 continue
@@ -76,19 +79,23 @@ def settle(history, symbol, tf, closed_bars):
                 gap_stop = bar.open <= item["stop"]
             if stop_hit:  # stop wins if both levels touch in one candle
                 exit_price = bar.open if gap_stop else item["stop"]
+                exit_ts = bar.ts
                 break
             elif target_hit:
                 exit_price = item["target"]
+                exit_ts = bar.ts
                 break
             else:
                 continue
-            sign = -1 if item["direction"] == "SHORT" else 1
+        if exit_price is None:
+            continue
+        sign = -1 if item["direction"] == "SHORT" else 1
             gross_r = (exit_price - item["entry"]) * sign / item["risk"]
             # Estimated taker fee 0.05% + slippage 0.02% per side.
             cost_r = 0.0007 * (item["entry"] + exit_price) / item["risk"]
             item.update({
                 "status": "LOSS" if stop_hit else "WIN",
-                "exit_ts": bar.ts,
+                "exit_ts": exit_ts,
                 "exit_price": exit_price,
                 "gross_r": gross_r,
                 "cost_r": cost_r,
