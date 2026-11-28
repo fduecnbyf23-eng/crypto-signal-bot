@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-28T15:26:48.121627+00:00",
+  "updated_utc": "2026-11-28T16:28:06.221143+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "fee_per_side_pct": 0.05,
   "slippage_per_side_pct": 0.02,
@@ -18,7 +18,7 @@
       "profit_factor": 0.0,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": [
         {
           "strategy_id": "DONCHIAN_ENSEMBLE_BTC_1H",
@@ -51,7 +51,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "DONCHIAN_ENSEMBLE_ETH_1H": {
@@ -78,7 +78,7 @@
         "exit_period": 10
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": []
     },
     "DONCHIAN_ENSEMBLE_ETH_4H": {
@@ -93,7 +93,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "DONCHIAN_ENSEMBLE_SOL_1H": {
@@ -120,7 +120,7 @@
         "exit_period": 10
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": []
     },
     "DONCHIAN_ENSEMBLE_SOL_4H": {
@@ -135,7 +135,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "DONCHIAN_ENSEMBLE_BNB_1H": {
@@ -150,7 +150,7 @@
       "profit_factor": 0.0,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": [
         {
           "strategy_id": "DONCHIAN_ENSEMBLE_BNB_1H",
@@ -183,7 +183,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "DONCHIAN_ENSEMBLE_XRP_1H": {
@@ -210,7 +210,7 @@
         "exit_period": 10
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": [
         {
           "strategy_id": "DONCHIAN_ENSEMBLE_XRP_1H",
@@ -243,7 +243,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "TURTLE_STYLE_BTC_1H": {
@@ -258,7 +258,7 @@
       "profit_factor": 0.0,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_BTC_1H",
@@ -308,7 +308,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "TURTLE_STYLE_ETH_1H": {
@@ -335,7 +335,7 @@
         "exit_period": 10
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_ETH_1H",
@@ -368,7 +368,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "TURTLE_STYLE_SOL_1H": {
@@ -395,7 +395,7 @@
         "exit_period": 10
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_SOL_1H",
@@ -428,7 +428,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "TURTLE_STYLE_BNB_1H": {
@@ -443,7 +443,7 @@
       "profit_factor": 0.0,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_BNB_1H",
@@ -493,7 +493,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "TURTLE_STYLE_XRP_1H": {
@@ -520,7 +520,7 @@
         "exit_period": 10
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_XRP_1H",
@@ -553,7 +553,7 @@
       "profit_factor": 0.0,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": [
         {
           "strategy_id": "TURTLE_STYLE_XRP_4H",
@@ -586,7 +586,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_BTC_4H": {
@@ -601,7 +601,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_ETH_1H": {
@@ -616,7 +616,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_ETH_4H": {
@@ -631,7 +631,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_SOL_1H": {
@@ -646,7 +646,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_SOL_4H": {
@@ -661,7 +661,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_BNB_1H": {
@@ -676,7 +676,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_BNB_4H": {
@@ -691,7 +691,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_XRP_1H": {
@@ -706,7 +706,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T14:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T15:00:00+00:00",
       "trades": []
     },
     "HOLY_GRAIL_XRP_4H": {
@@ -721,7 +721,7 @@
       "profit_factor": null,
       "open_position": null,
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
       "trades": []
     }
   }
