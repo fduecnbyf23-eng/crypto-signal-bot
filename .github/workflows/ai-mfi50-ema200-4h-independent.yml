@@ -1,0 +1,42 @@
+name: AI MFI50 EMA200 4H Independent Research
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-independent-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout isolated strategy research branch
+        uses: actions/checkout@v4
+        with:
+          ref: ai-adaptive-strategy-research
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate research code
+        run: |
+          python -m py_compile \
+            research/download_okx_candles.py \
+            research/download_okx_funding_archive.py \
+            research/indicator_features.py \
+            research/backtest_frozen_indicators.py \
+            research/test_ai_mfi50_ema200_4h_independent.py
+
+      - name: Download exact historical 4H candles and funding, then run frozen independent test
+        run: python research/test_ai_mfi50_ema200_4h_independent.py
+
+      - name: Upload report, trade log, and reproducibility data
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-mfi50-ema200-4h-independent-2024-2025
+          path: ai-mfi50-ema200-results/
+          if-no-files-found: error
+          retention-days: 90
