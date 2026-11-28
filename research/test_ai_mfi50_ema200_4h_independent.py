@@ -120,6 +120,7 @@ def main():
     for symbol in SYMBOLS:
         print(f"Downloading {symbol} 4H candles + historical funding", flush=True)
         rows, pages = download_candles(symbol, warm, end)
+        write_csv(os.path.join(OUT, symbol.replace("-USDT-SWAP", "_USDT_SWAP") + "_4H.csv"), rows)
         rates = {}
         add_archive_rates(symbol, warm, end, rates)
         funding = [{"funding_time_ms": int(t), "rate": float(v["rate"])} for t, v in sorted(rates.items())]
