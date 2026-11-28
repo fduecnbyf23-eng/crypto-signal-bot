@@ -172,9 +172,8 @@ class PositiveSyntheticPatternTests(unittest.TestCase):
     def test_ascending_wedge(self):
         self.assert_pattern_detected("ascending_wedge", [(145,"L",95),(155,"H",105),(165,"L",97),(175,"H",112)])
 
-    @unittest.expectedFailure  # pending geometry diagnosis
     def test_descending_wedge(self):
-        self.assert_pattern_detected("descending_wedge", [(145,"H",112),(155,"L",95),(165,"H",100),(175,"L",93)], "LONG")
+        self.assert_pattern_detected("descending_wedge", [(130,"H",120),(142,"L",100),(154,"H",110),(166,"L",95)], "LONG", breakout_price=130)
 
     def test_triple_top(self):
         self.assert_pattern_detected("triple_top", [(135,"H",110),(145,"L",95),(155,"H",110),(165,"L",95),(175,"H",110)])
@@ -194,6 +193,20 @@ class PositiveSyntheticPatternTests(unittest.TestCase):
     def test_inverted_cup_and_handle(self):
         self.assert_pattern_detected("inverted_cup_and_handle", [(145,"H",110),(160,"L",95),(175,"H",110)], close_shape="inverted_cup")
 
-    @unittest.expectedFailure  # pending swing-width fixture diagnosis
     def test_diamond_top(self):
-        self.assert_pattern_detected("diamond_top", [(130,"H",110),(138,"L",100),(146,"H",118),(154,"L",96),(162,"H",116),(170,"L",98),(178,"H",111)])
+        self.assert_pattern_detected("diamond_top", [(110,"H",120),(122,"L",110),(134,"H",135),(146,"L",95),(158,"H",128),(170,"L",100),(182,"H",118)], breakout_price=80)
+
+
+class NegativeGeometryTests(unittest.TestCase):
+    def test_non_converging_falling_channel_is_not_descending_wedge(self):
+        bars = pattern_fixture([(130,"H",120),(142,"L",100),(154,"H",125),(166,"L",90)],
+                               direction="LONG", breakout_price=140)
+        signals = detect(bars)
+        self.assertFalse(any(s.pattern == "descending_wedge" for s in signals))
+
+    def test_non_contracting_expansion_is_not_diamond_top(self):
+        bars = pattern_fixture([(110,"H",120),(122,"L",110),(134,"H",135),(146,"L",95),
+                                (158,"H",140),(170,"L",90),(182,"H",145)],
+                               breakout_price=70)
+        signals = detect(bars)
+        self.assertFalse(any(s.pattern == "diamond_top" for s in signals))
