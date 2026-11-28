@@ -108,7 +108,7 @@ if __name__ == "__main__":
     unittest.main()
 
 
-def pattern_fixture(anchors, *, direction="SHORT", close_shape=None):
+def pattern_fixture(anchors, *, direction="SHORT", close_shape=None, breakout_price=None):
     """Create isolated OHLC swing anchors; each pivot is only knowable after right bars."""
     last_anchor = max(idx for idx, _, _ in anchors)
     break_index = last_anchor + 4
@@ -119,7 +119,7 @@ def pattern_fixture(anchors, *, direction="SHORT", close_shape=None):
         start = break_index - 40
         for j in range(40):
             x = j / 39
-            closes[start + j] = 100.0 + 10.0 * (1.0 - abs(2.0*x - 1.0))
+            closes[start + j] = 100.0 + 10.0 * (1.0 - abs(2.0*x - 1.0)) - 0.05 * j
     elif close_shape == "inverted_cup":
         start = break_index - 40
         for j in range(40):
@@ -127,7 +127,7 @@ def pattern_fixture(anchors, *, direction="SHORT", close_shape=None):
             closes[start + j] = 110.0 - 10.0 * (1.0 - abs(2.0*x - 1.0))
         # A weak handle after the right rim, before the breakout.
         for j in range(break_index - 8, break_index):
-            closes[j] = 108.0 + 0.15 * (j % 2)
+            closes[j] = 109.8 + 0.05 * (j % 2)
     bars = []
     anchors_by_index = {idx: (kind, price) for idx, kind, price in anchors}
     for i, close in enumerate(closes):
@@ -142,15 +142,15 @@ def pattern_fixture(anchors, *, direction="SHORT", close_shape=None):
                 high = max(high, close + 0.1)
         bars.append(Candle(i * 3_600_000, close, high, low, close, 100.0))
     # Break only after all pattern pivots have had time to confirm.
-    final_close = 90.0 if direction == "SHORT" else 110.0
+    final_close = breakout_price if breakout_price is not None else (90.0 if direction == "SHORT" else 110.0)
     bars[break_index] = Candle(bars[break_index].ts, final_close, final_close + 0.25,
                                final_close - 0.25, final_close, 100.0)
     return bars
 
 
 class PositiveSyntheticPatternTests(unittest.TestCase):
-    def assert_pattern_detected(self, name, anchors, direction="SHORT", close_shape=None):
-        bars = pattern_fixture(anchors, direction=direction, close_shape=close_shape)
+    def assert_pattern_detected(self, name, anchors, direction="SHORT", close_shape=None, breakout_price=None):
+        bars = pattern_fixture(anchors, direction=direction, close_shape=close_shape, breakout_price=breakout_price)
         found = [s for s in detect(bars) if s.pattern == name and s.direction == direction]
         self.assertTrue(found, f"{name} did not trigger on its positive synthetic fixture")
         for signal in found:
@@ -182,10 +182,10 @@ class PositiveSyntheticPatternTests(unittest.TestCase):
         self.assert_pattern_detected("trend_reversal_structure_break", [(145,"H",110),(160,"L",95),(175,"H",108),(188,"L",96)])
 
     def test_bearish_broadening(self):
-        self.assert_pattern_detected("bearish_broadening", [(145,"L",95),(155,"H",105),(165,"L",88),(175,"H",114)])
+        self.assert_pattern_detected("bearish_broadening", [(145,"L",95),(155,"H",105),(165,"L",88),(175,"H",114)], breakout_price=70)
 
     def test_bullish_broadening(self):
-        self.assert_pattern_detected("bullish_broadening", [(145,"L",95),(155,"H",105),(165,"L",88),(175,"H",114)], "LONG")
+        self.assert_pattern_detected("bullish_broadening", [(145,"L",95),(155,"H",105),(165,"L",88),(175,"H",114)], "LONG", breakout_price=130)
 
     def test_rounding_top(self):
         self.assert_pattern_detected("rounding_top", [(145,"H",110),(160,"L",95),(175,"H",108)], close_shape="rounding_top")
