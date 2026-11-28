@@ -151,11 +151,26 @@ def pattern_fixture(anchors, *, direction="SHORT", close_shape=None, breakout_pr
 class PositiveSyntheticPatternTests(unittest.TestCase):
     def assert_pattern_detected(self, name, anchors, direction="SHORT", close_shape=None, breakout_price=None):
         bars = pattern_fixture(anchors, direction=direction, close_shape=close_shape, breakout_price=breakout_price)
+        break_index = max(idx for idx, _, _ in anchors) + 4
+        before_break = detect(bars[:break_index])
+        self.assertFalse(any(s.pattern == name and s.direction == direction for s in before_break),
+                         f"{name} signalled before its breakout candle closed")
         found = [s for s in detect(bars) if s.pattern == name and s.direction == direction]
         self.assertTrue(found, f"{name} did not trigger on its positive synthetic fixture")
         for signal in found:
+            self.assertEqual(signal.signal_index, break_index)
+            self.assertEqual(signal.entry_index, break_index + 1)
             self.assertEqual(signal.entry_index, signal.signal_index + 1)
-            self.assertLess(signal.signal_index, len(bars) - 1)
+        # Appending later candles must not move or rewrite an already emitted signal.
+        extended = bars + [
+            Candle((len(bars) + j) * 3_600_000, bars[-1].close, bars[-1].close + 0.25,
+                   bars[-1].close - 0.25, bars[-1].close, 100.0)
+            for j in range(8)
+        ]
+        extended_found = [s for s in detect(extended)
+                          if s.pattern == name and s.direction == direction
+                          and s.signal_index <= break_index]
+        self.assertEqual(found, extended_found)
 
     def test_double_top(self):
         self.assert_pattern_detected("double_top", [(145,"H",110),(160,"L",95),(175,"H",110)])
