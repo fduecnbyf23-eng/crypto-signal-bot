@@ -1,0 +1,53 @@
+name: Chart Pattern Data Archive (Read Only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Historical window (funding history is limited to about 3 months)"
+        required: true
+        default: "85"
+        type: choice
+        options:
+          - "30"
+          - "60"
+          - "85"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chart-pattern-data-archive
+  cancel-in-progress: false
+
+jobs:
+  archive-and-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          ref: chart-pattern-research
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile downloader, audit and detector
+        run: |
+          python -m py_compile research/download_chart_pattern_data.py
+          python -m py_compile research/audit_chart_pattern_data.py
+          python -m py_compile research/chart_pattern_detectors.py
+      - name: Run detector unit tests
+        run: python -m unittest discover -s tests -p "test_chart_pattern_detectors.py" -v
+      - name: Download closed 1H/4H candles and historical funding
+        run: python research/download_chart_pattern_data.py --days "${{ inputs.days }}" --out chart-pattern-data
+      - name: Audit archive completeness
+        run: python research/audit_chart_pattern_data.py chart-pattern-data
+      - name: Upload archive and audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: chart-pattern-okx-data-${{ inputs.days }}-days
+          path: chart-pattern-data/
+          if-no-files-found: error
+          retention-days: 30
