@@ -210,3 +210,25 @@ class NegativeGeometryTests(unittest.TestCase):
                                breakout_price=70)
         signals = detect(bars)
         self.assertFalse(any(s.pattern == "diamond_top" for s in signals))
+
+
+    def test_near_miss_geometry_is_rejected_for_remaining_patterns(self):
+        cases = [
+            ("double_top", [(140,"H",120),(155,"L",95),(170,"H",105)], "SHORT", None, 70),
+            ("double_bottom", [(140,"L",80),(155,"H",105),(170,"L",95)], "LONG", None, 130),
+            ("head_and_shoulders", [(130,"H",110),(140,"L",95),(150,"H",112),(160,"L",95),(170,"H",125)], "SHORT", None, 70),
+            ("inverse_head_and_shoulders", [(130,"L",90),(140,"H",105),(150,"L",88),(160,"H",105),(170,"L",70)], "LONG", None, 130),
+            ("ascending_wedge", [(140,"L",95),(150,"H",105),(160,"L",99),(170,"H",108)], "SHORT", None, 70),
+            ("triple_top", [(130,"H",110),(140,"L",95),(150,"H",110),(160,"L",95),(170,"H",125)], "SHORT", None, 70),
+            ("bearish_broadening", [(140,"L",95),(150,"H",105),(160,"L",100),(170,"H",102)], "SHORT", None, 70),
+            ("bullish_broadening", [(140,"L",95),(150,"H",105),(160,"L",100),(170,"H",102)], "LONG", None, 130),
+            ("rounding_top", [(140,"H",110),(155,"L",95),(170,"H",110)], "SHORT", "inverted_cup", 70),
+            ("inverted_cup_and_handle", [(140,"H",110),(155,"L",95),(170,"H",110)], "SHORT", "rounding_top", 70),
+            ("trend_reversal_structure_break", [(140,"H",110),(155,"L",95),(170,"H",108)], "SHORT", None, 100),
+        ]
+        for name, anchors, direction, shape, breakout in cases:
+            with self.subTest(pattern=name):
+                bars = pattern_fixture(anchors, direction=direction,
+                                       close_shape=shape, breakout_price=breakout)
+                self.assertFalse(any(s.pattern == name for s in detect(bars)),
+                                 f"{name} incorrectly accepted a near-miss fixture")
