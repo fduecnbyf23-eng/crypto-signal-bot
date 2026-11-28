@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-28T12:58:18.802169+00:00",
+  "updated_utc": "2026-11-28T16:50:18.272410+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "starting_balance_usdt": 1000.0,
   "balance_usdt": 1000.0,
@@ -215,7 +215,7 @@
         "last_funding_time": 1795852800000
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00"
     },
     "ETH-USDT-SWAP": {
       "closed_trades": 0,
@@ -238,7 +238,7 @@
         "last_funding_time": 1795852800000
       },
       "pending_signal": null,
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00"
     }
   }
 }
