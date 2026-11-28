@@ -141,24 +141,31 @@ def detect(candles: Iterable[Candle], *, left: int = 3, right: int = 3,
                     neck = min(b.price, d.price)
                     emit("head_and_shoulders", "SHORT", neck, h.price, q, "head above comparable shoulders")
                 # Three peaks with comparable highs and two intervening troughs.
-                if max(a.price,bars[i].high*0+0) > 0 and max(abs(a.price-h.price),abs(h.price-e.price)) <= tol:
+                if max(abs(a.price-h.price), abs(h.price-e.price)) <= tol:
                     emit("triple_top", "SHORT", min(b.price,d.price), max(a.price,h.price,e.price), q, "three comparable peaks")
             if [p.kind for p in q] == ["L","H","L","H","L"]:
                 if h.price < min(a.price, e.price) - tol and _similar(a.price, e.price, tol):
                     neck = max(b.price, d.price)
                     emit("inverse_head_and_shoulders", "LONG", neck, h.price, q, "head below comparable shoulders")
 
-        # Wedges: converging swing envelope, direction confirmed only by close breakout.
+        # Wedges: both boundaries slope in the same direction and converge.
         w = ps[-4:]
         if len(w) == 4 and [p.kind for p in w] == ["L","H","L","H"]:
-            lo_rise = w[2].price > w[0].price
-            hi_fall = w[3].price < w[1].price
-            if lo_rise and hi_fall:
-                emit("ascending_wedge", "SHORT", _line_value(w[0],w[2],i), max(p.price for p in w), w, "converging rising wedge; lower trendline break")
-            if w[2].price < w[0].price and w[3].price > w[1].price:
-                emit("descending_wedge", "LONG", _line_value(w[1],w[3],i), min(p.price for p in w), w, "converging falling wedge; upper trendline break")
+            low_up = w[2].price > w[0].price
+            high_up = w[3].price > w[1].price
+            low_slope = (w[2].price - w[0].price) / (w[2].index - w[0].index)
+            high_slope = (w[3].price - w[1].price) / (w[3].index - w[1].index)
+            if low_up and high_up and 0 < low_slope < high_slope:
+                emit("ascending_wedge", "SHORT", _line_value(w[0],w[2],i), max(p.price for p in w), w, "rising converging wedge; lower trendline break")
+        if len(w) == 4 and [p.kind for p in w] == ["H","L","H","L"]:
+            high_down = w[2].price < w[0].price
+            low_down = w[3].price < w[1].price
+            high_slope = (w[2].price - w[0].price) / (w[2].index - w[0].index)
+            low_slope = (w[3].price - w[1].price) / (w[3].index - w[1].index)
+            if high_down and low_down and high_slope < low_slope < 0:
+                emit("descending_wedge", "LONG", _line_value(w[0],w[2],i), min(p.price for p in w), w, "falling converging wedge; upper trendline break")
 
-        # Expanding/broadening formations: rising highs and falling lows.
+        # Broadening formations: lower lows and higher highs, then boundary break.
         if len(w) == 4 and [p.kind for p in w] == ["L","H","L","H"]:
             expanding = w[2].price < w[0].price and w[3].price > w[1].price
             if expanding:
