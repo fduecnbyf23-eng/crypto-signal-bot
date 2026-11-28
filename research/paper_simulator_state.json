@@ -6,26 +6,46 @@
   "realized_pnl_usdt": 0.0,
   "symbols": {
     "BTC-USDT-SWAP": {
-      "last_processed_candle": 1795809600000,
-      "pending_signal": null,
-      "position": null,
-      "trades": [],
-      "last_funding_time": null,
-      "latest_closed_candle_utc": "2026-11-27T20:00:00+00:00",
-      "open_position": null
-    },
-    "ETH-USDT-SWAP": {
-      "last_processed_candle": 1795809600000,
+      "last_processed_candle": 1795824000000,
       "pending_signal": {
-        "signal_ts": 1795809600000,
-        "atr": 39.01051512099995,
-        "signal_close": 1661.74
+        "signal_ts": 1795824000000,
+        "atr": 1099.1210992721983,
+        "signal_close": 59998.8
       },
       "position": null,
       "trades": [],
       "last_funding_time": null,
-      "latest_closed_candle_utc": "2026-11-27T20:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-28T00:00:00+00:00",
       "open_position": null
+    },
+    "ETH-USDT-SWAP": {
+      "last_processed_candle": 1795824000000,
+      "pending_signal": null,
+      "position": {
+        "entry_ts": 1795824000000,
+        "entry_time_utc": "2026-11-28T00:00:00+00:00",
+        "entry_fill": 1661.407652,
+        "quantity": 0.006018992381527806,
+        "stop": 1720.2557726814998,
+        "target": 1543.7114106370007,
+        "entry_fee": 0.005,
+        "funding_usdt": 0.0,
+        "last_funding_time": 1795824000000
+      },
+      "trades": [],
+      "last_funding_time": null,
+      "latest_closed_candle_utc": "2026-11-28T00:00:00+00:00",
+      "open_position": {
+        "entry_ts": 1795824000000,
+        "entry_time_utc": "2026-11-28T00:00:00+00:00",
+        "entry_fill": 1661.407652,
+        "quantity": 0.006018992381527806,
+        "stop": 1720.2557726814998,
+        "target": 1543.7114106370007,
+        "entry_fee": 0.005,
+        "funding_usdt": 0.0,
+        "last_funding_time": 1795824000000
+      }
     }
   }
 }
