@@ -59,6 +59,23 @@ def download_candles(inst, start, end):
     return out, pages
 
 def add_mfi_signal_features(rows, features):
+    # Match the EMA200 and ATR smoothing used by the prior corrected MFI study
+    # (pandas ewm with adjust=False), rather than the separate Wilder-seeded helper.
+    alpha_ema = 2.0 / 201.0
+    alpha_atr = 1.0 / 14.0
+    ema_prev = float(rows[0]["close"])
+    tr_prev = float(rows[0]["high"]) - float(rows[0]["low"])
+    for i, r in enumerate(rows):
+        close = float(r["close"])
+        high, low = float(r["high"]), float(r["low"])
+        if i:
+            prev_close = float(rows[i-1]["close"])
+            tr = max(high-low, abs(high-prev_close), abs(low-prev_close))
+            tr_prev = (1.0-alpha_atr)*tr_prev + alpha_atr*tr
+            ema_prev = alpha_ema*close + (1.0-alpha_ema)*ema_prev
+        features[i]["ema200"] = ema_prev if i >= 199 else None
+        features[i]["atr14"] = tr_prev if i >= 13 else None
+
     positive, negative = [], []
     typical = []
     for r in rows:
