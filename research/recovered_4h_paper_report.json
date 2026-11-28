@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-28T13:02:20.114093+00:00",
+  "updated_utc": "2026-11-28T16:54:00.575618+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "stop_anchor": "SIGNAL_CANDLE_CLOSE_PROVISIONAL",
   "stop_anchor_note": "The recovered notes specify 1.5 ATR but do not identify the anchor. For safe, consistent paper-only operation this simulator provisionally anchors the stop 1.5*ATR from the signal candle close; this is an explicit assumption, not a claim that the original historical test used this exact convention.",
@@ -25,7 +25,7 @@
         "profit_factor": 0.0,
         "open_position": null,
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
         "trades": [
           {
             "strategy_id": "BNB_LONG_4H",
@@ -85,7 +85,7 @@
           "last_funding_time": 1795852800000
         },
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
         "trades": []
       },
       "historical_reference": {
@@ -117,13 +117,19 @@
         "losses": 0,
         "win_rate_pct": null,
         "profit_factor": null,
-        "open_position": null,
-        "pending_signal": {
-          "signal_ts": 1795852800000,
-          "atr": 1.5123745060838112,
-          "signal_close": 70.93
+        "open_position": {
+          "entry_ts": 1795867200000,
+          "entry_time_utc": "2026-11-28T12:00:00+00:00",
+          "entry_fill": 70.91581400000001,
+          "quantity": 0.14101227125447643,
+          "stop": 73.19856175912572,
+          "target": 66.35031848174859,
+          "entry_fee": 0.005,
+          "funding_usdt": 0.0,
+          "last_funding_time": 1795867200000
         },
-        "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00",
+        "pending_signal": null,
+        "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00",
         "trades": []
       },
       "historical_reference": {

@@ -6,7 +6,7 @@
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 999.7271141677622,
       "realized_pnl_usdt": -0.27288583223776836,
-      "last_processed_candle": 1795852800000,
+      "last_processed_candle": 1795867200000,
       "pending_signal": null,
       "position": null,
       "trades": [
@@ -29,13 +29,13 @@
           "balance_after_usdt": 999.72711417
         }
       ],
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00"
     },
     "XRP_SHORT_4H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795852800000,
+      "last_processed_candle": 1795867200000,
       "pending_signal": null,
       "position": {
         "entry_ts": 1795852800000,
@@ -49,21 +49,27 @@
         "last_funding_time": 1795852800000
       },
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00"
     },
     "SOL_SHORT_4H": {
       "starting_balance_usdt": 1000.0,
       "balance_usdt": 1000.0,
       "realized_pnl_usdt": 0.0,
-      "last_processed_candle": 1795852800000,
-      "pending_signal": {
-        "signal_ts": 1795852800000,
-        "atr": 1.5123745060838112,
-        "signal_close": 70.93
+      "last_processed_candle": 1795867200000,
+      "pending_signal": null,
+      "position": {
+        "entry_ts": 1795867200000,
+        "entry_time_utc": "2026-11-28T12:00:00+00:00",
+        "entry_fill": 70.91581400000001,
+        "quantity": 0.14101227125447643,
+        "stop": 73.19856175912572,
+        "target": 66.35031848174859,
+        "entry_fee": 0.005,
+        "funding_usdt": 0.0,
+        "last_funding_time": 1795867200000
       },
-      "position": null,
       "trades": [],
-      "latest_closed_candle_utc": "2026-11-28T08:00:00+00:00"
+      "latest_closed_candle_utc": "2026-11-28T12:00:00+00:00"
     }
   }
 }
