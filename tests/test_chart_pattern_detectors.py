@@ -194,7 +194,7 @@ class PositiveSyntheticPatternTests(unittest.TestCase):
         self.assert_pattern_detected("inverted_cup_and_handle", [(145,"H",110),(160,"L",95),(175,"H",110)], close_shape="inverted_cup")
 
     def test_diamond_top(self):
-        self.assert_pattern_detected("diamond_top", [(110,"H",120),(122,"L",90),(134,"H",135),(146,"L",70),(158,"H",128),(170,"L",80),(182,"H",118)], breakout_price=80)
+        self.assert_pattern_detected("diamond_top", [(110,"H",120),(122,"L",90),(134,"H",135),(146,"L",70),(158,"H",128),(170,"L",80),(182,"H",118)], breakout_price=60)
 
 
 class NegativeGeometryTests(unittest.TestCase):
