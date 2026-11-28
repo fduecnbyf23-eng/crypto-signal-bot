@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-28T05:05:36.884634+00:00",
+  "updated_utc": "2026-11-28T08:56:49.429473+00:00",
   "mode": "PAPER_ONLY_NO_ORDERS",
   "stop_anchor": "SIGNAL_CANDLE_CLOSE_PROVISIONAL",
   "stop_anchor_note": "The recovered notes specify 1.5 ATR but do not identify the anchor. For safe, consistent paper-only operation this simulator provisionally anchors the stop 1.5*ATR from the signal candle close; this is an explicit assumption, not a claim that the original historical test used this exact convention.",
@@ -25,7 +25,7 @@
         "profit_factor": 0.0,
         "open_position": null,
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-28T00:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-28T04:00:00+00:00",
         "trades": [
           {
             "strategy_id": "BNB_LONG_4H",
@@ -74,8 +74,12 @@
         "win_rate_pct": null,
         "profit_factor": null,
         "open_position": null,
-        "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-28T00:00:00+00:00",
+        "pending_signal": {
+          "signal_ts": 1795838400000,
+          "atr": 0.020225773221915204,
+          "signal_close": 0.9446
+        },
+        "latest_closed_candle_utc": "2026-11-28T04:00:00+00:00",
         "trades": []
       },
       "historical_reference": {
@@ -109,7 +113,7 @@
         "profit_factor": null,
         "open_position": null,
         "pending_signal": null,
-        "latest_closed_candle_utc": "2026-11-28T00:00:00+00:00",
+        "latest_closed_candle_utc": "2026-11-28T04:00:00+00:00",
         "trades": []
       },
       "historical_reference": {
