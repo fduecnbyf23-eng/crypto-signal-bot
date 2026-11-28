@@ -1,0 +1,23 @@
+name: Chart Pattern Paper Integration Checks
+
+on:
+  push:
+    branches:
+      - chart-pattern-paper-integration
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile bot and paper modules
+        run: python -m compileall -q bot.py chart_pattern_paper.py research
+      - name: Run detector regression tests
+        run: python -m unittest discover -s tests -v

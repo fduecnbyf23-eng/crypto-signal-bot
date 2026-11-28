@@ -365,6 +365,13 @@ def main():
         except Exception as error:
             print(f"{symbol}: {error}")
 
+    # Separate paper-only chart-pattern strategies; existing RSI/MACD flow stays unchanged.
+    try:
+        from chart_pattern_paper import run as run_chart_pattern_paper
+        run_chart_pattern_paper(send_message)
+    except Exception as error:
+        print(f"Paper chart-pattern runner failed: {error}")
+
 
 if __name__ == "__main__":
     main()
