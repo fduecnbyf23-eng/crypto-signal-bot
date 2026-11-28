@@ -6,21 +6,25 @@
   "realized_pnl_usdt": 0.0,
   "symbols": {
     "BTC-USDT-SWAP": {
-      "last_processed_candle": 1795795200000,
+      "last_processed_candle": 1795809600000,
       "pending_signal": null,
       "position": null,
       "trades": [],
       "last_funding_time": null,
-      "latest_closed_candle_utc": "2026-11-27T16:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T20:00:00+00:00",
       "open_position": null
     },
     "ETH-USDT-SWAP": {
-      "last_processed_candle": 1795795200000,
-      "pending_signal": null,
+      "last_processed_candle": 1795809600000,
+      "pending_signal": {
+        "signal_ts": 1795809600000,
+        "atr": 39.01051512099995,
+        "signal_close": 1661.74
+      },
       "position": null,
       "trades": [],
       "last_funding_time": null,
-      "latest_closed_candle_utc": "2026-11-27T16:00:00+00:00",
+      "latest_closed_candle_utc": "2026-11-27T20:00:00+00:00",
       "open_position": null
     }
   }
